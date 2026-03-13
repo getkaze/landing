@@ -96,7 +96,10 @@ import Footer from '../components/Footer.astro';
     </div>
   </section>
 
-  <Footer />
+  <Footer extraLinks={[
+    { label: 'GitHub', href: 'https://github.com/getkaze' },
+    { label: 'MIT License', href: 'https://github.com/getkaze/keel/blob/main/LICENSE' },
+  ]} />
 </Base>
 
 <style>

@@ -21,8 +21,6 @@ const wordmark = tool ? `kaze / ${tool}` : 'kaze';
     {extraLinks.map(l => (
       <li><a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label}</a></li>
     ))}
-    <li><a href="https://github.com/getkaze" target="_blank" rel="noopener">GitHub</a></li>
-    <li><a href="#">MIT License</a></li>
   </ul>
 </footer>
 
