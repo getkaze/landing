@@ -1,0 +1,495 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import InstallBlock from '../../components/InstallBlock.astro';
+import CodeBlock from '../../components/CodeBlock.astro';
+
+const keelCode = [
+  `<span class="c-comment"># Start the dashboard</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel</span>`,
+  `<span class="c-comment">  → Open http://localhost:60000</span>`,
+  ``,
+  `<span class="c-comment"># Container management</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel start</span>                     <span class="c-comment"># all services</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-arg">redis mysql</span>          <span class="c-comment"># specific services</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel stop</span>                      <span class="c-comment"># all services</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel reset</span> <span class="c-arg">--all</span>               <span class="c-comment"># destroy and recreate</span>`,
+  ``,
+  `<span class="c-comment"># Remote targets</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">ec2</span>               <span class="c-comment"># switch to remote</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel start</span>                     <span class="c-comment"># runs on ec2 via SSH</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">local</span>             <span class="c-comment"># switch back</span>`,
+  ``,
+  `<span class="c-comment"># Dev mode</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel dev</span> <span class="c-arg">api ~/projects/api</span>   <span class="c-comment"># hot reload with local src</span>`,
+  ``,
+  `<span class="c-comment"># Seeders</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel seed</span>                      <span class="c-comment"># run all seeders</span>`,
+  `<span class="c-prompt">$ </span><span class="c-cmd">keel seed</span> <span class="c-arg">mysql-init</span>          <span class="c-comment"># single seeder</span>`,
+].join('\n');
+---
+
+<Base
+  title="Keel — One binary. Zero dependencies. Full Docker control."
+  description="Self-hosted Docker dashboard for local and remote environments. One binary, zero dependencies."
+>
+  <Nav activePage="keel" />
+
+  <!-- TOOL HERO -->
+  <div class="tool-hero">
+    <div class="tool-hero-badge">
+      <span class="dot"></span>
+      v1.0 · stable · MIT
+    </div>
+    <h1>keel</h1>
+    <p class="tool-tagline">One binary. Zero dependencies.<br/>Full Docker control.</p>
+
+    <InstallBlock
+      command="curl -fsSL https://getkaze.dev/keel/install.sh | sudo bash"
+      thenCommand="keel"
+    />
+
+    <div class="tool-cta">
+      <a class="btn-primary" href="https://github.com/getkaze/keel" target="_blank" rel="noopener">View on GitHub →</a>
+      <a class="btn-ghost" href="#keel-features">Explore features</a>
+      <a class="back-link" href="/">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+        All tools
+      </a>
+    </div>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="video-section reveal">
+    <div class="video-frame">
+      <div class="video-placeholder">
+        <button class="play-btn" aria-label="Play demo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </button>
+        <p class="video-caption">keel — live demo</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stat-row">
+    <div class="stat-item reveal">
+      <div class="stat-value">~<em>10</em>MB</div>
+      <div class="stat-label">binary size · no runtime</div>
+    </div>
+    <div class="stat-item reveal" style="--reveal-delay: 0.1s">
+      <div class="stat-value"><em>0</em></div>
+      <div class="stat-label">external dependencies</div>
+    </div>
+    <div class="stat-item reveal" style="--reveal-delay: 0.2s">
+      <div class="stat-value"><em>1</em> cmd</div>
+      <div class="stat-label">to start everything</div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features-section" id="keel-features">
+    <div class="features-header">
+      <p class="section-label reveal">Features</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-item reveal">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18M9 21V9"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Live Dashboard</h3>
+        <p class="feature-desc">Real-time grid of all containers with status polling. Group by category. Start, stop, restart, and update without leaving the browser.</p>
+      </div>
+      <div class="feature-item reveal" style="--reveal-delay: 0.05s">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">SSE Log Streaming</h3>
+        <p class="feature-desc">Stream logs from <code>docker logs</code> or host-path files — even when the container is crashed or stopped.</p>
+      </div>
+      <div class="feature-item reveal" style="--reveal-delay: 0.1s">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="14" x="2" y="5" rx="2"/><path d="m2 10 20 0"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Browser Terminal</h3>
+        <p class="feature-desc">Full interactive PTY via WebSocket. Multi-tab — a fixed Local tab plus one tab per <code>docker exec</code> session. Toggle with Ctrl+`.</p>
+      </div>
+      <div class="feature-item reveal" style="--reveal-delay: 0.15s">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Real-Time Metrics</h3>
+        <p class="feature-desc">CPU, memory, disk, load average, uptime, and per-container Docker stats including network and block I/O.</p>
+      </div>
+      <div class="feature-item reveal" style="--reveal-delay: 0.2s">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Remote Targets via SSH</h3>
+        <p class="feature-desc">Manage local and remote Docker hosts from the same interface. Switch targets with a single command. SSH tunnel opened automatically.</p>
+      </div>
+      <div class="feature-item reveal" style="--reveal-delay: 0.25s">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Dev Mode + Hot Reload</h3>
+        <p class="feature-desc">Mount local source code into a container with a custom Dockerfile and stream output directly to your terminal. Ctrl+C to stop.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLI USAGE -->
+  <div class="code-section">
+    <p class="section-label reveal">Usage</p>
+    <CodeBlock title="CLI · common commands" code={keelCode} />
+  </div>
+
+  <!-- STACK -->
+  <div class="stack-section reveal">
+    <p class="section-label">Stack</p>
+    <div class="stack-grid">
+      <div class="stack-item">
+        <p class="stack-label">Backend</p>
+        <p class="stack-value">Go 1.24 · stdlib net/http<br/>gorilla/websocket · creack/pty</p>
+      </div>
+      <div class="stack-item">
+        <p class="stack-label">Frontend</p>
+        <p class="stack-value">HTMX 2.0 · Alpine.js 3.x<br/>xterm.js · Lucide icons</p>
+      </div>
+      <div class="stack-item">
+        <p class="stack-label">Distribution</p>
+        <p class="stack-value">go:embed · single ~10MB binary<br/>linux/amd64 · linux/arm64 · macOS</p>
+      </div>
+      <div class="stack-item">
+        <p class="stack-label">Metrics Source</p>
+        <p class="stack-value">/proc/stat · /proc/meminfo<br/>syscall.Statfs · docker stats</p>
+      </div>
+    </div>
+  </div>
+
+  <Footer
+    tool="keel"
+    extraLinks={[
+      { label: 'GitHub', href: 'https://github.com/getkaze/keel' },
+      { label: 'Changelog', href: '#' },
+      { label: 'All tools', href: '/' },
+    ]}
+  />
+</Base>
+
+<style>
+  /* ─── TOOL HERO ─── */
+  .tool-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .tool-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border2);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp .5s .1s forwards;
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  .tool-hero h1 {
+    font-size: clamp(56px, 10vw, 112px);
+    font-weight: 300;
+    letter-spacing: -.04em;
+    line-height: .95;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp .5s .2s forwards;
+  }
+
+  .tool-tagline {
+    font-family: var(--mono);
+    font-size: clamp(14px, 1.8vw, 18px);
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 56px;
+    opacity: 0;
+    animation: fadeUp .5s .3s forwards;
+  }
+
+  .tool-cta {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp .5s .5s forwards;
+  }
+
+  /* ─── VIDEO ─── */
+  .video-section {
+    padding: 0 24px 120px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .video-frame {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border2);
+    background: #050505;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+  }
+
+  .video-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .play-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .2s, background .2s;
+    border: none;
+  }
+
+  .play-btn:hover { transform: scale(1.08); background: var(--accent-d); }
+
+  .video-caption {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+
+  .video-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.04) 2px, rgba(0,0,0,.04) 4px);
+    pointer-events: none;
+  }
+
+  /* ─── STATS ─── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0 auto 120px;
+    max-width: 960px;
+    padding: 0 24px;
+    /* override padding to keep within 960px */
+    padding: 0;
+    width: calc(100% - 48px);
+  }
+
+  .stat-item {
+    background: var(--surface);
+    padding: 36px 32px;
+  }
+
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 40px;
+    font-weight: 300;
+    letter-spacing: -.04em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-value em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: .06em;
+  }
+
+  /* ─── FEATURES ─── */
+  .features-section {
+    padding: 0 24px 120px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .features-header { margin-bottom: 0; }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .feature-item {
+    background: var(--surface);
+    padding: 36px 32px;
+    transition: background .2s;
+  }
+
+  .feature-item:hover { background: #161616; }
+
+  .feature-icon {
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--accent);
+    transition: border-color .2s;
+  }
+
+  .feature-item:hover .feature-icon { border-color: var(--accent); }
+
+  .feature-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: -.01em;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .feature-desc code {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ─── CODE SECTION ─── */
+  .code-section {
+    padding: 0 24px 120px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ─── STACK ─── */
+  .stack-section {
+    padding: 0 24px 120px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .stack-item {
+    background: var(--surface);
+    padding: 28px 32px;
+  }
+
+  .stack-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .stack-value {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--text);
+    line-height: 2;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .stat-row { grid-template-columns: 1fr; width: calc(100% - 48px); }
+    .features-grid { grid-template-columns: 1fr; }
+    .stack-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const delay = el.style.getPropertyValue('--reveal-delay') || '0s';
+          setTimeout(() => {
+            el.classList.add('visible');
+          }, parseFloat(delay) * 1000);
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+  );
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>

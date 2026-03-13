@@ -1,0 +1,348 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base>
+  <Nav activePage="home" />
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Open Source · Kaze Labs</p>
+    <div class="hero-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
+        <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
+        <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
+      </svg>
+    </div>
+    <h1>Developer tools<br/>that <em>stay out</em><br/>of your way.</h1>
+    <p class="hero-sub">Open source. No vendor lock-in. No dashboards you don't need.</p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="/keel">See Keel →</a>
+      <a class="btn-ghost" href="https://github.com/getkaze" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        GitHub
+      </a>
+    </div>
+    <div class="scroll-hint">
+      scroll
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <section>
+    <p class="section-label reveal">Tools</p>
+    <div class="tools-grid reveal">
+      <a class="tool-card" href="/keel">
+        <div>
+          <div class="tool-card-meta">
+            <div class="tool-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="4" x2="12" y2="20"/>
+                <line x1="3"  y1="12" x2="21" y2="12"/>
+                <line x1="6"  y1="7"  x2="18" y2="7"/>
+                <line x1="6"  y1="17" x2="18" y2="17"/>
+              </svg>
+            </div>
+            <span class="tool-name">keel</span>
+            <span class="tool-tag">v1 · stable</span>
+          </div>
+          <p class="tool-desc">A self-hosted Docker dashboard for local and remote environments. One binary, zero dependencies, full control — container management, logs, terminal, metrics.</p>
+        </div>
+        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 17 17 7M7 7h10v10"/>
+        </svg>
+      </a>
+      <div class="tool-card tool-card--upcoming">
+        <div>
+          <div class="tool-card-meta">
+            <div class="tool-icon" style="opacity:.35">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/><path d="M3 12h3m12 0h3M12 3v3m0 12v3"/>
+              </svg>
+            </div>
+            <span class="tool-name" style="opacity:.4">???</span>
+            <span class="tool-tag tool-tag--upcoming">upcoming</span>
+          </div>
+          <p class="tool-desc" style="opacity:.3">The next tool is in the works. Follow the GitHub org to stay in the loop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section id="philosophy" style="padding-top:0">
+    <p class="section-label reveal">Philosophy</p>
+    <div class="philosophy-grid">
+      <div class="philosophy-item reveal">
+        <p class="philosophy-num">01</p>
+        <h3 class="philosophy-title">One binary</h3>
+        <p class="philosophy-text">No Docker images to pull. No Node runtime. No Python. Just a single compiled binary you can copy anywhere and run.</p>
+      </div>
+      <div class="philosophy-item reveal" style="--reveal-delay: 0.1s">
+        <p class="philosophy-num">02</p>
+        <h3 class="philosophy-title">Open source forever</h3>
+        <p class="philosophy-text">Every tool is MIT-licensed. No freemium. No feature gating. The code is yours — read it, fork it, trust it.</p>
+      </div>
+      <div class="philosophy-item reveal" style="--reveal-delay: 0.2s">
+        <p class="philosophy-num">03</p>
+        <h3 class="philosophy-title">Stay out of the way</h3>
+        <p class="philosophy-text">Great tools are invisible. They do exactly what you expect, fail loudly when something breaks, and never surprise you.</p>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Base>
+
+<style>
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp .6s .1s forwards;
+  }
+
+  .hero-logo {
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp .6s .2s forwards;
+  }
+
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 300;
+    letter-spacing: -.03em;
+    line-height: 1;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp .6s .3s forwards;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: .02em;
+    margin-bottom: 64px;
+    opacity: 0;
+    animation: fadeUp .6s .4s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp .6s .5s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: .12em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 1s 1.2s both;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--muted2), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ─── TOOLS ─── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .tool-card {
+    background: var(--surface);
+    padding: 40px;
+    text-decoration: none;
+    color: inherit;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 24px;
+    transition: background .2s;
+    position: relative;
+  }
+
+  .tool-card:not(:last-child) { border-bottom: 1px solid var(--border); }
+  .tool-card:hover { background: #161616; }
+  .tool-card:hover .tool-arrow { transform: translate(3px,-3px); }
+  .tool-card--upcoming { cursor: default; }
+
+  .tool-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .tool-icon {
+    width: 32px; height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tool-name {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+  }
+
+  .tool-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid #1a3d28;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: #0d1f15;
+  }
+
+  .tool-tag--upcoming {
+    color: #555;
+    border-color: #222;
+    background: #0a0a0a;
+  }
+
+  .tool-desc {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 560px;
+  }
+
+  .tool-arrow {
+    color: var(--muted2);
+    transition: transform .2s;
+    flex-shrink: 0;
+  }
+
+  /* ─── PHILOSOPHY ─── */
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .philosophy-item {
+    background: var(--surface);
+    padding: 36px 32px;
+  }
+
+  .philosophy-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: .08em;
+    margin-bottom: 20px;
+  }
+
+  .philosophy-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    letter-spacing: -.01em;
+  }
+
+  .philosophy-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: .3; }
+    50%       { opacity: .8; }
+  }
+
+  @media (max-width: 768px) {
+    .philosophy-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  // Scroll reveal using IntersectionObserver
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const delay = el.style.getPropertyValue('--reveal-delay') || '0s';
+          setTimeout(() => {
+            el.classList.add('visible');
+          }, parseFloat(delay) * 1000);
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+  );
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>

@@ -1,0 +1,115 @@
+---
+interface Props {
+  command: string;
+  thenCommand?: string;
+}
+const { command, thenCommand } = Astro.props;
+---
+
+<div class="tool-install-block reveal">
+  <div class="install-header">
+    <div class="install-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <span class="install-label">terminal</span>
+    <button class="install-copy-btn" data-copy={command}>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="14" height="14" x="8" y="8" rx="2"/>
+        <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+      </svg>
+      copy
+    </button>
+  </div>
+  <div class="install-body">
+    <code class="install-cmd">
+      <span class="prompt">$ </span><span set:html={command.replace(/^(curl|bash|sh)\b/, '<span class="cmd-hl">$&</span>')} />
+    </code>
+    {thenCommand && (
+      <code class="install-then">
+        <span class="prompt">$ </span>{thenCommand}
+      </code>
+    )}
+  </div>
+</div>
+
+<style>
+  .tool-install-block {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 580px;
+    width: 100%;
+    margin: 0 auto 48px;
+  }
+
+  .install-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: #0e0e0e;
+  }
+
+  .install-dots { display: flex; gap: 6px; }
+
+  .install-dots span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--border2);
+  }
+
+  .install-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: .08em;
+  }
+
+  .install-copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted2);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color .2s;
+    padding: 2px 4px;
+  }
+
+  .install-copy-btn:hover { color: var(--text); }
+
+  .install-body { padding: 20px 24px; text-align: left; }
+
+  .install-cmd, .install-then {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+    display: block;
+  }
+
+  .install-cmd { margin-bottom: 8px; }
+
+  .prompt { color: var(--muted2); user-select: none; }
+
+  :global(.cmd-hl) { color: var(--accent); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.install-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.dataset.copy ?? '';
+      navigator.clipboard.writeText(cmd).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> copied`;
+        btn.style.color = '#22c55e';
+        setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 2000);
+      });
+    });
+  });
+</script>
