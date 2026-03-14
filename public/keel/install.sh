@@ -54,7 +54,7 @@ if [ -z "$VERSION" ]; then
   VERSION="$(echo "$VERSION" | tr -d '[:space:]')"
 fi
 
-DOWNLOAD_URL="${RELEASES_BASE}/${VERSION}/${BINARY_NAME}-${OS}-${ARCH}"
+DOWNLOAD_URL="${RELEASES_BASE}/download/${VERSION}/${BINARY_NAME}-${OS}-${ARCH}"
 
 # ── download binary ────────────────────────────────────────────────────────────
 info "installing keel ${VERSION} (${OS}/${ARCH})"
