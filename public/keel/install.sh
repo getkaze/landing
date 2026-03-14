@@ -48,8 +48,9 @@ fi
 VERSION="${KEEL_VERSION:-}"
 if [ -z "$VERSION" ]; then
   info "fetching latest version"
-  VERSION="$(curl -fsSL "${RELEASES_BASE}/version" 2>/dev/null || true)"
-  [ -n "$VERSION" ] || fail "could not fetch version from ${RELEASES_BASE}/version"
+  VERSION="$(curl -fsSL -o /dev/null -w '%{url_effective}' "${RELEASES_BASE}/latest" 2>/dev/null || true)"
+  VERSION="${VERSION##*/}"
+  [ -n "$VERSION" ] && [ "$VERSION" != "latest" ] || fail "could not fetch latest version from ${RELEASES_BASE}/latest"
   VERSION="$(echo "$VERSION" | tr -d '[:space:]')"
 fi
 
