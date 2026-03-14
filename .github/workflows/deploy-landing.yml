@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'landing/**'
+      - '**'
   workflow_dispatch:
 
 permissions:
@@ -27,16 +27,14 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        working-directory: landing
         run: npm install
 
       - name: Build
-        working-directory: landing
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: landing/dist
+          path: dist
 
   deploy:
     needs: build
