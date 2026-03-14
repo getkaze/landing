@@ -2,7 +2,7 @@ name: Deploy Landing
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - '**'
   workflow_dispatch:
