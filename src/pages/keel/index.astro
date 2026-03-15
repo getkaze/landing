@@ -6,27 +6,27 @@ import InstallBlock from '../../components/InstallBlock.astro';
 import CodeBlock from '../../components/CodeBlock.astro';
 
 const keelCode = [
-  `<span class="c-comment"># Start the dashboard</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel</span>`,
-  `<span class="c-comment">  → Open http://localhost:60000</span>`,
+  `<span class="code-line"><span class="c-comment"># Start the dashboard</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel</span></span>`,
+  `<span class="code-line"><span class="c-comment">  → Open http://localhost:60000</span></span>`,
   ``,
-  `<span class="c-comment"># Container management</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel start</span>                     <span class="c-comment"># all services</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-arg">redis mysql</span>          <span class="c-comment"># specific services</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel stop</span>                      <span class="c-comment"># all services</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel reset</span> <span class="c-arg">--all</span>               <span class="c-comment"># destroy and recreate</span>`,
+  `<span class="code-line"><span class="c-comment"># Container management</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-comment"># all services</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-arg">redis mysql</span> <span class="c-comment"># specific services</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel stop</span> <span class="c-comment"># all services</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel reset</span> <span class="c-arg">--all</span> <span class="c-comment"># destroy and recreate</span></span>`,
   ``,
-  `<span class="c-comment"># Remote targets</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">ec2</span>               <span class="c-comment"># switch to remote</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel start</span>                     <span class="c-comment"># runs on ec2 via SSH</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">local</span>             <span class="c-comment"># switch back</span>`,
+  `<span class="code-line"><span class="c-comment"># Remote targets</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">ec2</span> <span class="c-comment"># switch to remote</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-comment"># runs on ec2 via SSH</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">local</span> <span class="c-comment"># switch back</span></span>`,
   ``,
-  `<span class="c-comment"># Dev mode</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel dev</span> <span class="c-arg">api ~/projects/api</span>   <span class="c-comment"># hot reload with local src</span>`,
+  `<span class="code-line"><span class="c-comment"># Dev mode</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel dev</span> <span class="c-arg">api ~/projects/api</span> <span class="c-comment"># hot reload with local src</span></span>`,
   ``,
-  `<span class="c-comment"># Seeders</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel seed</span>                      <span class="c-comment"># run all seeders</span>`,
-  `<span class="c-prompt">$ </span><span class="c-cmd">keel seed</span> <span class="c-arg">mysql-init</span>          <span class="c-comment"># single seeder</span>`,
+  `<span class="code-line"><span class="c-comment"># Seeders</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel seed</span> <span class="c-comment"># run all seeders</span></span>`,
+  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel seed</span> <span class="c-arg">mysql-init</span> <span class="c-comment"># single seeder</span></span>`,
 ].join('\n');
 ---
 
@@ -212,6 +212,7 @@ const keelCode = [
     align-items: center;
     gap: 8px;
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 11px;
     letter-spacing: .1em;
     text-transform: uppercase;
@@ -233,7 +234,7 @@ const keelCode = [
 
   .tool-hero h1 {
     font-size: clamp(56px, 10vw, 112px);
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: -.04em;
     line-height: .95;
     margin-bottom: 32px;
@@ -243,6 +244,7 @@ const keelCode = [
 
   .tool-tagline {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: clamp(14px, 1.8vw, 18px);
     color: var(--muted);
     max-width: 500px;
@@ -303,6 +305,7 @@ const keelCode = [
 
   .video-caption {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 13px;
     color: var(--muted);
     letter-spacing: .04em;
@@ -339,8 +342,9 @@ const keelCode = [
 
   .stat-value {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 40px;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: -.04em;
     color: var(--text);
     line-height: 1;
@@ -354,6 +358,7 @@ const keelCode = [
 
   .stat-label {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 12px;
     color: var(--muted);
     letter-spacing: .06em;
@@ -414,6 +419,7 @@ const keelCode = [
 
   .feature-desc code {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 12px;
     color: var(--accent);
   }
@@ -448,6 +454,7 @@ const keelCode = [
 
   .stack-label {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 11px;
     color: var(--muted2);
     letter-spacing: .1em;
@@ -457,6 +464,7 @@ const keelCode = [
 
   .stack-value {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 14px;
     color: var(--text);
     line-height: 2;
@@ -469,9 +477,52 @@ const keelCode = [
   }
 
   @media (max-width: 768px) {
-    .stat-row { grid-template-columns: 1fr; width: calc(100% - 48px); }
+    .tool-hero {
+      padding: 80px 16px 60px;
+      min-height: auto;
+    }
+
+    .tool-hero h1 { margin-bottom: 24px; }
+
+    .tool-tagline { margin: 0 auto 40px; }
+
+    .tool-cta { gap: 10px; }
+
+    .video-section {
+      padding: 0 16px 64px;
+    }
+
+    .video-frame { min-height: 200px; }
+
+    .stat-row {
+      grid-template-columns: 1fr;
+      width: calc(100% - 32px);
+      margin-bottom: 64px;
+    }
+
+    .stat-item { padding: 24px 20px; }
+
+    .stat-value { font-size: 32px; }
+
+    .features-section {
+      padding: 0 16px 64px;
+    }
+
     .features-grid { grid-template-columns: 1fr; }
+
+    .feature-item { padding: 24px 20px; }
+
+    .code-section {
+      padding: 0 16px 64px;
+    }
+
+    .stack-section {
+      padding: 0 16px 64px;
+    }
+
     .stack-grid { grid-template-columns: 1fr; }
+
+    .stack-item { padding: 20px; }
   }
 </style>
 

@@ -41,12 +41,14 @@ const wordmark = tool ? `kaze / ${tool}` : 'kaze';
 
   .footer-wordmark {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 14px;
     color: var(--muted);
   }
 
   .footer-copy {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 12px;
     color: var(--muted2);
   }
@@ -59,6 +61,7 @@ const wordmark = tool ? `kaze / ${tool}` : 'kaze';
 
   .footer-links a {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 12px;
     color: var(--muted2);
     text-decoration: none;
@@ -68,6 +71,16 @@ const wordmark = tool ? `kaze / ${tool}` : 'kaze';
   .footer-links a:hover { color: var(--muted); }
 
   @media (max-width: 768px) {
-    footer { flex-direction: column; gap: 24px; align-items: flex-start; }
+    footer {
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 32px 16px;
+    }
+
+    .footer-links {
+      flex-wrap: wrap;
+      gap: 16px;
+    }
   }
 </style>

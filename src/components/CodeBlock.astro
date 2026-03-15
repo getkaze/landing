@@ -42,6 +42,7 @@ const { title = 'CLI · common commands', code } = Astro.props;
 
   .code-title {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 12px;
     color: var(--muted2);
   }
@@ -49,6 +50,7 @@ const { title = 'CLI · common commands', code } = Astro.props;
   .code-pre {
     padding: 24px 28px;
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 13px;
     line-height: 1.8;
     overflow-x: auto;
@@ -60,4 +62,23 @@ const { title = 'CLI · common commands', code } = Astro.props;
   :global(.c-arg)     { color: #a5d6a7; }
   :global(.c-str)     { color: #ffcc80; }
   :global(.c-prompt)  { color: var(--muted2); user-select: none; }
+
+  @media (max-width: 768px) {
+    .code-pre {
+      padding: 16px;
+      font-size: 12px;
+    }
+
+    :global(.code-line) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 0.6ch;
+    }
+
+    :global(.code-line .c-comment) {
+      order: -1;
+      width: 100%;
+      margin-bottom: 2px;
+    }
+  }
 </style>

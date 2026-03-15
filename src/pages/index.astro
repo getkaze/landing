@@ -117,6 +117,7 @@ import Footer from '../components/Footer.astro';
 
   .hero-eyebrow {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 11px;
     letter-spacing: .18em;
     text-transform: uppercase;
@@ -134,7 +135,7 @@ import Footer from '../components/Footer.astro';
 
   .hero h1 {
     font-size: clamp(48px, 8vw, 96px);
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: -.03em;
     line-height: 1;
     margin-bottom: 24px;
@@ -149,6 +150,7 @@ import Footer from '../components/Footer.astro';
 
   .hero-sub {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 15px;
     color: var(--muted);
     letter-spacing: .02em;
@@ -173,6 +175,7 @@ import Footer from '../components/Footer.astro';
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 11px;
     color: var(--muted2);
     letter-spacing: .12em;
@@ -236,6 +239,7 @@ import Footer from '../components/Footer.astro';
 
   .tool-name {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 20px;
     font-weight: 500;
     letter-spacing: -.01em;
@@ -243,6 +247,7 @@ import Footer from '../components/Footer.astro';
 
   .tool-tag {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 10px;
     letter-spacing: .1em;
     text-transform: uppercase;
@@ -289,6 +294,7 @@ import Footer from '../components/Footer.astro';
 
   .philosophy-num {
     font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 11px;
     color: var(--muted2);
     letter-spacing: .08em;
@@ -325,7 +331,38 @@ import Footer from '../components/Footer.astro';
   }
 
   @media (max-width: 768px) {
+    .hero {
+      padding: 80px 16px 60px;
+      min-height: auto;
+    }
+
+    .hero-logo { margin-bottom: 24px; }
+    .hero-logo svg { width: 40px; height: 40px; }
+
+    .hero h1 { margin-bottom: 16px; }
+
+    .hero-sub {
+      font-size: 13px;
+      margin-bottom: 40px;
+    }
+
+    .scroll-hint { display: none; }
+
+    .tool-card {
+      padding: 24px 20px;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .tool-card-meta { gap: 10px; }
+
+    .tool-arrow { display: none; }
+
+    .tool-desc { font-size: 14px; }
+
     .philosophy-grid { grid-template-columns: 1fr; }
+
+    .philosophy-item { padding: 24px 20px; }
   }
 </style>
 
