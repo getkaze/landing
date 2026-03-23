@@ -1,0 +1,135 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Services" lang="en">
+  <h1>Services</h1>
+  <p class="docs-lead">
+    Each service is a JSON file in <code>data/services/</code>. Keel reads these files to create and manage Docker containers.
+  </p>
+
+  <h2>Full example</h2>
+  <pre><code set:html={`{
+  "name": "redis",
+  "group": "infra",
+  "hostname": "keel-redis",
+  "image": "redis:7",
+  "network": "keel-net",
+  "ports": { "internal": 6379, "external": 6379 },
+  "environment": { "REDIS_ARGS": "--maxmemory 256mb" },
+  "volumes": ["keel-redis-data:/data"],
+  "ram_estimate_mb": 256,
+  "start_order": 1,
+  "dashboard_url": "http://localhost:8001",
+  "health_check": {
+    "type": "command",
+    "command": "redis-cli ping",
+    "interval": 5,
+    "retries": 10,
+    "start_period": 5
+  },
+  "logs": [
+    { "name": "redis", "type": "docker" },
+    { "name": "slow", "type": "file", "path": "/var/log/redis-slow.log", "host_path": "/applog/redis/slow.log" }
+  ],
+  "dev": {
+    "dockerfile": ["FROM redis:7", "WORKDIR /data"],
+    "command": ["redis-server", "--loglevel", "debug"]
+  }
+}`} /></pre>
+
+  <h2>Fields</h2>
+
+  <h3>Core</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>name</td><td>string</td><td>yes</td><td>Service name (must match filename)</td></tr>
+      <tr><td>image</td><td>string</td><td>yes</td><td>Docker image with tag</td></tr>
+      <tr><td>hostname</td><td>string</td><td>no</td><td>Container hostname (defaults to keel-&lbrace;name&rbrace;)</td></tr>
+      <tr><td>network</td><td>string</td><td>no</td><td>Docker network name (defaults to keel-net)</td></tr>
+      <tr><td>group</td><td>string</td><td>no</td><td>Category for grouping (e.g. infra, app, tools)</td></tr>
+      <tr><td>start_order</td><td>number</td><td>no</td><td>Start sequence (lower = first, 0 = no preference)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Registry</h3>
+  <p>The <code>registry</code> field controls authentication when pulling images:</p>
+  <table>
+    <thead><tr><th>Value</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td>(omitted)</td><td>Docker Hub — no special authentication</td></tr>
+      <tr><td>"ghcr"</td><td>GitHub Container Registry — auto-login to ghcr.io</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Networking</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>ports.internal</td><td>number</td><td>Container port</td></tr>
+      <tr><td>ports.external</td><td>number</td><td>Host port (0 = no host binding)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Runtime</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>environment</td><td>object</td><td>Environment variables as key-value pairs</td></tr>
+      <tr><td>volumes</td><td>string[]</td><td>Volume mounts (named volumes or bind mounts)</td></tr>
+      <tr><td>command</td><td>string</td><td>Override container entrypoint command</td></tr>
+      <tr><td>files</td><td>string[]</td><td>File mounts in "host:container" format (read-only, synced before boot)</td></tr>
+      <tr><td>ram_estimate_mb</td><td>number</td><td>Expected RAM usage (shown in dashboard)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Dashboard URL</h3>
+  <p>Services can define a <code>dashboard_url</code>. When set, an <strong>OPEN</strong> button appears on the overview card and detail page, linking to the service's web UI.</p>
+  <pre><code set:html={`{
+  "name": "redisinsight",
+  "dashboard_url": "http://localhost:5540"
+}`} /></pre>
+
+  <h3>Health checks</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>health_check.type</td><td>string</td><td>"http" or "command"</td></tr>
+      <tr><td>health_check.command</td><td>string</td><td>Command to run (for type "command")</td></tr>
+      <tr><td>health_check.url</td><td>string</td><td>URL to check (for type "http")</td></tr>
+      <tr><td>health_check.interval</td><td>number</td><td>Check interval in seconds</td></tr>
+      <tr><td>health_check.retries</td><td>number</td><td>Max retries before unhealthy</td></tr>
+      <tr><td>health_check.start_period</td><td>number</td><td>Grace period in seconds</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Logs</h3>
+  <p>Each service can have multiple log sources:</p>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>logs[].name</td><td>string</td><td>Display name for the log tab</td></tr>
+      <tr><td>logs[].type</td><td>string</td><td>"docker" or "file"</td></tr>
+      <tr><td>logs[].path</td><td>string</td><td>Container file path (for type "file")</td></tr>
+      <tr><td>logs[].host_path</td><td>string</td><td>Host file path (for type "file")</td></tr>
+    </tbody>
+  </table>
+  <div class="hint">
+    Host-path logs can be read even when the container is crashed or stopped.
+  </div>
+
+  <h3>Dev mode</h3>
+  <p>Services can define a <code>dev</code> block for local development with hot reload. See <a href="/keel/docs/en/dev-mode">Dev Mode</a> for full details.</p>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>dev.dockerfile</td><td>string[]</td><td>Dockerfile lines for the dev image</td></tr>
+      <tr><td>dev.command</td><td>string[]</td><td>Command to run in the dev container</td></tr>
+      <tr><td>dev.cap_add</td><td>string[]</td><td>Linux capabilities to add (e.g. NET_BIND_SERVICE)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Config editor</h3>
+  <p>Every service config can be edited inline from the dashboard. Changes are saved atomically with an automatic backup of the previous version.</p>
+</DocsLayout>

@@ -1,0 +1,64 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Remote Targets" lang="en">
+  <h1>Remote Targets</h1>
+  <p class="docs-lead">
+    Manage local and remote Docker hosts from the same interface. Keel opens an SSH tunnel automatically for remote targets.
+  </p>
+
+  <h2>Config</h2>
+  <p>Define targets in <code>data/targets.json</code>:</p>
+  <pre><code set:html={`{
+  "targets": {
+    "local": {
+      "host": "127.0.0.1",
+      "port_bind": "127.0.0.1"
+    },
+    "ec2": {
+      "host": "user@1.2.3.4",
+      "ssh_key": "~/.ssh/id_ed25519",
+      "external_ip": "1.2.3.4"
+    }
+  },
+  "default": "local"
+}`} /></pre>
+
+  <h2>Fields</h2>
+  <table>
+    <thead><tr><th>Field</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>host</td><td>SSH connection string (user@ip) or "127.0.0.1" for local</td></tr>
+      <tr><td>ssh_key</td><td>Path to SSH private key</td></tr>
+      <tr><td>ssh_user</td><td>SSH username (alternative to user@ in host)</td></tr>
+      <tr><td>ssh_jump</td><td>Jump host for bastion tunneling</td></tr>
+      <tr><td>external_ip</td><td>Public IP of the remote host (used for dashboard URLs and hosts setup)</td></tr>
+      <tr><td>port_bind</td><td>IP to bind ports to (default: 127.0.0.1)</td></tr>
+      <tr><td>description</td><td>Human-readable label for the target</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Switching targets</h2>
+  <pre><code># Show active target
+keel target
+
+# Switch to a remote target
+keel target ec2
+
+# All commands now execute on ec2 via SSH
+keel start
+keel stop redis
+
+# Switch back to local
+keel target local</code></pre>
+
+  <h2>How it works</h2>
+  <p>When you switch to a remote target, Keel opens an SSH tunnel that forwards the remote Docker socket to a local Unix socket at <code>/tmp/keel-docker-&lt;target&gt;.sock</code>.</p>
+  <p>All Docker operations — start, stop, logs, exec, stats — are transparently routed through this tunnel. The dashboard and CLI work exactly the same way regardless of target.</p>
+  <p>The tunnel includes automatic reconnection with exponential backoff and live status updates via SSE in the dashboard.</p>
+
+  <div class="hint">
+    <strong>Dev mode</strong> is not available on remote targets — it requires direct access to the local filesystem.
+  </div>
+</DocsLayout>

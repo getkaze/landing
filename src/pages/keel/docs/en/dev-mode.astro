@@ -1,0 +1,59 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Dev Mode" lang="en">
+  <h1>Dev Mode</h1>
+  <p class="docs-lead">
+    Run a service locally with your source code mounted and hot reload enabled.
+  </p>
+
+  <h2>Usage</h2>
+  <pre><code>{'keel dev <service> <local-path>'}</code></pre>
+
+  <h2>How it works</h2>
+  <ol>
+    <li>Reads <code>dev.dockerfile</code> from the service JSON and builds a dev image</li>
+    <li>Stops the existing container</li>
+    <li>Runs the dev container in foreground with your local code mounted as a volume</li>
+    <li>Streams stdout/stderr to your terminal — <code>Ctrl+C</code> to stop</li>
+  </ol>
+
+  <div class="hint">
+    Dev mode is only available on the <strong>local</strong> target. It is not supported over SSH.
+  </div>
+
+  <h2>Service config</h2>
+  <p>Add a <code>dev</code> block to your service JSON:</p>
+  <pre><code set:html={`{
+  "dev": {
+    "dockerfile": [
+      "FROM golang:1.24",
+      "RUN go install github.com/air-verse/air@latest",
+      "WORKDIR /app",
+      "COPY go.mod go.sum ./",
+      "RUN go mod download"
+    ],
+    "command": ["air"],
+    "cap_add": ["NET_BIND_SERVICE"]
+  }
+}`} /></pre>
+
+  <h2>Fields</h2>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>dev.dockerfile</td><td>string[]</td><td>Dockerfile lines for the dev image</td></tr>
+      <tr><td>dev.command</td><td>string[]</td><td>Command to run in the dev container</td></tr>
+      <tr><td>dev.cap_add</td><td>string[]</td><td>Linux capabilities to add</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Example</h2>
+  <pre><code># Run a Go service with air for hot reload
+keel dev api ~/projects/api
+
+# The container runs in foreground
+# Your local ~/projects/api is mounted at /app
+# Ctrl+C to stop and restore the original container</code></pre>
+</DocsLayout>

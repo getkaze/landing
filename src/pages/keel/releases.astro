@@ -1,0 +1,606 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { marked } from 'marked';
+import roadmapData from '../../data/roadmap.json';
+
+// Fetch releases from GitHub API at build time
+let parsedReleases: any[] = [];
+try {
+  const headers: Record<string, string> = {
+    'Accept': 'application/vnd.github.v3+json',
+  };
+  if (import.meta.env.GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${import.meta.env.GITHUB_TOKEN}`;
+  }
+
+  const res = await fetch('https://api.github.com/repos/getkaze/keel/releases?per_page=50', { headers });
+
+  if (res.ok) {
+    const releases = await res.json();
+    parsedReleases = await Promise.all(releases.map(async (r: any) => ({
+      tag: r.tag_name,
+      name: r.name || r.tag_name,
+      date: new Date(r.published_at).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }),
+      body: await marked.parse(r.body || ''),
+      url: r.html_url,
+      prerelease: r.prerelease,
+    })));
+  }
+} catch (_) {
+  // Fallback: empty releases
+}
+
+const roadmap = roadmapData;
+const hasInProgress = roadmap.some(i => i.status === 'in-progress');
+const hasPlanned = roadmap.some(i => i.status === 'planned');
+const hasDone = roadmap.some(i => i.status === 'done');
+---
+
+<Base
+  title="Releases & Roadmap — Keel"
+  description="Keel release history and project roadmap."
+>
+  <Nav activePage="keel" />
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <a class="back-link" href="/keel">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6"/>
+      </svg>
+      keel
+    </a>
+    <h1>Releases & Roadmap</h1>
+    <p class="page-sub">Release history and what's coming next.</p>
+    <div class="section-tabs">
+      <a href="#releases" class="tab-link active">Releases</a>
+      <a href="#roadmap" class="tab-link">Roadmap</a>
+    </div>
+  </div>
+
+  <!-- RELEASES -->
+  <section id="releases">
+    <p class="section-label reveal">Releases</p>
+
+    {parsedReleases.length > 0 ? (
+      <div class="releases-list">
+        {parsedReleases.map((release) => (
+          <div class="release-card reveal">
+            <div class="release-meta">
+              <span class="release-tag">{release.tag}</span>
+              {release.prerelease && <span class="release-pre">pre-release</span>}
+              <span class="release-date">{release.date}</span>
+              <a href={release.url} target="_blank" rel="noopener" class="release-gh-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17 17 7M7 7h10v10"/>
+                </svg>
+              </a>
+            </div>
+            <div class="release-body" set:html={release.body} />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state reveal">
+        <p>No releases found. Check <a href="https://github.com/getkaze/keel/releases" target="_blank" rel="noopener">GitHub releases</a>.</p>
+      </div>
+    )}
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <p class="section-label reveal">Roadmap</p>
+
+    {(hasInProgress || hasPlanned) ? (
+      <div class="roadmap-grid">
+        {hasInProgress && (
+          <div class="roadmap-group reveal">
+            <div class="roadmap-group-header">
+              <span class="status-dot status-progress"></span>
+              <span class="roadmap-group-title">In Progress</span>
+            </div>
+            {roadmap.filter(i => i.status === 'in-progress').map(item => (
+              <div class="roadmap-item">
+                <h3 class="roadmap-item-title">{item.title}</h3>
+                <p class="roadmap-item-desc">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {hasPlanned && (
+          <div class="roadmap-group reveal">
+            <div class="roadmap-group-header">
+              <span class="status-dot status-planned"></span>
+              <span class="roadmap-group-title">Planned</span>
+            </div>
+            {roadmap.filter(i => i.status === 'planned').map(item => (
+              <div class="roadmap-item">
+                <h3 class="roadmap-item-title">{item.title}</h3>
+                <p class="roadmap-item-desc">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ) : (
+      <div class="roadmap-soon reveal">
+        <div class="soon-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <p class="soon-title">Coming soon</p>
+        <p class="soon-desc">The roadmap for upcoming features is being defined.<br/>Follow the <a href="https://github.com/getkaze/keel" target="_blank" rel="noopener">GitHub repo</a> to stay updated.</p>
+      </div>
+    )}
+
+    {hasDone && (
+      <div class="roadmap-group roadmap-done reveal">
+        <div class="roadmap-group-header">
+          <span class="status-dot status-done"></span>
+          <span class="roadmap-group-title">Done</span>
+        </div>
+        <div class="done-grid">
+          {roadmap.filter(i => i.status === 'done').map(item => (
+            <div class="roadmap-item">
+              <h3 class="roadmap-item-title">{item.title}</h3>
+              <p class="roadmap-item-desc">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+
+  <Footer
+    tool="keel"
+    extraLinks={[
+      { label: 'GitHub', href: 'https://github.com/getkaze/keel' },
+      { label: 'Docs', href: '/keel/docs' },
+      { label: 'All tools', href: '/' },
+      { label: 'MIT License', href: 'https://github.com/getkaze/keel/blob/main/LICENSE' },
+    ]}
+  />
+</Base>
+
+<style>
+  /* ─── PAGE HEADER ─── */
+  .page-header {
+    padding: 140px 24px 64px;
+    max-width: 960px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .page-header .back-link {
+    margin-bottom: 32px;
+    display: inline-flex;
+  }
+
+  .page-header h1 {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 400;
+    letter-spacing: -.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .page-sub {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: .02em;
+    margin-bottom: 40px;
+  }
+
+  /* ─── TABS ─── */
+  .section-tabs {
+    display: inline-flex;
+    gap: 4px;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 4px;
+  }
+
+  .tab-link {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 13px;
+    letter-spacing: .03em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    transition: color .2s, background .2s;
+  }
+
+  .tab-link:hover { color: var(--text); }
+  .tab-link.active { color: var(--text); background: var(--surface); }
+
+  /* ─── RELEASES ─── */
+  .releases-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .release-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 32px;
+  }
+
+  .release-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .release-tag {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: -.01em;
+  }
+
+  .release-pre {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #f59e0b;
+    border: 1px solid #4a3520;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: #1f1508;
+  }
+
+  .release-date {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 13px;
+    color: var(--muted2);
+    letter-spacing: .02em;
+  }
+
+  .release-gh-link {
+    margin-left: auto;
+    color: var(--muted2);
+    transition: color .2s;
+    display: flex;
+    align-items: center;
+  }
+
+  .release-gh-link:hover { color: var(--text); }
+
+  /* ─── RELEASE BODY (prose) ─── */
+  .release-body :global(h1),
+  .release-body :global(h2) {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -.02em;
+    margin: 24px 0 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .release-body :global(h2:first-child),
+  .release-body :global(h1:first-child) {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .release-body :global(h3) {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 20px 0 8px;
+    letter-spacing: -.01em;
+  }
+
+  .release-body :global(p) {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .release-body :global(ul),
+  .release-body :global(ol) {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 12px;
+    padding-left: 20px;
+  }
+
+  .release-body :global(li) {
+    margin-bottom: 4px;
+  }
+
+  .release-body :global(code) {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 13px;
+    color: var(--accent);
+    background: rgba(139, 92, 246, .08);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .release-body :global(pre) {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+
+  .release-body :global(pre code) {
+    background: none;
+    padding: 0;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .release-body :global(a) {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+
+  .release-body :global(a:hover) {
+    border-bottom-color: var(--accent);
+  }
+
+  .release-body :global(strong) {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .release-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .release-body :global(th) {
+    text-align: left;
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .release-body :global(td) {
+    padding: 8px 12px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 13px;
+  }
+
+  /* ─── EMPTY STATE ─── */
+  .empty-state {
+    text-align: center;
+    padding: 64px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .empty-state p {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .empty-state a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .empty-state a:hover { text-decoration: underline; }
+
+  /* ─── ROADMAP ─── */
+  .roadmap-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+
+  .roadmap-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .roadmap-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .roadmap-group-title {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    color: var(--text);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .status-progress {
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  .status-planned {
+    background: var(--muted2);
+  }
+
+  .status-done {
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  .done-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .roadmap-item {
+    background: var(--surface);
+    padding: 24px 28px;
+  }
+
+  .roadmap-item-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    letter-spacing: -.01em;
+  }
+
+  .roadmap-item-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .roadmap-done {
+    margin-top: 16px;
+  }
+
+  /* ─── SOON STATE ─── */
+  .roadmap-soon {
+    text-align: center;
+    padding: 64px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 48px;
+  }
+
+  .soon-icon {
+    color: var(--muted2);
+    margin-bottom: 20px;
+  }
+
+  .soon-title {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: -.01em;
+  }
+
+  .soon-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .soon-desc a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .soon-desc a:hover { text-decoration: underline; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .page-header {
+      padding: 100px 16px 40px;
+    }
+
+    .page-header h1 { margin-bottom: 12px; }
+
+    .page-sub { margin-bottom: 28px; }
+
+    .release-card { padding: 20px 16px; }
+
+    .release-meta { flex-wrap: wrap; gap: 8px; }
+
+    .done-grid { grid-template-columns: 1fr; }
+
+    .roadmap-item { padding: 20px 16px; }
+  }
+</style>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const delay = el.style.getPropertyValue('--reveal-delay') || '0s';
+          setTimeout(() => {
+            el.classList.add('visible');
+          }, parseFloat(delay) * 1000);
+          observer.unobserve(el);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+  );
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Active tab on scroll
+  const sections = document.querySelectorAll<HTMLElement>('section[id]');
+  const tabs = document.querySelectorAll<HTMLAnchorElement>('.tab-link');
+
+  const tabObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          tabs.forEach(t => {
+            t.classList.toggle('active', t.getAttribute('href') === `#${id}`);
+          });
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  sections.forEach(s => tabObserver.observe(s));
+</script>

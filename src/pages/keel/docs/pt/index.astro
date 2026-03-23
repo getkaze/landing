@@ -1,0 +1,78 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+---
+
+<DocsLayout title="Primeiros Passos" lang="pt">
+  <h1>Primeiros Passos</h1>
+  <p class="docs-lead">
+    Keel é um dashboard Docker self-hosted — um único binário Go (~10MB) sem dependências externas
+    que dá controle total sobre ambientes Docker locais e remotos.
+  </p>
+
+  <h2>Instalação</h2>
+  <p>Execute o script de instalação para baixar o binário e criar o diretório de dados:</p>
+  <pre><code>curl -fsSL https://getkaze.dev/keel/install.sh | sudo bash</code></pre>
+
+  <p>O binário é instalado em <code>~/.local/bin/keel</code> e o diretório de dados é criado conforme a plataforma:</p>
+  <table>
+    <thead>
+      <tr><th>Plataforma</th><th>Binário</th><th>Diretório de Dados</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Linux (com sudo)</td><td>~/.local/bin/keel</td><td>/var/lib/keel</td></tr>
+      <tr><td>Linux (sem sudo)</td><td>~/.local/bin/keel</td><td>~/.keel</td></tr>
+      <tr><td>macOS</td><td>~/.local/bin/keel</td><td>~/.keel</td></tr>
+    </tbody>
+  </table>
+
+  <div class="hint">
+    Se <code>~/.local/bin</code> não estiver no seu PATH, o instalador mostrará como adicioná-lo.
+  </div>
+
+  <h2>Iniciar</h2>
+  <p>Depois de instalado, inicie o dashboard com um único comando:</p>
+  <pre><code>keel</code></pre>
+  <p>Abra <code>http://localhost:60000</code> e você terá um dashboard completo com status ao vivo, logs, terminal, métricas e gerenciamento de containers.</p>
+
+  <h2>O que você ganha</h2>
+  <ul>
+    <li><strong>Dashboard ao Vivo</strong> — grid em tempo real de todos os containers com polling de status</li>
+    <li><strong>Streaming de Logs via SSE</strong> — stream de <code>docker logs</code> ou arquivos do host</li>
+    <li><strong>Terminal no Browser</strong> — PTY interativo completo via WebSocket</li>
+    <li><strong>Métricas em Tempo Real</strong> — CPU, memória, disco, load average, stats por container</li>
+    <li><strong>Targets Remotos</strong> — gerencie hosts Docker remotos via túnel SSH</li>
+    <li><strong>Dev Mode</strong> — monte código local com hot reload</li>
+    <li><strong>Seeders</strong> — execute scripts de seed dentro dos containers</li>
+    <li><strong>Self-Update</strong> — atualize o binário pelo dashboard ou CLI</li>
+    <li><strong>Editor de Config</strong> — edite configs JSON dos serviços inline no dashboard com salvamento atômico</li>
+    <li><strong>Health Checks</strong> — monitoramento HTTP ou por comando com intervalos configuráveis</li>
+    <li><strong>Dashboard URLs</strong> — link para a UI web dos serviços com botão OPEN</li>
+    <li><strong>Suporte GHCR</strong> — auto-login no GitHub Container Registry com credenciais armazenadas</li>
+    <li><strong>Criação de Serviços</strong> — crie novos serviços diretamente pela UI do dashboard</li>
+  </ul>
+
+  <h2>Estrutura de diretórios</h2>
+  <pre><code>/var/lib/keel/
+  data/
+    config.json           # config global (network, subnet)
+    targets.json          # Docker targets (local + SSH)
+    services/
+      redis.json          # um arquivo por container
+      traefik.json
+    seeders/
+      mysql-init.json
+    config/
+      traefik/
+        dynamic.yml       # regras de roteamento do Traefik
+  state/
+    target                # nome do target ativo
+    ghcr-user             # credenciais GHCR (chmod 600)
+    ghcr-pat</code></pre>
+
+  <h2>Próximos passos</h2>
+  <ul>
+    <li><a href="/keel/docs/pt/usage">Uso</a> — comandos CLI e flags</li>
+    <li><a href="/keel/docs/pt/services">Services</a> — configure seus containers</li>
+    <li><a href="/keel/docs/pt/remote-targets">Targets Remotos</a> — gerencie hosts Docker remotos</li>
+  </ul>
+</DocsLayout>

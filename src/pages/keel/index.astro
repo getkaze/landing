@@ -3,31 +3,6 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import InstallBlock from '../../components/InstallBlock.astro';
-import CodeBlock from '../../components/CodeBlock.astro';
-
-const keelCode = [
-  `<span class="code-line"><span class="c-comment"># Start the dashboard</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel</span></span>`,
-  `<span class="code-line"><span class="c-comment">  → Open http://localhost:60000</span></span>`,
-  ``,
-  `<span class="code-line"><span class="c-comment"># Container management</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-comment"># all services</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-arg">redis mysql</span> <span class="c-comment"># specific services</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel stop</span> <span class="c-comment"># all services</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel reset</span> <span class="c-arg">--all</span> <span class="c-comment"># destroy and recreate</span></span>`,
-  ``,
-  `<span class="code-line"><span class="c-comment"># Remote targets</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">ec2</span> <span class="c-comment"># switch to remote</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel start</span> <span class="c-comment"># runs on ec2 via SSH</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel target</span> <span class="c-arg">local</span> <span class="c-comment"># switch back</span></span>`,
-  ``,
-  `<span class="code-line"><span class="c-comment"># Dev mode</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel dev</span> <span class="c-arg">api ~/projects/api</span> <span class="c-comment"># hot reload with local src</span></span>`,
-  ``,
-  `<span class="code-line"><span class="c-comment"># Seeders</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel seed</span> <span class="c-comment"># run all seeders</span></span>`,
-  `<span class="code-line"><span class="c-prompt">$ </span><span class="c-cmd">keel seed</span> <span class="c-arg">mysql-init</span> <span class="c-comment"># single seeder</span></span>`,
-].join('\n');
 ---
 
 <Base
@@ -40,7 +15,7 @@ const keelCode = [
   <div class="tool-hero">
     <div class="tool-hero-badge">
       <span class="dot"></span>
-      v0.2 · alpha · MIT
+      v0.3 · alpha · MIT
     </div>
     <h1>keel</h1>
     <p class="tool-tagline">One binary. Zero dependencies.<br/>Full Docker control.</p>
@@ -52,6 +27,8 @@ const keelCode = [
 
     <div class="tool-cta">
       <a class="btn-primary" href="https://github.com/getkaze/keel" target="_blank" rel="noopener">View on GitHub →</a>
+      <a class="btn-ghost" href="/keel/docs">Docs</a>
+      <a class="btn-ghost" href="/keel/releases">Releases</a>
       <a class="btn-ghost" href="#keel-features">Explore features</a>
       <a class="back-link" href="/">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -80,7 +57,7 @@ const keelCode = [
   <div class="stat-row">
     <div class="stat-item reveal">
       <div class="stat-value">~<em>10</em>MB</div>
-      <div class="stat-label">binary size · no runtime</div>
+      <div class="stat-label">binary size · linux · macOS</div>
     </div>
     <div class="stat-item reveal" style="--reveal-delay: 0.1s">
       <div class="stat-value"><em>0</em></div>
@@ -89,6 +66,28 @@ const keelCode = [
     <div class="stat-item reveal" style="--reveal-delay: 0.2s">
       <div class="stat-value"><em>1</em> cmd</div>
       <div class="stat-label">to start everything</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="about-section">
+    <div class="about-block reveal">
+      <p class="section-label">Vision</p>
+      <p class="about-text">
+        Keel was born from the frustration of managing Docker containers across development environments. Instead of juggling <code>docker compose</code> files, SSH sessions, and scattered scripts, Keel gives you a single binary that handles everything — from spinning up local services to managing remote hosts — through a clean dashboard or a handful of CLI commands.
+      </p>
+      <p class="about-text">
+        No runtimes to install, no package managers to configure. Drop the binary on any Linux or macOS machine, define your services as simple JSON configs, and you're running. It's designed for developers who want full control over their containers without the overhead of orchestration platforms.
+      </p>
+    </div>
+    <div class="about-block reveal" style="--reveal-delay: 0.1s">
+      <p class="section-label">Name</p>
+      <p class="about-text">
+        Named after the <em>keel</em> — the structural backbone of a ship that runs along its entire bottom, from bow to stern. The keel is what gives a vessel its stability, strength, and direction. Without it, a ship can't hold course.
+      </p>
+      <p class="about-text">
+        The name reflects the tool's purpose: to be the invisible foundation that keeps your development infrastructure steady and on course — always there, quietly doing its job, so you can focus on building.
+      </p>
     </div>
   </div>
 
@@ -152,13 +151,25 @@ const keelCode = [
         <h3 class="feature-title">Dev Mode + Hot Reload</h3>
         <p class="feature-desc">Mount local source code into a container with a custom Dockerfile and stream output directly to your terminal. Ctrl+C to stop.</p>
       </div>
+      <div class="feature-item reveal" style="--reveal-delay: 0.3s">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Config Editor</h3>
+        <p class="feature-desc">Inline JSON editor for each service. Edit and save directly from the dashboard — changes are written atomically with automatic backup.</p>
+      </div>
+      <div class="feature-item reveal" style="--reveal-delay: 0.35s">
+        <div class="feature-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Health Checks</h3>
+        <p class="feature-desc">HTTP or command-based health monitoring with configurable interval, retries, and start period. Status visible on the dashboard.</p>
+      </div>
     </div>
-  </div>
-
-  <!-- CLI USAGE -->
-  <div class="code-section">
-    <p class="section-label reveal">Usage</p>
-    <CodeBlock title="CLI · common commands" code={keelCode} />
   </div>
 
   <!-- STACK -->
@@ -171,15 +182,15 @@ const keelCode = [
       </div>
       <div class="stack-item">
         <p class="stack-label">Frontend</p>
-        <p class="stack-value">HTMX 2.0 · Alpine.js 3.x<br/>xterm.js · Lucide icons</p>
+        <p class="stack-value">HTMX 2.0 · Alpine.js 3.x<br/>xterm.js · Lucide v0.469.0</p>
       </div>
       <div class="stack-item">
         <p class="stack-label">Distribution</p>
-        <p class="stack-value">go:embed · single ~10MB binary<br/>linux/amd64 · linux/arm64 · macOS</p>
+        <p class="stack-value">go:embed · single ~10MB binary<br/>linux/amd64 · linux/arm64 · macOS (amd64 + arm64)</p>
       </div>
       <div class="stack-item">
         <p class="stack-label">Metrics Source</p>
-        <p class="stack-value">/proc/stat · /proc/meminfo<br/>syscall.Statfs · docker stats</p>
+        <p class="stack-value">gopsutil v4 (CPU, mem, disk, load)<br/>docker stats (per-container)</p>
       </div>
     </div>
   </div>
@@ -188,7 +199,7 @@ const keelCode = [
     tool="keel"
     extraLinks={[
       { label: 'GitHub', href: 'https://github.com/getkaze/keel' },
-      { label: 'Changelog', href: 'https://github.com/getkaze/keel/releases' },
+      { label: 'Releases', href: '/keel/releases' },
       { label: 'All tools', href: '/' },
       { label: 'MIT License', href: 'https://github.com/getkaze/keel/blob/main/LICENSE' },
     ]}
@@ -364,6 +375,47 @@ const keelCode = [
     letter-spacing: .06em;
   }
 
+  /* ─── ABOUT ─── */
+  .about-section {
+    padding: 0 24px 120px;
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .about-block {
+    padding: 36px 0;
+  }
+
+  .about-block .section-label {
+    margin-bottom: 24px;
+  }
+
+  .about-text {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  .about-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .about-text code {
+    font-family: var(--mono);
+    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .about-text em {
+    font-style: italic;
+    color: var(--text);
+  }
+
   /* ─── FEATURES ─── */
   .features-section {
     padding: 0 24px 120px;
@@ -422,13 +474,6 @@ const keelCode = [
     font-variation-settings: 'MONO' 1, 'CASL' 0;
     font-size: 12px;
     color: var(--accent);
-  }
-
-  /* ─── CODE SECTION ─── */
-  .code-section {
-    padding: 0 24px 120px;
-    max-width: 960px;
-    margin: 0 auto;
   }
 
   /* ─── STACK ─── */
@@ -504,6 +549,14 @@ const keelCode = [
 
     .stat-value { font-size: 32px; }
 
+    .about-section {
+      padding: 0 16px 64px;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .about-block { padding: 24px 0; }
+
     .features-section {
       padding: 0 16px 64px;
     }
@@ -511,10 +564,6 @@ const keelCode = [
     .features-grid { grid-template-columns: 1fr; }
 
     .feature-item { padding: 24px 20px; }
-
-    .code-section {
-      padding: 0 16px 64px;
-    }
 
     .stack-section {
       padding: 0 16px 64px;

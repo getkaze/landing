@@ -1,0 +1,32 @@
+[
+  {
+    "status": "done",
+    "title": "gopsutil v4 migration",
+    "description": "Cross-platform metrics collection for CPU, memory, disk, and load average."
+  },
+  {
+    "status": "done",
+    "title": "TunnelMonitor with auto-reconnection",
+    "description": "Automatic SSH tunnel recovery with exponential backoff and SSE status updates."
+  },
+  {
+    "status": "done",
+    "title": "Self-update via dashboard",
+    "description": "Semver-aware binary updater with SSE progress and automatic restart."
+  },
+  {
+    "status": "done",
+    "title": "Unit test coverage",
+    "description": "155 tests across cli, config, docker, handler, metrics, and updater packages."
+  },
+  {
+    "status": "done",
+    "title": "HTTP hardening",
+    "description": "Body size limits, method enforcement, JSON validation, WebSocket origin checks."
+  },
+  {
+    "status": "done",
+    "title": "Label-based container detection",
+    "description": "Detect containers via keel.managed=true label with network fallback."
+  }
+]
