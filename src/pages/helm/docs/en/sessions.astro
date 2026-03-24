@@ -1,0 +1,112 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { helm } from '../../../../data/tools';
+---
+
+<DocsLayout title="Sessions" lang="en" tool={helm}>
+  <h1>Session Management</h1>
+  <p class="docs-lead">
+    Helm persists all state so work survives across Claude Code conversations. Session files,
+    handoffs, artifacts, and checkpoints ensure nothing is lost.
+  </p>
+
+  <h2>How It Works</h2>
+  <ol>
+    <li><code>helm init</code> creates <code>.helm/session.yaml</code> and <code>helm.yaml</code></li>
+    <li>Agents run inside Claude Code via <code>/helm</code> and update session state</li>
+    <li><code>helm save</code> checkpoints state for safe session handoff</li>
+    <li><code>helm resume</code> shows where to pick up in a new Claude Code session</li>
+  </ol>
+
+  <h2>File Structure</h2>
+  <pre><code>.helm/                    # Runtime state (gitignored)
+  session.yaml            # Current session state
+  session.yaml.backup     # Auto-backup before every write
+  handoffs/               # Agent-to-agent handoff documents
+  artifacts/              # Per-agent output (reports, specs)
+  checkpoints/            # Session snapshots (max 5, FIFO rotation)
+
+helm.yaml                 # Project config (committed)</code></pre>
+
+  <h3>session.yaml</h3>
+  <p>The central state file tracking project info, current agent, execution profile, and agent completion status.</p>
+  <pre><code>project:
+    name: my-api
+    type: brownfield
+    state: build
+execution_profile: guided
+current_agent: build
+language: en-US
+workflow: standard
+agents:
+    survey:
+        status: completed
+        score: 100
+        timestamp: "2026-03-24T23:00:00Z"
+    research:
+        status: completed
+        score: 100
+        timestamp: "2026-03-24T23:15:00Z"</code></pre>
+
+  <h3>helm.yaml</h3>
+  <p>Project configuration committed to version control.</p>
+  <pre><code>version: v0.1
+installed_at: "2026-03-24T22:39:37Z"
+project_type: brownfield
+language: en-US</code></pre>
+
+  <h2>Handoffs</h2>
+  <p>Each completed agent writes a handoff at <code>.helm/handoffs/&#123;agent&#125;.md</code> with YAML frontmatter and content:</p>
+  <pre><code>---
+agent: research
+status: completed
+score: 100
+next_agent: planning
+blockers: []
+timestamp: 2026-03-24T23:15:00Z
+---
+
+# Research Handoff
+
+## Summary
+...</code></pre>
+  <p>The next agent reads this handoff before starting. Missing handoffs block progression.</p>
+
+  <h2>Artifacts</h2>
+  <p>Agents produce artifacts stored at <code>.helm/artifacts/&#123;agent&#125;/</code>:</p>
+  <table>
+    <thead>
+      <tr><th>Agent</th><th>Artifact</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Survey</td><td><code>survey/report.md</code></td></tr>
+      <tr><td>Research</td><td><code>research/report.md</code></td></tr>
+      <tr><td>Planning</td><td><code>planning/prd.md</code></td></tr>
+      <tr><td>Architect</td><td><code>architect/architecture.md</code></td></tr>
+      <tr><td>Roadmap</td><td><code>roadmap/phases.md</code></td></tr>
+      <tr><td>Breakdown</td><td><code>breakdown/tasks.md</code></td></tr>
+      <tr><td>Review</td><td><code>review/report.md</code></td></tr>
+      <tr><td>Build</td><td><code>build/report.md</code></td></tr>
+      <tr><td>Verify</td><td><code>verify/report.md</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Checkpoints</h2>
+  <p><code>helm save</code> validates session integrity before checkpointing:</p>
+  <ul>
+    <li>Checks required fields in <code>session.yaml</code></li>
+    <li>Verifies handoff files exist for completed agents</li>
+    <li>Verifies artifact directories exist for completed agents</li>
+    <li>Rotates old checkpoints (keeps last 5, FIFO)</li>
+    <li>Auto-backs up <code>session.yaml</code> before writing</li>
+  </ul>
+
+  <h2>Cross-Session Continuity</h2>
+  <p>To resume work in a new Claude Code session:</p>
+  <ol>
+    <li>Run <code>helm resume</code> to see current state and next steps</li>
+    <li>Open Claude Code and type <code>/helm</code></li>
+    <li>The orchestrator reads session state and routes to the correct agent</li>
+    <li>The agent reads its predecessor's handoff and continues from there</li>
+  </ol>
+</DocsLayout>

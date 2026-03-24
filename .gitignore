@@ -15,3 +15,12 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Helm
+.helm/
+schemas/
+rules/
+agents/
+.claude/
+CLAUDE.md
+helm.yaml

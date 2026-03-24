@@ -1,0 +1,92 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { helm } from '../../../../data/tools';
+---
+
+<DocsLayout title="Agentes" lang="pt" tool={helm}>
+  <h1>Agentes</h1>
+  <p class="docs-lead">
+    O Helm usa 13 agentes — 11 no pipeline, 1 sob demanda e 1 orquestrador — para guiar projetos da
+    descoberta ao deploy. Cada agente tem uma missão definida, entradas, saídas e critérios de sucesso.
+  </p>
+
+  <h2>Referência Rápida</h2>
+  <table>
+    <thead>
+      <tr><th>Agente</th><th>Fase</th><th>Pergunta</th><th>Limite</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Scout</td><td>Descoberta</td><td>O que estamos construindo?</td><td>85%</td></tr>
+      <tr><td>Survey</td><td>Descoberta</td><td>Como funciona hoje?</td><td>85%</td></tr>
+      <tr><td>Research</td><td>Descoberta</td><td>Qual é o problema?</td><td>90%</td></tr>
+      <tr><td>Planning</td><td>Planejamento</td><td>O que exatamente vamos construir?</td><td>90%</td></tr>
+      <tr><td>Architect</td><td>Planejamento</td><td>Como vamos construir?</td><td>90%</td></tr>
+      <tr><td>Roadmap</td><td>Planejamento</td><td>Quando vamos construir?</td><td>90%</td></tr>
+      <tr><td>Breakdown</td><td>Planejamento</td><td>Quem faz o quê especificamente?</td><td>90%</td></tr>
+      <tr><td>Review</td><td>Qualidade</td><td>Tudo é rastreável?</td><td>95%</td></tr>
+      <tr><td>Build</td><td>Construção</td><td>Construir.</td><td>90%</td></tr>
+      <tr><td>Verify</td><td>Qualidade</td><td>Funciona corretamente?</td><td>95%</td></tr>
+      <tr><td>Ship</td><td>Deploy</td><td>Entregar.</td><td>90%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Fase de Descoberta</h2>
+
+  <h3>Scout (Greenfield)</h3>
+  <p><strong>Missão:</strong> Extrair visão, objetivos e restrições do projeto através de conversa guiada.</p>
+  <p>Scout é o primeiro agente para projetos novos. Faz perguntas estruturadas sobre o que você quer construir, quem são os usuários, quais restrições existem e como é o sucesso. Saída: documento de contexto operacional.</p>
+
+  <h3>Survey (Brownfield)</h3>
+  <p><strong>Missão:</strong> Análise abrangente de um codebase existente — stack, arquitetura, integrações e dívida técnica.</p>
+  <p>Survey executa scans automatizados antes de fazer perguntas. Mapeia estrutura de pastas, identifica padrões, categoriza dívida por severidade e captura contexto operacional. Saída: relatório de survey com inventário de dívida.</p>
+
+  <h3>Research</h3>
+  <p><strong>Missão:</strong> Extrair, analisar e documentar problemas centrais, resultados desejados e restrições.</p>
+  <p>Research é o agente de descoberta mais crítico. Guia você através de extração de brain dump, análise estruturada, identificação de lacunas e síntese. Todo agente downstream rastreia até o que Research captura. Saída: relatório de pesquisa.</p>
+
+  <h2>Fase de Planejamento</h2>
+
+  <h3>Planning</h3>
+  <p><strong>Missão:</strong> Transformar descobertas da pesquisa em um Documento de Requisitos do Produto (PRD) formal.</p>
+  <p>Todo requisito tem um ID, descrição, prioridade MoSCoW, referência de pesquisa e critérios de aceite Given-When-Then. Saída: PRD com requisitos funcionais e não-funcionais.</p>
+
+  <h3>Architect</h3>
+  <p><strong>Missão:</strong> Projetar a arquitetura técnica que atende os requisitos do PRD.</p>
+  <p>Define stack, componentes do sistema, modelo de dados, design de API, modelo de segurança e estratégia de deploy. Para projetos brownfield, avalia stack existente contra novos requisitos. Saída: documento de arquitetura.</p>
+
+  <h3>Roadmap</h3>
+  <p><strong>Missão:</strong> Dividir requisitos do PRD em fases de desenvolvimento ordenadas.</p>
+  <p>Fase 1 é sempre o MVP. Mapeia dependências, define entregas por fase e cria ordem de execução. Saída: documento de fases.</p>
+
+  <h3>Breakdown</h3>
+  <p><strong>Missão:</strong> Decompor fases em tarefas atômicas e testáveis.</p>
+  <p>Cada tarefa tem ID, título, descrição, referência de requisito, estimativa de tamanho (XS a L), dependências e critérios de aceite Given-When-Then. Nenhuma tarefa excede 4-8 horas. Saída: breakdown de tarefas.</p>
+
+  <h2>Fase de Qualidade</h2>
+
+  <h3>Review (Gate do Plano)</h3>
+  <p><strong>Missão:</strong> Validar rastreabilidade em todos os artefatos de planejamento.</p>
+  <p>Verifica 4 cadeias: Research → PRD, PRD → Fases, Fases → Tarefas, Tarefas → Critérios de Aceite. Cada requisito órfão gera penalidade. Requer 95% para prosseguir ao Build. Saída: relatório de review com veredicto.</p>
+
+  <h3>Verify (Gate do Build)</h3>
+  <p><strong>Missão:</strong> Validar implementação contra critérios de aceite.</p>
+  <p>Executa testes, scanning SAST, revisão de código contra padrões de arquitetura e verificação de critérios de aceite. Requer 95% para prosseguir ao Deploy. Saída: relatório de verificação com veredicto.</p>
+
+  <h2>Fase de Construção</h2>
+
+  <h3>Build</h3>
+  <p><strong>Missão:</strong> Implementar cada tarefa do breakdown aprovado.</p>
+  <p>Trabalha nas tarefas em ordem de dependência. Auto-valida contra critérios de aceite. Pode operar em modo interativo (confirmar cada tarefa) ou autônomo (auto-prosseguir quando gates passam). Saída: código implementado + relatório de build.</p>
+
+  <h2>Fase de Deploy</h2>
+
+  <h3>Ship</h3>
+  <p><strong>Missão:</strong> Cuidar de operações git, criação de PR e deployment.</p>
+  <p>Cria commits, faz push para remote, abre pull requests e gerencia deployment. Saída: resumo de deployment.</p>
+
+  <h2>Sob Demanda</h2>
+
+  <h3>Tradeoff</h3>
+  <p><strong>Missão:</strong> Analisar decisões com múltiplas opções usando prós/contras estruturados.</p>
+  <p>Pode ser invocado a qualquer momento por qualquer agente ao enfrentar uma decisão com múltiplas abordagens viáveis. Após a análise, o controle retorna ao agente que invocou.</p>
+</DocsLayout>

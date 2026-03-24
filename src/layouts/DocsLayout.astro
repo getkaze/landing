@@ -1,45 +1,30 @@
 ---
 import Base from './Base.astro';
+import type { ToolConfig } from '../data/tools';
 
 interface Props {
   title: string;
   lang: 'en' | 'pt';
   description?: string;
+  tool: ToolConfig;
 }
 
-const { title, lang, description = 'Keel documentation — self-hosted Docker dashboard.' } = Astro.props;
+const { title, lang, tool, description } = Astro.props;
+const metaDescription = description || tool.description;
+const toolTitle = tool.name.charAt(0).toUpperCase() + tool.name.slice(1);
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '');
 const otherLang = lang === 'en' ? 'pt' : 'en';
 const otherPath = currentPath.replace(`/docs/${lang}`, `/docs/${otherLang}`);
 
-const sidebarItems = {
-  en: [
-    { label: 'Getting Started', href: `/keel/docs/en` },
-    { label: 'Usage', href: `/keel/docs/en/usage` },
-    { label: 'Services', href: `/keel/docs/en/services` },
-    { label: 'Seeders', href: `/keel/docs/en/seeders` },
-    { label: 'Dev Mode', href: `/keel/docs/en/dev-mode` },
-    { label: 'Remote Targets', href: `/keel/docs/en/remote-targets` },
-  ],
-  pt: [
-    { label: 'Primeiros Passos', href: `/keel/docs/pt` },
-    { label: 'Uso', href: `/keel/docs/pt/usage` },
-    { label: 'Services', href: `/keel/docs/pt/services` },
-    { label: 'Seeders', href: `/keel/docs/pt/seeders` },
-    { label: 'Dev Mode', href: `/keel/docs/pt/dev-mode` },
-    { label: 'Targets Remotos', href: `/keel/docs/pt/remote-targets` },
-  ],
-};
-
-const sidebar = sidebarItems[lang];
+const sidebar = tool.sidebar[lang];
 
 function isActive(href: string) {
   return currentPath.replace(/\/$/, '') === href;
 }
 ---
 
-<Base title={`${title} — Keel Docs`} description={description}>
+<Base title={`${title} — ${toolTitle} Docs`} description={metaDescription}>
   <nav class="docs-nav">
     <div class="nav-left">
       <a class="nav-logo" href="/">
@@ -51,7 +36,7 @@ function isActive(href: string) {
         <span class="nav-wordmark">kaze</span>
       </a>
       <span class="nav-sep">/</span>
-      <a href="/keel" class="nav-product">keel</a>
+      <a href={`/${tool.name}`} class="nav-product">{tool.name}</a>
       <span class="nav-sep">/</span>
       <span class="nav-docs-label">docs</span>
     </div>
@@ -65,9 +50,9 @@ function isActive(href: string) {
         </a>
       </div>
       <ul class="nav-links">
-        <li><a href="/keel">Product</a></li>
+        <li><a href={`/${tool.name}`}>Product</a></li>
         <li>
-          <a href="https://github.com/getkaze/keel" target="_blank" rel="noopener" class="nav-icon" aria-label="GitHub">
+          <a href={tool.github} target="_blank" rel="noopener" class="nav-icon" aria-label="GitHub">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
             </svg>
@@ -94,8 +79,8 @@ function isActive(href: string) {
         </ul>
       </div>
       <div class="sidebar-footer">
-        <a href="https://github.com/getkaze/keel" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://github.com/getkaze/keel/releases" target="_blank" rel="noopener">Changelog</a>
+        <a href={tool.github} target="_blank" rel="noopener">GitHub</a>
+        <a href={`${tool.github}/releases`} target="_blank" rel="noopener">Changelog</a>
       </div>
     </aside>
 

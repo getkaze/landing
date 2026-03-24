@@ -1,8 +1,9 @@
 ---
 import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { keel } from '../../../../data/tools';
 ---
 
-<DocsLayout title="Remote Targets" lang="en">
+<DocsLayout title="Remote Targets" lang="en" tool={keel}>
   <h1>Remote Targets</h1>
   <p class="docs-lead">
     Manage local and remote Docker hosts from the same interface. Keel opens an SSH tunnel automatically for remote targets.

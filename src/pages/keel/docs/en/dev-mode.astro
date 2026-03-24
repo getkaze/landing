@@ -1,8 +1,9 @@
 ---
 import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { keel } from '../../../../data/tools';
 ---
 
-<DocsLayout title="Dev Mode" lang="en">
+<DocsLayout title="Dev Mode" lang="en" tool={keel}>
   <h1>Dev Mode</h1>
   <p class="docs-lead">
     Run a service locally with your source code mounted and hot reload enabled.

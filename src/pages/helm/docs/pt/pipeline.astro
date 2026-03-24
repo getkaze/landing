@@ -1,0 +1,84 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { helm } from '../../../../data/tools';
+---
+
+<DocsLayout title="Pipeline" lang="pt" tool={helm}>
+  <h1>Pipeline</h1>
+  <p class="docs-lead">
+    O Helm organiza o trabalho em 5 fases com 13 agentes (11 pipeline, 1 sob demanda, 1 orquestrador). Cada agente tem uma missão clara,
+    entradas e saídas definidas, e limites de qualidade que devem ser atingidos antes de progredir.
+  </p>
+
+  <h2>Fases</h2>
+  <table>
+    <thead>
+      <tr><th>Fase</th><th>Propósito</th><th>Agentes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Descoberta</td><td>Entender o problema</td><td>Scout/Survey, Research</td></tr>
+      <tr><td>Planejamento</td><td>Definir a solução</td><td>Planning, Architect, Roadmap, Breakdown</td></tr>
+      <tr><td>Qualidade</td><td>Validar o plano</td><td>Review (gate de 95%)</td></tr>
+      <tr><td>Construção</td><td>Implementar código</td><td>Build</td></tr>
+      <tr><td>Deploy</td><td>Testar e entregar</td><td>Verify (gate de 95%), Ship</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Fluxo Greenfield</h2>
+  <p>Para projetos novos começando do zero:</p>
+  <pre><code>scout → research → planning → architect → roadmap → breakdown → review → build → verify → ship</code></pre>
+  <p>Scout explora requisitos através de conversa — o que você está construindo, para quem e por quê?</p>
+
+  <h2>Fluxo Brownfield</h2>
+  <p>Para codebases existentes:</p>
+  <pre><code>survey → research → planning → architect → roadmap → breakdown → review → build → verify → ship</code></pre>
+  <p>Survey analisa o codebase primeiro — stack, arquitetura, integrações, dívida técnica — e então Research extrai o que precisa mudar.</p>
+
+  <h2>Como os Agentes Passam o Bastão</h2>
+  <p>Todo agente produz um documento de handoff armazenado em <code>.helm/handoffs/&#123;agente&#125;.md</code>. Os handoffs têm duas camadas:</p>
+  <ul>
+    <li><strong>Resumo</strong> (máx 150 linhas) — Missão completada, decisões-chave, artefatos, score de auto-validação</li>
+    <li><strong>Contexto Profundo</strong> (opcional, máx 500 linhas) — Descobertas complexas que não cabem no resumo</li>
+  </ul>
+  <p>O próximo agente lê o handoff antes de começar. Se o handoff estiver ausente ou incompleto, o orquestrador bloqueia a progressão.</p>
+
+  <h2>Gates de Qualidade</h2>
+  <p>Dois checkpoints críticos garantem qualidade:</p>
+  <table>
+    <thead>
+      <tr><th>Gate</th><th>Agente</th><th>Limite</th><th>O Que Valida</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Gate do Plano</td><td>Review</td><td>95%</td><td>Rastreabilidade: Research → PRD → Fases → Tarefas → Critérios de Aceite</td></tr>
+      <tr><td>Gate do Build</td><td>Verify</td><td>95%</td><td>Testes passam, SAST limpo, código segue arquitetura, critérios de aceite atendidos</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Veredictos</h3>
+  <ul>
+    <li><strong>APPROVED</strong> (≥ 95%) — Prosseguir para próxima fase</li>
+    <li><strong>NEEDS_REVISION</strong> (85–94%) — Problemas listados, enviado de volta ao agente responsável</li>
+    <li><strong>BLOCKED</strong> (&lt; 85%) — Lacunas críticas, reiniciar do agente falho</li>
+  </ul>
+
+  <h2>Dashboard de Status</h2>
+  <p>Execute <code>helm status</code> para ver o progresso do pipeline:</p>
+  <pre><code>  Helm v0.1.0
+
+  Project:  my-api
+  Type:     brownfield
+  Phase:    build
+  Profile:  guided
+
+  Pipeline:
+    [done]  survey       100%
+    [done]  research     100%
+    [done]  planning     100%
+    [done]  architect    100%
+    [done]  roadmap      100%
+    [done]  breakdown    100%
+    [done]  review       100%
+    [>>  ]  build        in progress
+    [    ]  verify       pending
+    [    ]  ship         pending</code></pre>
+</DocsLayout>
