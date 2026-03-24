@@ -1,0 +1,101 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { helm } from '../../../../data/tools';
+---
+
+<DocsLayout title="Usage" lang="en" tool={helm}>
+  <h1>Usage</h1>
+  <p class="docs-lead">
+    Helm provides a small set of CLI commands for initializing projects, checking status,
+    resuming sessions, and checkpointing state.
+  </p>
+
+  <h2>helm init</h2>
+  <p>Initialize a new project or reinitialize an existing one.</p>
+  <pre><code>helm init
+helm init --name my-api --type brownfield --lang pt-BR
+helm init --force</code></pre>
+
+  <table>
+    <thead>
+      <tr><th>Flag</th><th>Description</th><th>Default</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>--name</code></td><td>Project name</td><td>Current directory name</td></tr>
+      <tr><td><code>--type</code></td><td>Project type: <code>greenfield</code> or <code>brownfield</code></td><td>Auto-detected</td></tr>
+      <tr><td><code>--lang</code></td><td>Language: <code>en-US</code> or <code>pt-BR</code></td><td><code>en-US</code></td></tr>
+      <tr><td><code>--force</code></td><td>Reinitialize existing project</td><td><code>false</code></td></tr>
+    </tbody>
+  </table>
+
+  <p>Creates <code>.helm/session.yaml</code> (runtime state) and <code>helm.yaml</code> (project config).</p>
+
+  <h2>helm status</h2>
+  <p>Display pipeline progress dashboard.</p>
+  <pre><code>helm status
+helm status --short
+helm status --json</code></pre>
+
+  <table>
+    <thead>
+      <tr><th>Flag</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>--short</code></td><td>One-line summary</td></tr>
+      <tr><td><code>--json</code></td><td>Machine-readable JSON output</td></tr>
+    </tbody>
+  </table>
+
+  <h2>helm resume</h2>
+  <p>Show context and next steps for resuming in a new Claude Code session.</p>
+  <pre><code>helm resume
+helm resume --json</code></pre>
+
+  <p>Displays the current agent, last completed agent with score, and what to do next. Use this after opening a new Claude Code window to pick up where you left off.</p>
+
+  <h2>helm save</h2>
+  <p>Checkpoint session state for safe handoff between conversations.</p>
+  <pre><code>helm save
+helm save --message "before refactor"
+helm save --force</code></pre>
+
+  <table>
+    <thead>
+      <tr><th>Flag</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>--message</code></td><td>Checkpoint description</td></tr>
+      <tr><td><code>--force</code></td><td>Skip recent checkpoint warning</td></tr>
+    </tbody>
+  </table>
+
+  <p>Before checkpointing, <code>helm save</code> validates:</p>
+  <ul>
+    <li>Required fields exist in <code>session.yaml</code></li>
+    <li>Handoff files exist for completed agents</li>
+    <li>Artifact directories exist for completed agents</li>
+  </ul>
+  <p>Keeps the last 5 checkpoints with FIFO rotation.</p>
+
+  <h2>helm version</h2>
+  <p>Print the installed Helm version.</p>
+  <pre><code>helm version</code></pre>
+
+  <h2>Global Flags</h2>
+  <table>
+    <thead>
+      <tr><th>Flag</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>--no-color</code></td><td>Disable colored output</td></tr>
+    </tbody>
+  </table>
+  <p>Color is automatically disabled when piping output or when the <code>NO_COLOR</code> environment variable is set.</p>
+
+  <h2>Within Claude Code</h2>
+  <p>Inside Claude Code, use the <code>/helm</code> slash command to activate the orchestrator. The CLI complements Claude Code — use it standalone to check status and checkpoint state.</p>
+  <pre><code>/helm          # activate orchestrator
+/helm status   # show dashboard
+/helm resume   # resume from last agent
+/helm exit     # deactivate session lock</code></pre>
+</DocsLayout>

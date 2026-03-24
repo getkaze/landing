@@ -1,8 +1,9 @@
 ---
 import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { keel } from '../../../../data/tools';
 ---
 
-<DocsLayout title="Getting Started" lang="en">
+<DocsLayout title="Getting Started" lang="en" tool={keel}>
   <h1>Getting Started</h1>
   <p class="docs-lead">
     Keel is a self-hosted Docker dashboard — a single Go binary (~10MB) with zero external dependencies

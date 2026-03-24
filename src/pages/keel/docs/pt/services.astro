@@ -1,8 +1,9 @@
 ---
 import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { keel } from '../../../../data/tools';
 ---
 
-<DocsLayout title="Services" lang="pt">
+<DocsLayout title="Services" lang="pt" tool={keel}>
   <h1>Services</h1>
   <p class="docs-lead">
     Cada serviço é um arquivo JSON em <code>data/services/</code>. O Keel lê esses arquivos para criar e gerenciar containers Docker.

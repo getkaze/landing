@@ -1,8 +1,9 @@
 ---
 import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { keel } from '../../../../data/tools';
 ---
 
-<DocsLayout title="Usage" lang="en">
+<DocsLayout title="Usage" lang="en" tool={keel}>
   <h1>Usage</h1>
   <p class="docs-lead">
     All Keel commands. The dashboard starts with a single <code>keel</code> command, and the CLI gives you full control over containers, targets, and dev workflows.

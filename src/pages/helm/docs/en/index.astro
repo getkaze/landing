@@ -1,0 +1,69 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { helm } from '../../../../data/tools';
+---
+
+<DocsLayout title="Getting Started" lang="en" tool={helm}>
+  <h1>Getting Started</h1>
+  <p class="docs-lead">
+    Helm is a CLI tool that manages AI agent pipeline sessions for backend development.
+    It's a state manager — agent logic runs inside Claude Code, while Helm handles session state,
+    checkpoints, and cross-conversation continuity.
+  </p>
+
+  <h2>Install</h2>
+  <p>Run the install script to download the binary:</p>
+  <pre><code>curl -fsSL https://getkaze.dev/helm/install.sh | bash</code></pre>
+
+  <p>This installs the binary to <code>~/.local/bin/helm</code>.</p>
+
+  <div class="hint">
+    If <code>~/.local/bin</code> is not in your PATH, the installer will show you how to add it.
+  </div>
+
+  <h3>From source</h3>
+  <pre><code>git clone https://github.com/getkaze/helm.git
+cd helm
+make build</code></pre>
+  <p>Binary is output to <code>bin/helm</code>. Add it to your PATH or run directly.</p>
+
+  <h2>Quick Start</h2>
+  <p>Initialize a new project:</p>
+  <pre><code>helm init</code></pre>
+  <p>This creates <code>.helm/session.yaml</code> (runtime state) and <code>helm.yaml</code> (project config).</p>
+
+  <p>Inside Claude Code, activate the orchestrator:</p>
+  <pre><code>/helm</code></pre>
+  <p>The orchestrator reads session state and routes you to the correct agent in the pipeline.</p>
+
+  <p>Check pipeline progress at any time:</p>
+  <pre><code>helm status</code></pre>
+
+  <p>Checkpoint your session before closing:</p>
+  <pre><code>helm save</code></pre>
+
+  <p>Resume in a new Claude Code session:</p>
+  <pre><code>helm resume</code></pre>
+
+  <h2>How It Works</h2>
+  <p>Helm guides projects through a structured pipeline of 13 AI agents across 5 phases:</p>
+  <ol>
+    <li><strong>Discover</strong> — Understand the problem (Scout/Survey + Research)</li>
+    <li><strong>Plan</strong> — Define what to build (Planning, Architect, Roadmap, Breakdown)</li>
+    <li><strong>Quality</strong> — Validate the plan (Review — 95% gate)</li>
+    <li><strong>Build</strong> — Implement code (Build agent)</li>
+    <li><strong>Deploy</strong> — Ship it (Verify + Ship)</li>
+  </ol>
+  <p>Each agent produces a handoff document for the next agent. Every task traces to a requirement, and every requirement traces to a research problem.</p>
+
+  <h2>Project Types</h2>
+  <table>
+    <thead>
+      <tr><th>Type</th><th>First Agent</th><th>Use When</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Greenfield</td><td>Scout</td><td>Starting a new project from scratch</td></tr>
+      <tr><td>Brownfield</td><td>Survey</td><td>Working with an existing codebase</td></tr>
+    </tbody>
+  </table>
+</DocsLayout>

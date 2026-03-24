@@ -1,8 +1,9 @@
 ---
 import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { keel } from '../../../../data/tools';
 ---
 
-<DocsLayout title="Seeders" lang="en">
+<DocsLayout title="Seeders" lang="en" tool={keel}>
   <h1>Seeders</h1>
   <p class="docs-lead">
     Run data seeding scripts inside running containers — database migrations, fixture data, initial configs.

@@ -1,0 +1,69 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import { helm } from '../../../../data/tools';
+---
+
+<DocsLayout title="Primeiros Passos" lang="pt" tool={helm}>
+  <h1>Primeiros Passos</h1>
+  <p class="docs-lead">
+    Helm é uma ferramenta CLI que gerencia sessões de pipeline de agentes de IA para desenvolvimento backend.
+    É um gerenciador de estado — a lógica dos agentes roda dentro do Claude Code, enquanto o Helm cuida do
+    estado da sessão, checkpoints e continuidade entre conversas.
+  </p>
+
+  <h2>Instalação</h2>
+  <p>Execute o script de instalação para baixar o binário:</p>
+  <pre><code>curl -fsSL https://getkaze.dev/helm/install.sh | bash</code></pre>
+
+  <p>Isso instala o binário em <code>~/.local/bin/helm</code>.</p>
+
+  <div class="hint">
+    Se <code>~/.local/bin</code> não estiver no seu PATH, o instalador mostrará como adicioná-lo.
+  </div>
+
+  <h3>A partir do código fonte</h3>
+  <pre><code>git clone https://github.com/getkaze/helm.git
+cd helm
+make build</code></pre>
+  <p>O binário é gerado em <code>bin/helm</code>. Adicione ao seu PATH ou execute diretamente.</p>
+
+  <h2>Início Rápido</h2>
+  <p>Inicialize um novo projeto:</p>
+  <pre><code>helm init</code></pre>
+  <p>Isso cria <code>.helm/session.yaml</code> (estado em tempo de execução) e <code>helm.yaml</code> (configuração do projeto).</p>
+
+  <p>Dentro do Claude Code, ative o orquestrador:</p>
+  <pre><code>/helm</code></pre>
+  <p>O orquestrador lê o estado da sessão e direciona você para o agente correto no pipeline.</p>
+
+  <p>Verifique o progresso do pipeline a qualquer momento:</p>
+  <pre><code>helm status</code></pre>
+
+  <p>Faça checkpoint da sua sessão antes de fechar:</p>
+  <pre><code>helm save</code></pre>
+
+  <p>Retome em uma nova sessão do Claude Code:</p>
+  <pre><code>helm resume</code></pre>
+
+  <h2>Como Funciona</h2>
+  <p>O Helm guia projetos através de um pipeline estruturado de 13 agentes de IA em 5 fases:</p>
+  <ol>
+    <li><strong>Descoberta</strong> — Entender o problema (Scout/Survey + Research)</li>
+    <li><strong>Planejamento</strong> — Definir o que construir (Planning, Architect, Roadmap, Breakdown)</li>
+    <li><strong>Qualidade</strong> — Validar o plano (Review — gate de 95%)</li>
+    <li><strong>Construção</strong> — Implementar código (agente Build)</li>
+    <li><strong>Deploy</strong> — Entregar (Verify + Ship)</li>
+  </ol>
+  <p>Cada agente produz um documento de handoff para o próximo. Toda tarefa rastreia até um requisito, e todo requisito rastreia até um problema de pesquisa.</p>
+
+  <h2>Tipos de Projeto</h2>
+  <table>
+    <thead>
+      <tr><th>Tipo</th><th>Primeiro Agente</th><th>Quando Usar</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Greenfield</td><td>Scout</td><td>Iniciando um projeto do zero</td></tr>
+      <tr><td>Brownfield</td><td>Survey</td><td>Trabalhando com um codebase existente</td></tr>
+    </tbody>
+  </table>
+</DocsLayout>
