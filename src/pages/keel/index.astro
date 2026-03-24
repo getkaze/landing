@@ -39,20 +39,6 @@ import InstallBlock from '../../components/InstallBlock.astro';
     </div>
   </div>
 
-  <!-- VIDEO -->
-  <div class="video-section reveal">
-    <div class="video-frame">
-      <div class="video-placeholder">
-        <button class="play-btn" aria-label="Play demo">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
-        </button>
-        <p class="video-caption">keel — live demo</p>
-      </div>
-    </div>
-  </div>
-
   <!-- STATS -->
   <div class="stat-row">
     <div class="stat-item reveal">
@@ -273,63 +259,6 @@ import InstallBlock from '../../components/InstallBlock.astro';
     animation: fadeUp .5s .5s forwards;
   }
 
-  /* ─── VIDEO ─── */
-  .video-section {
-    padding: 0 24px 120px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .video-frame {
-    position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border2);
-    background: #050505;
-    aspect-ratio: 16/9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 320px;
-  }
-
-  .video-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .play-btn {
-    width: 64px; height: 64px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform .2s, background .2s;
-    border: none;
-  }
-
-  .play-btn:hover { transform: scale(1.08); background: var(--accent-d); }
-
-  .video-caption {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: .04em;
-  }
-
-  .video-frame::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.04) 2px, rgba(0,0,0,.04) 4px);
-    pointer-events: none;
-  }
-
   /* ─── STATS ─── */
   .stat-row {
     display: grid;
@@ -532,12 +461,6 @@ import InstallBlock from '../../components/InstallBlock.astro';
     .tool-tagline { margin: 0 auto 40px; }
 
     .tool-cta { gap: 10px; }
-
-    .video-section {
-      padding: 0 16px 64px;
-    }
-
-    .video-frame { min-height: 200px; }
 
     .stat-row {
       grid-template-columns: 1fr;
