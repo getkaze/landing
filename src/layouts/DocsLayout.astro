@@ -74,14 +74,13 @@ function isActive(href: string) {
           </a>
         </li>
       </ul>
+      <button class="nav-menu-btn" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
     </div>
   </nav>
-
-  <button class="mobile-menu-btn" aria-label="Toggle menu">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
-    </svg>
-  </button>
 
   <div class="docs-layout">
     <aside class="docs-sidebar" id="docs-sidebar">
@@ -107,10 +106,11 @@ function isActive(href: string) {
 </Base>
 
 <script>
-  const btn = document.querySelector('.mobile-menu-btn');
+  const btn = document.querySelector('.nav-menu-btn');
   const sidebar = document.getElementById('docs-sidebar');
   btn?.addEventListener('click', () => {
     sidebar?.classList.toggle('open');
+    btn.setAttribute('aria-expanded', sidebar?.classList.contains('open') ? 'true' : 'false');
   });
 </script>
 
@@ -238,23 +238,19 @@ function isActive(href: string) {
   }
 
   /* ─── MOBILE MENU ─── */
-  .mobile-menu-btn {
+  .nav-menu-btn {
     display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 101;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    border: none;
-    cursor: pointer;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px;
+    transition: color .2s;
   }
+
+  .nav-menu-btn:hover { color: var(--text); }
 
   /* ─── LAYOUT ─── */
   .docs-layout {
@@ -424,6 +420,9 @@ function isActive(href: string) {
     border-collapse: collapse;
     margin-bottom: 24px;
     font-size: 13px;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .docs-content :global(th) {
@@ -477,9 +476,11 @@ function isActive(href: string) {
   /* ─── RESPONSIVE ─── */
   @media (max-width: 768px) {
     .docs-nav { padding: 0 16px; }
-    .nav-links { display: none; }
 
-    .mobile-menu-btn {
+    .nav-docs-label { display: none; }
+    .nav-left > :nth-child(4) { display: none; }
+
+    .nav-menu-btn {
       display: flex;
     }
 
@@ -503,6 +504,16 @@ function isActive(href: string) {
     .docs-content {
       margin-left: 0;
       padding: 32px 16px 80px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .nav-links { display: none; }
+
+    .lang-switcher {
+      border: none;
+      padding: 0;
+      gap: 4px;
     }
   }
 </style>
