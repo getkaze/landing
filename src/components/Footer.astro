@@ -1,33 +1,68 @@
 ---
 interface Props {
-  tool?: string;
+  product?: string;
   extraLinks?: { label: string; href: string }[];
 }
-const { tool, extraLinks = [] } = Astro.props;
-const wordmark = tool ? `kaze / ${tool}` : 'kaze';
+const { product, extraLinks = [] } = Astro.props;
+const wordmark = product ? `kaze / ${product}` : 'kaze';
+
+const defaultLinks = [
+  { label: 'Keel', href: '/keel' },
+  { label: 'Helm', href: '/helm' },
+  { label: 'Mole', href: '/mole' },
+];
+
+const socialLinks = [
+  { label: 'Discord', href: 'https://discord.gg/UpX4pfzf' },
+  { label: 'GitHub', href: 'https://github.com/getkaze' },
+];
+
+const links = extraLinks.length > 0 ? extraLinks : defaultLinks;
 ---
 
 <footer>
-  <div class="footer-left">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
-      <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
-      <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
-    </svg>
-    <span class="footer-wordmark">{wordmark}</span>
-    <span class="footer-copy">— {tool ? '' : '風 — '}MIT License</span>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <a class="footer-logo" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
+          <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
+          <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
+        </svg>
+        <span class="footer-wordmark">{wordmark}</span>
+      </a>
+      <span class="footer-license">MIT License</span>
+    </div>
+
+    <div class="footer-right">
+      <ul class="footer-links">
+        {links.map(l => (
+          <li>
+            <a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+      <ul class="footer-links footer-socials">
+        {socialLinks.map(l => (
+          <li>
+            <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
-  <ul class="footer-links">
-    {extraLinks.map(l => (
-      <li><a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label}</a></li>
-    ))}
-  </ul>
 </footer>
 
 <style>
   footer {
-    border-top: 1px solid var(--border);
-    padding: 48px;
+    background: transparent;
+  }
+
+  .footer-inner {
+    width: var(--shell-width);
+    margin: 0 auto;
+    padding: var(--space-2xl) 0;
+    border-top: 1px solid var(--color-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,51 +71,64 @@ const wordmark = tool ? `kaze / ${tool}` : 'kaze';
   .footer-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--space-md);
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    color: var(--color-text);
   }
 
   .footer-wordmark {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 14px;
-    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    font-weight: 500;
+    letter-spacing: 0.04em;
   }
 
-  .footer-copy {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 12px;
-    color: var(--muted2);
+  .footer-license {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
   }
 
   .footer-links {
     display: flex;
-    gap: 24px;
+    gap: var(--space-lg);
     list-style: none;
   }
 
   .footer-links a {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 12px;
-    color: var(--muted2);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
     text-decoration: none;
-    transition: color .2s;
+    transition: color var(--duration-fast);
   }
 
-  .footer-links a:hover { color: var(--muted); }
+  .footer-links a:hover {
+    color: var(--color-text);
+  }
 
   @media (max-width: 768px) {
-    footer {
+    .footer-inner {
       flex-direction: column;
-      gap: 20px;
+      gap: var(--space-lg);
       align-items: flex-start;
-      padding: 32px 16px;
+      padding: var(--space-xl) var(--space-md);
     }
 
-    .footer-links {
-      flex-wrap: wrap;
-      gap: 16px;
+    .footer-right {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-md);
     }
   }
 </style>

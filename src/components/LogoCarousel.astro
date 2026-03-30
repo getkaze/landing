@@ -1,0 +1,88 @@
+---
+interface Props {
+  logos: Array<{ name: string; href?: string; logo?: string }>;
+}
+
+const { logos } = Astro.props;
+---
+
+<section class="logo-section reveal">
+  <p class="logo-heading">Trusted by</p>
+  <div class="logo-list">
+    {logos.map(item => (
+      item.href ? (
+        <a href={item.href} class="logo-link" target="_blank" rel="noopener noreferrer" title={item.name}>
+          {item.logo ? (
+            <img src={item.logo} alt={item.name} class="logo-img" loading="lazy" />
+          ) : (
+            <span class="logo-text">{item.name}</span>
+          )}
+        </a>
+      ) : (
+        item.logo ? (
+          <img src={item.logo} alt={item.name} class="logo-img" loading="lazy" />
+        ) : (
+          <span class="logo-text">{item.name}</span>
+        )
+      )
+    ))}
+  </div>
+</section>
+
+<style>
+  .logo-section {
+    padding: var(--space-3xl) var(--space-lg);
+    width: var(--shell-width);
+    margin: 0 auto;
+  }
+
+  .logo-heading {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: var(--space-lg);
+  }
+
+  .logo-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xl);
+    flex-wrap: wrap;
+  }
+
+  .logo-link {
+    display: inline-flex;
+    text-decoration: none;
+  }
+
+  .logo-img {
+    height: 80px;
+    width: auto;
+    -webkit-filter: grayscale(100%) !important;
+    filter: grayscale(100%) !important;
+    opacity: 0.5 !important;
+    transition: filter var(--duration-default) ease, opacity var(--duration-default) ease;
+  }
+
+  .logo-link:hover .logo-img {
+    -webkit-filter: grayscale(0%) !important;
+    filter: grayscale(0%) !important;
+    opacity: 1 !important;
+  }
+
+  .logo-text {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.025em;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .logo-section {
+      padding: var(--space-2xl) var(--space-md);
+    }
+  }
+</style>

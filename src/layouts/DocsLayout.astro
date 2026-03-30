@@ -1,34 +1,45 @@
 ---
 import Base from './Base.astro';
-import type { ToolConfig } from '../data/tools';
+import { navigation } from '../data/navigation';
 
 interface Props {
   title: string;
   lang: 'en' | 'pt';
+  product?: string;
   description?: string;
-  tool: ToolConfig;
+  github?: string;
+  tool?: { name: string; github: string; sidebar: Record<string, { label: string; href: string }[]> };
 }
 
-const { title, lang, tool, description } = Astro.props;
-const metaDescription = description || tool.description;
-const toolTitle = tool.name.charAt(0).toUpperCase() + tool.name.slice(1);
+const { title, lang, description, github } = Astro.props;
+const tool = Astro.props.tool;
+const product = Astro.props.product || tool?.name || '';
+const productTitle = product.charAt(0).toUpperCase() + product.slice(1);
+const metaDescription = description || tool?.description || `${productTitle} documentation`;
+const githubUrl = github || tool?.github || `https://github.com/getkaze/${product}`;
 
 const currentPath = Astro.url.pathname.replace(/\/$/, '');
 const otherLang = lang === 'en' ? 'pt' : 'en';
 const otherPath = currentPath.replace(`/docs/${lang}`, `/docs/${otherLang}`);
 
-const sidebar = tool.sidebar[lang];
+const nav = navigation[product]?.[lang] || [];
+const legacySidebar = tool?.sidebar?.[lang] || [];
+const useLegacy = nav.length === 0 && legacySidebar.length > 0;
 
-function isActive(href: string) {
-  return currentPath.replace(/\/$/, '') === href;
+function isActive(slug: string) {
+  if (useLegacy) {
+    return currentPath === slug;
+  }
+  const href = `/${product}/docs/${lang}/${slug}`;
+  return currentPath === href || (slug === nav[0]?.slug && currentPath === `/${product}/docs/${lang}`);
 }
 ---
 
-<Base title={`${title} — ${toolTitle} Docs`} description={metaDescription}>
+<Base title={`${title} — ${productTitle} Docs`} description={metaDescription}>
   <nav class="docs-nav">
     <div class="nav-left">
       <a class="nav-logo" href="/">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
           <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
           <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
@@ -36,30 +47,26 @@ function isActive(href: string) {
         <span class="nav-wordmark">kaze</span>
       </a>
       <span class="nav-sep">/</span>
-      <a href={`/${tool.name}`} class="nav-product">{tool.name}</a>
+      <a href={`/${product}`} class="nav-product">{product}</a>
       <span class="nav-sep">/</span>
       <span class="nav-docs-label">docs</span>
     </div>
     <div class="nav-right">
       <div class="lang-switcher">
-        <a href={lang === 'en' ? currentPath : otherPath} class:list={['lang-btn', { active: lang === 'en' }]} aria-label="English">
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect width="20" height="14" rx="1.5" fill="#1A3A6E"/><path d="M0 0h20v1.08H0z" fill="#B22234"/><path d="M0 2.15h20v1.08H0z" fill="#B22234"/><path d="M0 4.31h20v1.08H0z" fill="#B22234"/><path d="M0 6.46h20v1.08H0z" fill="#B22234"/><path d="M0 8.62h20v1.08H0z" fill="#B22234"/><path d="M0 10.77h20v1.08H0z" fill="#B22234"/><path d="M0 12.92h20v1.08H0z" fill="#B22234"/><rect width="8" height="7.54" rx="0" fill="#3C3B6E"/><circle cx="1.2" cy="1" r=".35" fill="white"/><circle cx="2.4" cy="1" r=".35" fill="white"/><circle cx="3.6" cy="1" r=".35" fill="white"/><circle cx="4.8" cy="1" r=".35" fill="white"/><circle cx="6" cy="1" r=".35" fill="white"/><circle cx="6.8" cy="1" r=".35" fill="white"/></svg>
-        </a>
-        <a href={lang === 'pt' ? currentPath : otherPath} class:list={['lang-btn', { active: lang === 'pt' }]} aria-label="Portugues">
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect width="20" height="14" rx="1.5" fill="#009739"/><polygon points="10,1.5 18.5,7 10,12.5 1.5,7" fill="#FEDD00"/><circle cx="10" cy="7" r="3" fill="#002776"/><path d="M7.2 7.8c1.8 1.2 3.8 1.2 5.6 0" stroke="white" stroke-width=".4" fill="none"/></svg>
-        </a>
+        <a href={lang === 'en' ? currentPath : otherPath} class:list={['lang-btn', { active: lang === 'en' }]} aria-label="English">EN</a>
+        <a href={lang === 'pt' ? currentPath : otherPath} class:list={['lang-btn', { active: lang === 'pt' }]} aria-label="Português">PT</a>
       </div>
       <ul class="nav-links">
-        <li><a href={`/${tool.name}`}>Product</a></li>
+        <li><a href={`/${product}`}>Product</a></li>
         <li>
-          <a href={tool.github} target="_blank" rel="noopener" class="nav-icon" aria-label="GitHub">
+          <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="nav-icon" aria-label="GitHub">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
             </svg>
           </a>
         </li>
       </ul>
-      <button class="nav-menu-btn" aria-label="Toggle menu">
+      <button class="nav-menu-btn" aria-label="Toggle menu" aria-expanded="false">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
         </svg>
@@ -71,16 +78,26 @@ function isActive(href: string) {
     <aside class="docs-sidebar" id="docs-sidebar">
       <div class="sidebar-top">
         <ul class="sidebar-nav">
-          {sidebar.map(item => (
+          {useLegacy ? legacySidebar.map(item => (
             <li>
-              <a href={item.href} class:list={[{ active: isActive(item.href) }]}>{item.label}</a>
+              <a
+                href={item.href}
+                class:list={[{ active: isActive(item.href) }]}
+              >{item.label}</a>
+            </li>
+          )) : nav.map(item => (
+            <li>
+              <a
+                href={`/${product}/docs/${lang}/${item.slug}`}
+                class:list={[{ active: isActive(item.slug) }]}
+              >{item.title}</a>
             </li>
           ))}
         </ul>
       </div>
       <div class="sidebar-footer">
-        <a href={tool.github} target="_blank" rel="noopener">GitHub</a>
-        <a href={`${tool.github}/releases`} target="_blank" rel="noopener">Changelog</a>
+        <a href={githubUrl} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href={`${githubUrl}/releases`} target="_blank" rel="noopener noreferrer">Changelog</a>
       </div>
     </aside>
 
@@ -104,14 +121,14 @@ function isActive(href: string) {
   .docs-nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 100;
+    z-index: var(--z-nav);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 48px;
+    padding: 0 var(--space-2xl);
     height: 56px;
-    border-bottom: 1px solid var(--border);
-    background: rgba(10,10,10,.85);
+    border-bottom: 1px solid var(--color-border-light);
+    background: rgba(250, 249, 247, 0.85);
     backdrop-filter: blur(12px);
   }
 
@@ -124,7 +141,7 @@ function isActive(href: string) {
   .nav-right {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: var(--space-xl);
   }
 
   .nav-logo {
@@ -132,94 +149,92 @@ function isActive(href: string) {
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    color: var(--text);
+    color: var(--color-text);
   }
 
   .nav-wordmark {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-family: var(--font-mono);
     font-size: 15px;
     font-weight: 500;
-    letter-spacing: .04em;
+    letter-spacing: 0.04em;
   }
 
   .nav-sep {
-    color: var(--muted2);
+    color: var(--color-text-muted);
     font-size: 14px;
   }
 
   .nav-product {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 14px;
-    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
     text-decoration: none;
-    transition: color .2s;
+    transition: color var(--duration-fast);
   }
 
-  .nav-product:hover { color: var(--text); }
+  .nav-product:hover { color: var(--color-text); }
 
   .nav-docs-label {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 14px;
-    color: var(--muted2);
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
   }
 
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: var(--space-lg);
     list-style: none;
   }
 
   .nav-links a {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 13px;
-    color: var(--muted);
+    font-size: var(--text-small);
+    font-weight: 500;
+    color: var(--color-text-secondary);
     text-decoration: none;
-    letter-spacing: .03em;
-    transition: color .2s;
+    transition: color var(--duration-fast);
   }
 
-  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover { color: var(--color-text); }
 
   .nav-icon {
     display: flex;
     align-items: center;
-    color: var(--muted2) !important;
-    transition: color .2s !important;
+    color: var(--color-text-muted) !important;
+    transition: color var(--duration-fast) !important;
   }
 
-  .nav-icon:hover { color: var(--text) !important; }
+  .nav-icon:hover { color: var(--color-text) !important; }
 
   /* ─── LANGUAGE SWITCHER ─── */
   .lang-switcher {
     display: flex;
     align-items: center;
-    gap: 6px;
-    border: 1px solid var(--border2);
-    border-radius: 4px;
-    padding: 3px;
+    gap: 2px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 2px;
   }
 
   .lang-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px 8px;
-    border-radius: 3px;
-    opacity: .4;
-    transition: opacity .2s, background .2s;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-text-muted);
     text-decoration: none;
+    transition: color var(--duration-fast), background var(--duration-fast);
   }
 
-  .lang-btn:hover { opacity: .7; }
+  .lang-btn:hover { color: var(--color-text-secondary); }
 
   .lang-btn.active {
-    opacity: 1;
-    background: var(--surface);
+    color: var(--color-accent);
+    background: var(--color-accent-light);
   }
 
   /* ─── MOBILE MENU ─── */
@@ -229,13 +244,10 @@ function isActive(href: string) {
     justify-content: center;
     background: none;
     border: none;
-    color: var(--muted);
+    color: var(--color-text-secondary);
     cursor: pointer;
     padding: 4px;
-    transition: color .2s;
   }
-
-  .nav-menu-btn:hover { color: var(--text); }
 
   /* ─── LAYOUT ─── */
   .docs-layout {
@@ -251,12 +263,13 @@ function isActive(href: string) {
     left: 0;
     bottom: 0;
     width: 240px;
-    border-right: 1px solid var(--border);
-    padding: 32px 0;
+    border-right: 1px solid var(--color-border-light);
+    padding: var(--space-xl) 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow-y: auto;
+    background: var(--color-bg);
   }
 
   .sidebar-nav {
@@ -264,81 +277,72 @@ function isActive(href: string) {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    padding: 0 12px;
+    padding: 0 var(--space-sm);
   }
 
   .sidebar-nav a {
     display: block;
-    padding: 8px 16px;
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 13px;
-    color: var(--muted);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
     text-decoration: none;
-    border-radius: 4px;
-    transition: color .2s, background .2s;
-    letter-spacing: .02em;
+    border-radius: var(--radius-sm);
+    transition: color var(--duration-fast), background var(--duration-fast);
   }
 
   .sidebar-nav a:hover {
-    color: var(--text);
-    background: var(--surface);
+    color: var(--color-text);
+    background: var(--color-surface-alt);
   }
 
   .sidebar-nav a.active {
-    color: var(--text);
-    background: var(--surface);
+    color: var(--color-accent);
+    background: var(--color-accent-light);
+    font-weight: 500;
   }
 
   .sidebar-footer {
-    padding: 0 28px;
+    padding: 0 var(--space-lg);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-sm);
   }
 
   .sidebar-footer a {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 12px;
-    color: var(--muted2);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
     text-decoration: none;
-    transition: color .2s;
+    transition: color var(--duration-fast);
   }
 
-  .sidebar-footer a:hover { color: var(--muted); }
+  .sidebar-footer a:hover { color: var(--color-text-secondary); }
 
   /* ─── CONTENT ─── */
   .docs-content {
     margin-left: 240px;
     flex: 1;
     max-width: 720px;
-    padding: 48px 56px 120px;
+    padding: var(--space-2xl) var(--space-3xl) var(--space-5xl);
   }
 
   /* ─── PROSE ─── */
   .docs-content :global(h1) {
-    font-size: 32px;
-    font-weight: 500;
-    letter-spacing: -.03em;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-
-  .docs-content :global(.docs-lead) {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 48px;
+    font-size: var(--text-h1);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-md);
+    line-height: var(--leading-tight);
+    color: var(--color-text);
   }
 
   .docs-content :global(h2) {
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -.02em;
-    margin: 48px 0 16px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: var(--space-2xl) 0 var(--space-md);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border-light);
+    color: var(--color-text);
   }
 
   .docs-content :global(h2:first-of-type) {
@@ -347,127 +351,122 @@ function isActive(href: string) {
   }
 
   .docs-content :global(h3) {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 32px 0 12px;
-    letter-spacing: -.01em;
+    font-size: var(--text-body);
+    font-weight: 600;
+    margin: var(--space-xl) 0 var(--space-sm);
+    color: var(--color-text);
   }
 
   .docs-content :global(p) {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 16px;
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-md);
   }
 
   .docs-content :global(ul),
   .docs-content :global(ol) {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 16px;
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-md);
     padding-left: 20px;
   }
 
   .docs-content :global(li) {
-    margin-bottom: 4px;
+    margin-bottom: var(--space-xs);
   }
 
   .docs-content :global(code) {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 13px;
-    color: var(--accent);
-    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: var(--text-code);
+    color: var(--color-accent);
+    background: var(--color-accent-subtle);
     padding: 2px 6px;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
   }
 
   .docs-content :global(pre) {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 20px 24px;
-    margin-bottom: 24px;
+    background: #1e1e2e;
+    border-radius: var(--radius-sm);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-lg);
     overflow-x: auto;
   }
 
   .docs-content :global(pre code) {
     background: none;
     padding: 0;
-    font-size: 13px;
-    color: var(--text);
+    font-size: var(--text-code);
+    color: #cdd6f4;
     line-height: 1.7;
   }
 
   .docs-content :global(table) {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 24px;
-    font-size: 13px;
+    margin-bottom: var(--space-lg);
+    font-size: var(--text-code);
     display: block;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .docs-content :global(th) {
     text-align: left;
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 11px;
-    letter-spacing: .08em;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--muted2);
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
+    color: var(--color-text-muted);
+    padding: var(--space-sm) var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .docs-content :global(td) {
-    padding: 10px 12px;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 13px;
+    padding: var(--space-sm);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: var(--text-code);
   }
 
   .docs-content :global(a) {
-    color: var(--accent);
+    color: var(--color-accent);
     text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color .2s;
+    transition: color var(--duration-fast);
   }
 
   .docs-content :global(a:hover) {
-    border-bottom-color: var(--accent);
+    color: var(--color-accent-hover);
   }
 
   .docs-content :global(strong) {
-    color: var(--text);
-    font-weight: 500;
+    color: var(--color-text);
+    font-weight: 600;
   }
 
-  .docs-content :global(.hint) {
-    border-left: 3px solid var(--accent);
-    padding: 12px 16px;
-    margin-bottom: 24px;
-    background: rgba(139, 92, 246, .05);
-    border-radius: 0 4px 4px 0;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
+  .docs-content :global(blockquote) {
+    border-left: 3px solid var(--color-accent);
+    padding: var(--space-sm) var(--space-md);
+    margin-bottom: var(--space-lg);
+    background: var(--color-accent-subtle);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .docs-content :global(blockquote p) {
+    font-size: var(--text-code);
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
   }
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 768px) {
-    .docs-nav { padding: 0 16px; }
+    .docs-nav { padding: 0 var(--space-md); }
 
-    .nav-docs-label { display: none; }
-    .nav-left > :nth-child(4) { display: none; }
+    .nav-docs-label,
+    .nav-docs-label + .nav-sep { display: none; }
 
-    .nav-menu-btn {
-      display: flex;
-    }
+    .nav-menu-btn { display: flex; }
 
     .docs-sidebar {
       display: none;
@@ -477,28 +476,20 @@ function isActive(href: string) {
       right: 0;
       bottom: 0;
       width: 100%;
-      background: var(--bg);
+      background: var(--color-bg);
       z-index: 99;
       border-right: none;
     }
 
-    .docs-sidebar.open {
-      display: flex;
-    }
+    .docs-sidebar.open { display: flex; }
 
     .docs-content {
       margin-left: 0;
-      padding: 32px 16px 80px;
+      padding: var(--space-xl) var(--space-md) var(--space-3xl);
       overflow-wrap: break-word;
       word-break: break-word;
     }
 
     .nav-links { display: none; }
-
-    .lang-switcher {
-      border: none;
-      padding: 0;
-      gap: 4px;
-    }
   }
 </style>

@@ -1,0 +1,71 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  reversed?: boolean;
+}
+const { title, text, reversed = false } = Astro.props;
+---
+
+<div class:list={['value-panel', { reversed }]}>
+  <div class="value-content">
+    <h2 class="value-title">{title}</h2>
+    <p class="value-text">{text}</p>
+  </div>
+  <div class="value-visual">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .value-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+    padding: var(--space-2xl);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-xl);
+    max-width: 1120px;
+    margin: 0 auto var(--space-lg);
+  }
+
+  .value-panel.reversed {
+    direction: rtl;
+  }
+
+  .value-panel.reversed > * {
+    direction: ltr;
+  }
+
+  .value-title {
+    font-size: var(--text-h2);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-md);
+  }
+
+  .value-text {
+    font-size: var(--text-body);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  .value-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .value-panel {
+      grid-template-columns: 1fr;
+      padding: var(--space-xl);
+    }
+
+    .value-panel.reversed {
+      direction: ltr;
+    }
+  }
+</style>

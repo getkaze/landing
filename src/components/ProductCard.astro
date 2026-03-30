@@ -1,0 +1,82 @@
+---
+interface Props {
+  name: string;
+  tagline: string;
+  version?: string;
+  icon?: string;
+  href: string;
+}
+const { name, tagline, version, icon, href } = Astro.props;
+---
+
+<a class="product-card" href={href}>
+  <div class="product-card-header">
+    {icon && <span class="product-icon" set:html={icon} />}
+    <h3 class="product-name">{name}</h3>
+    {version && <span class="badge">{version}</span>}
+  </div>
+  <p class="product-tagline">{tagline}</p>
+  <span class="product-link">Learn more &rarr;</span>
+</a>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-xl);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--duration-default) var(--easing-default),
+                transform var(--duration-default) var(--easing-default);
+  }
+
+  .product-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .product-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .product-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+  }
+
+  .product-name {
+    font-size: var(--text-h3);
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .product-tagline {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    flex: 1;
+  }
+
+  .product-link {
+    font-size: var(--text-small);
+    font-weight: 500;
+    color: var(--color-accent);
+    margin-top: var(--space-lg);
+  }
+
+  .product-card:hover .product-link {
+    color: var(--color-accent-hover);
+  }
+</style>

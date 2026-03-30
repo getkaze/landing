@@ -6,11 +6,8 @@ interface Props {
 const { command, thenCommand } = Astro.props;
 ---
 
-<div class="tool-install-block reveal">
+<div class="install-block">
   <div class="install-header">
-    <div class="install-dots">
-      <span></span><span></span><span></span>
-    </div>
     <span class="install-label">terminal</span>
     <button class="install-copy-btn" data-copy={command}>
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -22,7 +19,7 @@ const { command, thenCommand } = Astro.props;
   </div>
   <div class="install-body">
     <code class="install-cmd">
-      <span class="prompt">$ </span><span set:html={command.replace(/^(curl|bash|sh)\b/, '<span class="cmd-hl">$&</span>')} />
+      <span class="prompt">$ </span><span set:html={command.replace(/^(curl|bash|sh|npm|npx)\b/, '<span class="cmd-hl">$&</span>')} />
     </code>
     {thenCommand && (
       <code class="install-then">
@@ -33,80 +30,71 @@ const { command, thenCommand } = Astro.props;
 </div>
 
 <style>
-  .tool-install-block {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 6px;
+  .install-block {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     overflow: hidden;
     max-width: 580px;
     width: 100%;
-    margin: 0 auto 48px;
   }
 
   .install-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
-    background: #0e0e0e;
-  }
-
-  .install-dots { display: flex; gap: 6px; }
-
-  .install-dots span {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--border2);
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--color-border-light);
+    background: var(--color-surface-alt);
   }
 
   .install-label {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    font-family: var(--font-mono);
     font-size: 11px;
-    color: var(--muted2);
-    letter-spacing: .08em;
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
   }
 
   .install-copy-btn {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--muted2);
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: .06em;
+    letter-spacing: 0.06em;
     display: flex;
     align-items: center;
     gap: 6px;
-    transition: color .2s;
+    transition: color var(--duration-fast);
     padding: 2px 4px;
   }
 
-  .install-copy-btn:hover { color: var(--text); }
+  .install-copy-btn:hover { color: var(--color-text); }
 
-  .install-body { padding: 20px 24px; text-align: left; }
+  .install-body {
+    padding: var(--space-md) var(--space-lg);
+    text-align: left;
+  }
 
   .install-cmd, .install-then {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 13px;
-    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: var(--text-code);
+    color: var(--color-text);
     display: block;
   }
 
-  .install-cmd { margin-bottom: 8px; }
+  .install-cmd { margin-bottom: var(--space-sm); }
 
-  .prompt { color: var(--muted2); user-select: none; }
+  .prompt { color: var(--color-text-muted); user-select: none; }
 
-  :global(.cmd-hl) { color: var(--accent); }
+  :global(.cmd-hl) { color: var(--color-accent); }
 
   @media (max-width: 768px) {
-    .install-body { padding: 16px; }
+    .install-body { padding: var(--space-md); }
 
     .install-cmd, .install-then {
-      font-size: 11px;
+      font-size: 12px;
       word-break: break-all;
     }
   }
@@ -119,7 +107,7 @@ const { command, thenCommand } = Astro.props;
       navigator.clipboard.writeText(cmd).then(() => {
         const orig = btn.innerHTML;
         btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> copied`;
-        btn.style.color = '#22c55e';
+        btn.style.color = 'var(--color-green)';
         setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 2000);
       });
     });

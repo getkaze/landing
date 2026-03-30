@@ -5,4 +5,5 @@ export default defineConfig({
   output: 'static',
   site: 'https://getkaze.dev',
   integrations: [sitemap()],
+  devToolbar: { enabled: false },
 });

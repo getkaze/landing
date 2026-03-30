@@ -1,0 +1,142 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  badge?: string;
+  install?: string;
+  ctas?: Array<{ label: string; href: string; variant: 'primary' | 'secondary' | 'ghost' }>;
+  fullHeight?: boolean;
+  screenshot?: string;
+  screenshotAlt?: string;
+}
+
+const { title, subtitle, badge, install, ctas = [], fullHeight = false, screenshot, screenshotAlt = '' } = Astro.props;
+---
+
+<div class="hero-bg">
+<section class:list={['hero', { 'hero-full': fullHeight }]}>
+  {badge && (
+    <span class="badge">{badge}</span>
+  )}
+
+  <h1 class="hero-title" set:html={title} />
+
+  {subtitle && (
+    <p class="hero-subtitle">{subtitle}</p>
+  )}
+
+  {install && (
+    <div class="hero-install">
+      <slot name="install" />
+    </div>
+  )}
+
+  {ctas.length > 0 && (
+    <div class="hero-ctas">
+      {ctas.map(cta => (
+        <a href={cta.href} class={`btn-${cta.variant}`}>{cta.label}</a>
+      ))}
+    </div>
+  )}
+
+  {screenshot && (
+    <div class="hero-screenshot">
+      <img src={screenshot} alt={screenshotAlt} loading="eager" />
+    </div>
+  )}
+
+  <slot name="screenshot" />
+</section>
+</div>
+
+<style>
+  .hero-bg {
+    width: 100%;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: calc(72px + var(--space-3xl)) var(--space-lg) var(--space-3xl);
+    width: var(--shell-narrow);
+    margin: 0 auto;
+  }
+
+  .hero-full {
+    min-height: 80vh;
+    justify-content: center;
+    padding-top: 72px;
+  }
+
+  .hero-title {
+    font-size: var(--text-h1);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    color: var(--color-text);
+    max-width: 720px;
+    margin-top: var(--space-lg);
+  }
+
+  .hero-full .hero-title {
+    font-size: var(--text-display);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    max-width: 560px;
+    margin-top: var(--space-md);
+    line-height: var(--leading-relaxed);
+    letter-spacing: -0.015em;
+  }
+
+  .hero-install {
+    margin-top: var(--space-xl);
+    width: 100%;
+    max-width: 580px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-screenshot {
+    margin-top: var(--space-3xl);
+    width: 100%;
+    max-width: 1000px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+  }
+
+  .hero-screenshot img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: var(--space-4xl) var(--space-md) var(--space-3xl);
+    }
+
+    .hero-full {
+      padding-top: 56px;
+    }
+
+    .hero-ctas {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
