@@ -2,407 +2,595 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import ValuePanel from '../components/ValuePanel.astro';
+import LogoCarousel from '../components/LogoCarousel.astro';
+import FAQ from '../components/FAQ.astro';
+import { keel, helm, mole, allProducts } from '../data/products';
+import { logos } from '../data/placeholders';
+
+const heroProducts = [
+  { key: 'keel', name: keel.name, tagline: keel.tagline, href: keel.href },
+  { key: 'helm', name: helm.name, tagline: helm.tagline, href: helm.href },
+  { key: 'mole', name: mole.name, tagline: mole.tagline, href: mole.href },
+];
 ---
 
 <Base>
   <Nav activePage="home" />
 
   <!-- HERO -->
-  <div class="hero">
-    <p class="hero-eyebrow">Open Source · Kaze Labs</p>
-    <div class="hero-logo">
-      <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
-        <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
-        <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
-      </svg>
-    </div>
-    <h1>Developer tools<br/>that <em>stay out</em><br/>of your way.</h1>
-    <p class="hero-sub">Open source. No vendor lock-in. No dashboards you don't need.</p>
-    <div class="hero-cta">
-      <a class="btn-primary" href="/keel">See Keel →</a>
-      <a class="btn-ghost" href="https://github.com/getkaze" target="_blank" rel="noopener">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-        </svg>
-        GitHub
-      </a>
-    </div>
-    <div class="scroll-hint">
-      scroll
+  <div class="hero-bg">
+    <!-- Top: centered title + CTAs -->
+    <section class="hero-top">
+      <span class="hero-eyebrow">Open source &bull; Local-first &bull; Developer-first</span>
+      <h1 class="hero-title">Developer tools that<br/><em>stay out</em> of your way.</h1>
+      <p class="hero-subtitle">No vendor lock-in. No dashboards you don't need.<br/>Just single binaries that do exactly what you expect.</p>
+      <div class="hero-ctas">
+        <a href="#products" class="btn-primary">Get Started</a>
+        <a href="https://github.com/getkaze" class="btn-secondary">GitHub</a>
+      </div>
+    </section>
+
+    <!-- Bottom: screenshot with product cards overlaid on left -->
+    <div class="hero-showcase">
+      <div class="hero-cards" data-hero-products>
+        {heroProducts.map((p, i) => (
+          <a
+            href={p.href}
+            class:list={['hero-product-card', { 'hero-product-active': i === 0 }]}
+            data-hero-product={p.key}
+          >
+            <h3 class="hero-product-name">{p.name}</h3>
+            <p class="hero-product-tagline">{p.tagline}</p>
+          </a>
+        ))}
+      </div>
+
+      <div class="hero-screenshot-area" data-hero-carousel>
+        <div class:list={['hero-slide', 'hero-slide-active']} data-hero-slide="keel">
+          <img src="/keel/screenshot-dashboard.webp" alt="Keel dashboard" loading="eager" />
+        </div>
+        <div class="hero-slide" data-hero-slide="helm">
+          <div class="helm-terminal" data-helm-anim>
+            <div class="helm-terminal-bar">
+              <span class="helm-dot"></span><span class="helm-dot"></span><span class="helm-dot"></span>
+              <span class="helm-terminal-title">helm status</span>
+            </div>
+            <div class="helm-terminal-body">
+              <div class="ht-line" data-delay="0"><span class="ht-prompt">$</span> <span class="ht-cmd">helm status</span></div>
+              <div class="ht-line ht-blank" data-delay="600"></div>
+              <div class="ht-line" data-delay="800">  <span class="ht-heading">Helm v0.1</span></div>
+              <div class="ht-line ht-blank" data-delay="1000"></div>
+              <div class="ht-line" data-delay="1100">  <span class="ht-label">Project:</span>  <span class="ht-value">my-api</span></div>
+              <div class="ht-line" data-delay="1200">  <span class="ht-label">Type:</span>     <span class="ht-value">brownfield</span></div>
+              <div class="ht-line" data-delay="1300">  <span class="ht-label">Phase:</span>    <span class="ht-value">build</span></div>
+              <div class="ht-line" data-delay="1400">  <span class="ht-label">Profile:</span>  <span class="ht-value">guided</span></div>
+              <div class="ht-line" data-delay="1500">  <span class="ht-label">Language:</span> <span class="ht-value">en-US</span></div>
+              <div class="ht-line ht-blank" data-delay="1700"></div>
+              <div class="ht-line" data-delay="1900">  <span class="ht-label">Pipeline:</span></div>
+              <div class="ht-line" data-delay="2100">    <span class="ht-done">[done]</span>  <span class="ht-agent">survey</span>       <span class="ht-score">92%</span></div>
+              <div class="ht-line" data-delay="2300">    <span class="ht-done">[done]</span>  <span class="ht-agent">research</span>     <span class="ht-score">95%</span></div>
+              <div class="ht-line" data-delay="2500">    <span class="ht-done">[done]</span>  <span class="ht-agent">planning</span>     <span class="ht-score">92%</span></div>
+              <div class="ht-line" data-delay="2700">    <span class="ht-done">[done]</span>  <span class="ht-agent">architect</span>    <span class="ht-score">94%</span></div>
+              <div class="ht-line" data-delay="2900">    <span class="ht-done">[done]</span>  <span class="ht-agent">roadmap</span>      <span class="ht-score">94%</span></div>
+              <div class="ht-line" data-delay="3100">    <span class="ht-done">[done]</span>  <span class="ht-agent">breakdown</span>    <span class="ht-score">92%</span></div>
+              <div class="ht-line" data-delay="3300">    <span class="ht-done">[done]</span>  <span class="ht-agent">review</span>       <span class="ht-score-high">100%</span></div>
+              <div class="ht-line" data-delay="3600">    <span class="ht-active">[>>  ]</span>  <span class="ht-agent-active">build</span>        <span class="ht-desc-active">in progress<span class="ht-blink">_</span></span></div>
+              <div class="ht-line" data-delay="3800">    <span class="ht-pending">[    ]</span>  <span class="ht-agent-pending">verify</span>       <span class="ht-pending">pending</span></div>
+              <div class="ht-line" data-delay="4000">    <span class="ht-pending">[    ]</span>  <span class="ht-agent-pending">ship</span>         <span class="ht-pending">pending</span></div>
+              <div class="ht-line ht-blank" data-delay="4300"></div>
+              <div class="ht-line" data-delay="4500">  <span class="ht-label">Deviations:</span> <span class="ht-value">0</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-slide" data-hero-slide="mole">
+          <img src="/mole/screenshot-mole.png" alt="Mole dashboard" loading="lazy" />
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- TOOLS -->
-  <section>
-    <p class="section-label reveal">Tools</p>
-    <div class="tools-grid reveal">
-      <a class="tool-card" href="/keel">
-        <div>
-          <div class="tool-card-meta">
-            <div class="tool-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="4" x2="12" y2="20"/>
-                <line x1="3"  y1="12" x2="21" y2="12"/>
-                <line x1="6"  y1="7"  x2="18" y2="7"/>
-                <line x1="6"  y1="17" x2="18" y2="17"/>
-              </svg>
-            </div>
-            <span class="tool-name">keel</span>
-            <span class="tool-tag">v0.4 · alpha</span>
-          </div>
-          <p class="tool-desc">A self-hosted Docker dashboard for local and remote environments. One binary, zero dependencies, full control — container management, logs, terminal, metrics.</p>
-        </div>
-        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7 17 17 7M7 7h10v10"/>
-        </svg>
-      </a>
-      <a class="tool-card" href="/helm">
-        <div>
-          <div class="tool-card-meta">
-            <div class="tool-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="9"/>
-                <circle cx="12" cy="12" r="2"/>
-                <line x1="12" y1="3"  x2="12" y2="10"/>
-                <line x1="12" y1="14" x2="12" y2="21"/>
-                <line x1="3"  y1="12" x2="10" y2="12"/>
-                <line x1="14" y1="12" x2="21" y2="12"/>
-                <line x1="5.64" y1="5.64" x2="9.17" y2="9.17"/>
-                <line x1="14.83" y1="14.83" x2="18.36" y2="18.36"/>
-                <line x1="18.36" y1="5.64" x2="14.83" y2="9.17"/>
-                <line x1="9.17" y1="14.83" x2="5.64" y2="18.36"/>
-                <circle cx="12" cy="3" r="1"/>
-                <circle cx="12" cy="21" r="1"/>
-                <circle cx="3" cy="12" r="1"/>
-                <circle cx="21" cy="12" r="1"/>
-                <circle cx="5.64" cy="5.64" r="1"/>
-                <circle cx="18.36" cy="18.36" r="1"/>
-                <circle cx="18.36" cy="5.64" r="1"/>
-                <circle cx="5.64" cy="18.36" r="1"/>
-              </svg>
-            </div>
-            <span class="tool-name">helm</span>
-            <span class="tool-tag">v0.1 · alpha</span>
-          </div>
-          <p class="tool-desc">AI agent orchestration for backend development. Structured pipeline with 13 agents, quality gates, and session continuity across conversations.</p>
-        </div>
-        <svg class="tool-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7 17 17 7M7 7h10v10"/>
-        </svg>
-      </a>
-    </div>
-  </section>
+  <!-- PRODUCTS -->
+  <div class="section-wrap section-wrap-surface">
+    <section id="products">
+      <h2 class="section-heading">Products</h2>
+      <p class="section-lead">Single binaries. No dependencies. Open source forever.</p>
+
+      <div class="product-grid">
+        {allProducts.map(product => (
+          <a href={product.href} class="product-card">
+            <div class="product-card-icon" set:html={product.icon} />
+            <h3 class="product-card-name">{product.name}</h3>
+            <p class="product-card-tagline">{product.tagline}</p>
+            <span class="product-card-version">{product.version}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
 
   <!-- PHILOSOPHY -->
-  <section id="philosophy" style="padding-top:0">
-    <p class="section-label reveal">Philosophy</p>
-    <div class="philosophy-grid">
-      <div class="philosophy-item reveal">
-        <p class="philosophy-num">01</p>
-        <h3 class="philosophy-title">One binary</h3>
-        <p class="philosophy-text">No Docker images to pull. No Node runtime. No Python. Just a single compiled binary you can copy anywhere and run.</p>
+  <div class="section-wrap">
+    <section id="philosophy">
+      <div class="philosophy-row">
+        <div class="philosophy-item">
+          <h3>Does One Thing Well</h3>
+          <p>Each tool solves a specific problem and nothing else. No bloat, no feature creep. It does what it was born to do.</p>
+        </div>
+        <div class="philosophy-item">
+          <h3>Open Source Forever</h3>
+          <p>Every tool is MIT-licensed. No freemium. No feature gating. The code is yours — read it, fork it, trust it.</p>
+        </div>
+        <div class="philosophy-item">
+          <h3>Local First</h3>
+          <p>Your data stays on your machine. No cloud sync, no accounts, no telemetry. Self-host everything.</p>
+        </div>
+        <div class="philosophy-item">
+          <h3>Stay Out of the Way</h3>
+          <p>Great tools are invisible. They do exactly what you expect, fail loudly when something breaks, and never surprise you.</p>
+        </div>
       </div>
-      <div class="philosophy-item reveal" style="--reveal-delay: 0.1s">
-        <p class="philosophy-num">02</p>
-        <h3 class="philosophy-title">Open source forever</h3>
-        <p class="philosophy-text">Every tool is MIT-licensed. No freemium. No feature gating. The code is yours — read it, fork it, trust it.</p>
-      </div>
-      <div class="philosophy-item reveal" style="--reveal-delay: 0.2s">
-        <p class="philosophy-num">03</p>
-        <h3 class="philosophy-title">Stay out of the way</h3>
-        <p class="philosophy-text">Great tools are invisible. They do exactly what you expect, fail loudly when something breaks, and never surprise you.</p>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
-  <Footer extraLinks={[
-    { label: 'GitHub', href: 'https://github.com/getkaze' },
-    { label: 'MIT License', href: 'https://github.com/getkaze/keel/blob/main/LICENSE' },
+  <!-- SOCIAL PROOF -->
+  <LogoCarousel logos={logos} />
+  <!-- FAQ -->
+  <FAQ items={[
+    {
+      question: 'Are these tools really free?',
+      answer: 'Yes. Every Kaze tool is MIT-licensed and open source. No freemium, no feature gating, no enterprise tier. The code is on GitHub.',
+    },
+    {
+      question: 'Do I need Docker to use Keel?',
+      answer: 'Yes, Keel manages Docker containers. You need Docker installed on the host machine (or remote target). Keel itself is a single binary with zero dependencies.',
+    },
+    {
+      question: 'What AI model does Helm use?',
+      answer: 'Helm runs inside Claude Code and uses Claude as its AI engine. The agent definitions are markdown files — no proprietary runtime or locked-in model.',
+    },
+    {
+      question: 'Can I self-host Mole?',
+      answer: 'Yes, Mole is designed to be self-hosted. You need a MySQL database, Valkey for caching, and an Anthropic API key. Docker Compose setup is provided.',
+    },
+    {
+      question: 'What platforms are supported?',
+      answer: 'All Kaze tools support Linux (amd64, arm64) and macOS (amd64, arm64). Windows support varies by tool — check each tool\'s documentation.',
+    },
   ]} />
+
+  <Footer />
 </Base>
 
 <style>
-  /* ─── HERO ─── */
-  .hero {
-    min-height: 100vh;
+  /* HERO */
+  .hero-bg {
+    width: 100%;
+  }
+
+  .hero-top {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 120px 24px 80px;
-    position: relative;
+    padding: calc(72px + var(--space-3xl)) var(--space-lg) var(--space-2xl);
+    width: var(--shell-narrow);
+    margin: 0 auto;
   }
 
   .hero-eyebrow {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 11px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 28px;
-    opacity: 0;
-    animation: fadeUp .6s .1s forwards;
-  }
-
-  .hero-logo {
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp .6s .2s forwards;
-  }
-
-  .hero h1 {
-    font-size: clamp(48px, 8vw, 96px);
-    font-weight: 400;
-    letter-spacing: -.03em;
-    line-height: 1;
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: fadeUp .6s .3s forwards;
-  }
-
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-
-  .hero-sub {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 15px;
-    color: var(--muted);
-    letter-spacing: .02em;
-    margin-bottom: 64px;
-    opacity: 0;
-    animation: fadeUp .6s .4s forwards;
-  }
-
-  .hero-cta {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 16px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero-title {
+    font-size: var(--text-display);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--color-text);
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-lg);
+    line-height: var(--leading-relaxed);
+    letter-spacing: -0.015em;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
     flex-wrap: wrap;
     justify-content: center;
-    opacity: 0;
-    animation: fadeUp .6s .5s forwards;
   }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 11px;
-    color: var(--muted2);
-    letter-spacing: .12em;
+  /* Hero showcase: cards on left, screenshot on right */
+  .hero-showcase {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: var(--space-lg);
+    align-items: start;
+    width: var(--shell-width);
+    margin: 0 auto;
+    padding: 0 0 var(--space-3xl);
+  }
+
+  .hero-cards {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    animation: fadeIn 1s 1.2s both;
+    gap: var(--space-sm);
+    padding-top: var(--space-lg);
   }
 
-  .scroll-hint::after {
-    content: '';
+  .hero-product-card {
     display: block;
-    width: 1px;
-    height: 32px;
-    background: linear-gradient(to bottom, var(--muted2), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-
-  /* ─── TOOLS ─── */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .tool-card {
-    background: var(--surface);
-    padding: 40px;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-lg);
+    border: 1px solid transparent;
+    background: transparent;
     text-decoration: none;
-    color: inherit;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 24px;
-    transition: background .2s;
+    cursor: pointer;
+    transition: background var(--duration-default) ease,
+                border-color var(--duration-default) ease,
+                box-shadow var(--duration-default) ease;
+  }
+
+  .hero-product-card:hover {
+    background: var(--color-surface);
+  }
+
+  .hero-product-card.hero-product-active {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-product-name {
+    font-size: var(--text-body);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 2px;
+  }
+
+  .hero-product-tagline {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  .hero-screenshot-area {
+    position: relative;
+    min-height: 480px;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .hero-slide-active {
+    opacity: 1;
+    pointer-events: auto;
     position: relative;
   }
 
-  .tool-card:not(:last-child) { border-bottom: 1px solid var(--border); }
-  .tool-card:hover { background: #161616; }
-  .tool-card:hover .tool-arrow { transform: translate(3px,-3px); }
-  .tool-card--upcoming { cursor: default; }
-
-  .tool-card-meta {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 12px;
-  }
-
-  .tool-icon {
-    width: 32px; height: 32px;
+  .hero-screenshot-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+    background: #111;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .tool-name {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -.01em;
-  }
-
-  .tool-tag {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 10px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--green);
-    border: 1px solid #1a3d28;
-    padding: 2px 8px;
-    border-radius: 100px;
-    background: #0d1f15;
-  }
-
-  .tool-tag--upcoming {
     color: #555;
-    border-color: #222;
-    background: #0a0a0a;
+    font-size: var(--text-small);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 24px 60px rgba(15, 23, 42, 0.08);
+    border: 1px solid var(--color-border);
   }
 
-  .tool-desc {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.5;
-    max-width: 560px;
+  .hero-slide img {
+    width: 100%;
+    height: 480px;
+    object-fit: cover;
+    object-position: top left;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 24px 60px rgba(15, 23, 42, 0.08);
+    border: 1px solid var(--color-border);
+    display: block;
   }
 
-  .tool-arrow {
-    color: var(--muted2);
-    transition: transform .2s;
-    flex-shrink: 0;
+  /* Helm terminal */
+  .helm-terminal {
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: #0f1117;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 24px 60px rgba(15, 23, 42, 0.08);
+    border: 1px solid #1e2028;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* ─── PHILOSOPHY ─── */
-  .philosophy-grid {
+  .helm-terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: #161822;
+    border-bottom: 1px solid #1e2028;
+  }
+
+  .helm-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2a2d3a;
+  }
+
+  .helm-terminal-title {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 0.04em;
+  }
+
+  .helm-terminal-body {
+    padding: 20px 24px;
+    flex: 1;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: #6b7280;
+  }
+
+  :global(.ht-line) {
+    opacity: 0;
+    transform: translateY(4px);
+    white-space: pre;
+    min-height: 1.7em;
+  }
+
+  :global(.ht-line.ht-visible) {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  :global(.ht-line.ht-blank) { min-height: 0.8em; }
+
+  :global(.ht-prompt) { color: #22c55e; }
+  :global(.ht-cmd) { color: #e5e7eb; }
+  :global(.ht-heading) { color: #e5e7eb; font-weight: 700; }
+  :global(.ht-label) { color: #6b7280; }
+  :global(.ht-value) { color: #d1d5db; }
+  :global(.ht-done) { color: #22c55e; }
+  :global(.ht-active) { color: #f59e0b; }
+  :global(.ht-pending) { color: #374151; }
+  :global(.ht-agent) { color: #9ca3af; }
+  :global(.ht-agent-active) { color: #e5e7eb; font-weight: 600; }
+  :global(.ht-agent-pending) { color: #374151; }
+  :global(.ht-score) { color: #22c55e; }
+  :global(.ht-score-high) { color: #4ade80; font-weight: 600; }
+  :global(.ht-desc) { color: #4b5563; }
+  :global(.ht-desc-active) { color: #f59e0b; }
+  :global(.ht-desc-pending) { color: #374151; }
+
+  :global(.ht-blink) {
+    animation: blink 1s step-end infinite;
+    color: #f59e0b;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Section headings */
+  .section-heading {
+    font-size: var(--text-h1);
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.035em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .section-lead {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2xl);
+    letter-spacing: -0.015em;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* PHILOSOPHY */
+  .philosophy-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .philosophy-item h3 {
+    font-size: var(--text-body);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .philosophy-item p {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  /* PRODUCTS */
+  .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-radius: 6px;
-    overflow: hidden;
+    gap: var(--space-lg);
   }
 
-  .philosophy-item {
-    background: var(--surface);
-    padding: 36px 32px;
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-xl);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xs);
+    text-decoration: none;
+    transition: box-shadow var(--duration-default) ease,
+                border-color var(--duration-default) ease;
   }
 
-  .philosophy-num {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 11px;
-    color: var(--muted2);
-    letter-spacing: .08em;
-    margin-bottom: 20px;
+  .product-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent-subtle);
   }
 
-  .philosophy-title {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    letter-spacing: -.01em;
+  .product-card-icon {
+    color: var(--color-accent);
+    margin-bottom: var(--space-md);
   }
 
-  .philosophy-text {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
+  .product-card-name {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: var(--space-sm);
   }
 
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .product-card-tagline {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+    flex: 1;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  @keyframes scrollPulse {
-    0%, 100% { opacity: .3; }
-    50%       { opacity: .8; }
+  .product-card-version {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-md);
   }
 
   @media (max-width: 768px) {
-    .hero {
-      padding: 80px 16px 60px;
+    .hero-top {
+      padding-top: calc(56px + var(--space-2xl));
+    }
+
+    .hero-showcase {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-cards {
+      flex-direction: row;
+      overflow-x: auto;
+      padding-top: 0;
+    }
+
+    .hero-product-card {
+      flex: 0 0 200px;
+    }
+
+    .hero-showcase {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-cards {
+      display: none;
+    }
+
+    .hero-screenshot-area {
       min-height: auto;
     }
 
-    .hero-logo { margin-bottom: 24px; }
-    .hero-logo svg { width: 40px; height: 40px; }
-
-    .hero h1 { margin-bottom: 16px; }
-
-    .hero-sub {
-      font-size: 13px;
-      margin-bottom: 40px;
+    .hero-slide img {
+      height: 280px;
+      object-fit: cover;
+      object-position: top left;
     }
 
-    .scroll-hint { display: none; }
+    .hero-screenshot-placeholder {
+      min-height: 260px;
+    }
 
-    .tool-card {
-      padding: 24px 20px;
+    .philosophy-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-grid {
       grid-template-columns: 1fr;
-      gap: 16px;
     }
 
-    .tool-card-meta { gap: 10px; }
-
-    .tool-arrow { display: none; }
-
-    .tool-desc { font-size: 14px; }
-
-    .philosophy-grid { grid-template-columns: 1fr; }
-
-    .philosophy-item { padding: 24px 20px; }
+    .hero-ctas {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 </style>
 
 <script>
-  // Scroll reveal using IntersectionObserver
+  // Hero product carousel
+  const productCards = document.querySelectorAll('[data-hero-product]');
+  const slides = document.querySelectorAll('[data-hero-slide]');
+
+  // Helm terminal animation
+  let helmTimers: number[] = [];
+
+  function runHelmAnim() {
+    helmTimers.forEach(t => clearTimeout(t));
+    helmTimers = [];
+    const terminal = document.querySelector('[data-helm-anim]');
+    if (!terminal) return;
+    const lines = terminal.querySelectorAll('.ht-line');
+    lines.forEach(l => l.classList.remove('ht-visible'));
+    lines.forEach(line => {
+      const delay = parseInt((line as HTMLElement).dataset.delay || '0', 10);
+      const t = setTimeout(() => line.classList.add('ht-visible'), delay) as unknown as number;
+      helmTimers.push(t);
+    });
+  }
+
+  productCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      const key = card.getAttribute('data-hero-product');
+      productCards.forEach(c => c.classList.remove('hero-product-active'));
+      slides.forEach(s => s.classList.remove('hero-slide-active'));
+      card.classList.add('hero-product-active');
+      document.querySelector(`[data-hero-slide="${key}"]`)?.classList.add('hero-slide-active');
+      if (key === 'helm') runHelmAnim();
+    });
+  });
+
+  // Reveal observer
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const el = entry.target as HTMLElement;
-          const delay = el.style.getPropertyValue('--reveal-delay') || '0s';
-          setTimeout(() => {
-            el.classList.add('visible');
-          }, parseFloat(delay) * 1000);
-          observer.unobserve(el);
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
         }
       });
     },
     { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
   );
-
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>

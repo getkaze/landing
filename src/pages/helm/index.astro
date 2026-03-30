@@ -7,526 +7,429 @@ import InstallBlock from '../../components/InstallBlock.astro';
 
 <Base
   title="Helm — AI agent orchestration for backend development."
-  description="Structured AI agent pipeline for backend projects. One binary, zero dependencies, full session continuity."
+  description="Structured AI agent pipeline for backend projects. 12 specialized agents, quality gates, and full session continuity."
 >
   <Nav activePage="helm" />
 
-  <!-- TOOL HERO -->
-  <div class="tool-hero">
-    <div class="tool-hero-badge">
-      <span class="dot"></span>
-      v0.1 · alpha · MIT
+  <!-- HERO -->
+  <section class="hero">
+    <span class="eyebrow">v0.1 · alpha · MIT</span>
+    <h1>Helm</h1>
+    <p class="lead">AI agent orchestration for backend development.</p>
+    <div class="install-wrap">
+      <InstallBlock
+        command="curl -fsSL https://getkaze.dev/helm/install.sh | bash"
+        thenCommand="helm init"
+      />
     </div>
-    <div class="tool-hero-logo">
-      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
-           viewBox="0 0 24 24" fill="none"
-           stroke="#8b5cf6" stroke-width="1.5"
-           stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="9"/>
-        <circle cx="12" cy="12" r="2"/>
-        <line x1="12" y1="3"  x2="12" y2="10"/>
-        <line x1="12" y1="14" x2="12" y2="21"/>
-        <line x1="3"  y1="12" x2="10" y2="12"/>
-        <line x1="14" y1="12" x2="21" y2="12"/>
-        <line x1="5.64" y1="5.64" x2="9.17" y2="9.17"/>
-        <line x1="14.83" y1="14.83" x2="18.36" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="14.83" y2="9.17"/>
-        <line x1="9.17" y1="14.83" x2="5.64" y2="18.36"/>
-        <circle cx="12" cy="3" r="1"/>
-        <circle cx="12" cy="21" r="1"/>
-        <circle cx="3" cy="12" r="1"/>
-        <circle cx="21" cy="12" r="1"/>
-        <circle cx="5.64" cy="5.64" r="1"/>
-        <circle cx="18.36" cy="18.36" r="1"/>
-        <circle cx="18.36" cy="5.64" r="1"/>
-        <circle cx="5.64" cy="18.36" r="1"/>
-      </svg>
+    <div class="hero-ctas">
+      <a href="https://github.com/getkaze/helm" class="btn-primary">View on GitHub</a>
+      <a href="/helm/docs/en" class="btn-secondary">Docs</a>
     </div>
-    <h1>helm</h1>
-    <p class="tool-tagline">AI agent orchestration<br/>for backend development.</p>
+  </section>
 
-    <InstallBlock
-      command="curl -fsSL https://getkaze.dev/helm/install.sh | bash"
-      thenCommand="helm init"
-    />
+  <!-- TERMINAL -->
+  <section class="terminal-section">
+    <div class="helm-terminal" data-helm-page-anim>
+      <div class="helm-terminal-bar">
+        <span class="helm-dot"></span><span class="helm-dot"></span><span class="helm-dot"></span>
+        <span class="helm-terminal-title">helm status</span>
+      </div>
+      <div class="helm-terminal-body">
+        <div class="ht-line" data-delay="0"><span class="ht-prompt">$</span> <span class="ht-cmd">helm status</span></div>
+        <div class="ht-line ht-blank" data-delay="600"></div>
+        <div class="ht-line" data-delay="800">  <span class="ht-heading">Helm v0.1</span></div>
+        <div class="ht-line ht-blank" data-delay="1000"></div>
+        <div class="ht-line" data-delay="1100">  <span class="ht-label">Project:</span>  <span class="ht-value">my-api</span></div>
+        <div class="ht-line" data-delay="1200">  <span class="ht-label">Type:</span>     <span class="ht-value">brownfield</span></div>
+        <div class="ht-line" data-delay="1300">  <span class="ht-label">Phase:</span>    <span class="ht-value">build</span></div>
+        <div class="ht-line" data-delay="1400">  <span class="ht-label">Profile:</span>  <span class="ht-value">guided</span></div>
+        <div class="ht-line" data-delay="1500">  <span class="ht-label">Language:</span> <span class="ht-value">en-US</span></div>
+        <div class="ht-line ht-blank" data-delay="1700"></div>
+        <div class="ht-line" data-delay="1900">  <span class="ht-label">Pipeline:</span></div>
+        <div class="ht-line" data-delay="2100">    <span class="ht-done">[done]</span>  <span class="ht-agent">survey</span>       <span class="ht-score">92%</span></div>
+        <div class="ht-line" data-delay="2300">    <span class="ht-done">[done]</span>  <span class="ht-agent">research</span>     <span class="ht-score">95%</span></div>
+        <div class="ht-line" data-delay="2500">    <span class="ht-done">[done]</span>  <span class="ht-agent">planning</span>     <span class="ht-score">92%</span></div>
+        <div class="ht-line" data-delay="2700">    <span class="ht-done">[done]</span>  <span class="ht-agent">architect</span>    <span class="ht-score">94%</span></div>
+        <div class="ht-line" data-delay="2900">    <span class="ht-done">[done]</span>  <span class="ht-agent">roadmap</span>      <span class="ht-score">94%</span></div>
+        <div class="ht-line" data-delay="3100">    <span class="ht-done">[done]</span>  <span class="ht-agent">breakdown</span>    <span class="ht-score">92%</span></div>
+        <div class="ht-line" data-delay="3300">    <span class="ht-done">[done]</span>  <span class="ht-agent">review</span>       <span class="ht-score-high">100%</span></div>
+        <div class="ht-line" data-delay="3600">    <span class="ht-active">[>>  ]</span>  <span class="ht-agent-active">build</span>        <span class="ht-desc-active">in progress<span class="ht-blink">_</span></span></div>
+        <div class="ht-line" data-delay="3800">    <span class="ht-pending">[    ]</span>  <span class="ht-agent-pending">verify</span>       <span class="ht-pending">pending</span></div>
+        <div class="ht-line" data-delay="4000">    <span class="ht-pending">[    ]</span>  <span class="ht-agent-pending">ship</span>         <span class="ht-pending">pending</span></div>
+        <div class="ht-line ht-blank" data-delay="4300"></div>
+        <div class="ht-line" data-delay="4500">  <span class="ht-label">Deviations:</span> <span class="ht-value">0</span></div>
+      </div>
+    </div>
+  </section>
 
-    <div class="tool-cta">
-      <a class="btn-primary" href="https://github.com/getkaze/helm" target="_blank" rel="noopener">View on GitHub →</a>
-      <a class="btn-ghost" href="/helm/docs">Docs</a>
-      <a class="back-link" href="/">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m15 18-6-6 6-6"/>
-        </svg>
-        All tools
-      </a>
+  <!-- WHY -->
+  <section>
+    <div class="two-col">
+      <div>
+        <h2>Structured, not free-form</h2>
+        <p>AI-assisted development works best when structured. Instead of free-form prompting, Helm guides your project through a pipeline of specialized agents — each with clear acceptance criteria and quality gates.</p>
+      </div>
+      <div>
+        <h2>The wheel that steers</h2>
+        <p>Named after the helm — the wheel that steers a ship's direction. It translates the captain's intent into the rudder's movement. The name reflects the tool's purpose: to steer your pipeline with structure and intent.</p>
+      </div>
     </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="stat-row">
-    <div class="stat-item reveal">
-      <div class="stat-value"><em>13</em></div>
-      <div class="stat-label">agents total</div>
-    </div>
-    <div class="stat-item reveal" style="--reveal-delay: 0.1s">
-      <div class="stat-value"><em>5</em></div>
-      <div class="stat-label">pipeline phases</div>
-    </div>
-    <div class="stat-item reveal" style="--reveal-delay: 0.2s">
-      <div class="stat-value"><em>10</em></div>
-      <div class="stat-label">governance rules</div>
-    </div>
-  </div>
-
-  <!-- ABOUT -->
-  <div class="about-section">
-    <div class="about-block reveal">
-      <p class="section-label">Vision</p>
-      <p class="about-text">
-        Helm was born from the observation that AI-assisted development works best when structured. Instead of free-form prompting, Helm guides your project through a pipeline of specialized agents — from discovery and planning to implementation and deployment — each with clear acceptance criteria and quality gates.
-      </p>
-      <p class="about-text">
-        Helm is a <strong>state manager, not an executor</strong>. Agent logic lives in markdown definitions and runs inside Claude Code. The CLI manages session state, displays progress, and bridges the gap between conversations. Stop, resume, and checkpoint at any point.
-      </p>
-    </div>
-    <div class="about-block reveal" style="--reveal-delay: 0.1s">
-      <p class="section-label">Name</p>
-      <p class="about-text">
-        Named after the <em>helm</em> — the wheel that steers a ship's direction. The helm is what translates the captain's intent into the rudder's movement. Without it, a ship drifts.
-      </p>
-      <p class="about-text">
-        The name reflects the tool's purpose: to steer your development pipeline with structure and intent — keeping every agent on course, every handoff clean, and every decision traceable.
-      </p>
-    </div>
-  </div>
+  </section>
 
   <!-- FEATURES -->
-  <div class="features-section" id="helm-features">
-    <div class="features-header">
-      <p class="section-label reveal">Features</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-item reveal">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Structured Pipeline</h3>
-        <p class="feature-desc">Five phases — Discover, Plan, Build, Quality, Deploy — with 13 agents. Each agent has a clear mission, inputs, outputs, and success criteria.</p>
+  <section>
+    <div class="features-row">
+      <div class="feature">
+        <h3>12 agents, one pipeline</h3>
+        <p>Five phases — Discover, Plan, Build, Quality, Deploy — each driven by specialized agents that know their mission from the handoff.</p>
       </div>
-      <div class="feature-item reveal" style="--reveal-delay: 0.05s">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Specialized Agents</h3>
-        <p class="feature-desc">Scout, Research, Architect, Build, Verify, Ship — each agent drives one phase of work. No generic prompting. Every agent knows its mission from the handoff.</p>
+      <div class="feature">
+        <h3>Quality gates</h3>
+        <p>Two QA checkpoints at 95% threshold. Review validates planning, Verify validates implementation. Every task traces to a requirement.</p>
       </div>
-      <div class="feature-item reveal" style="--reveal-delay: 0.1s">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Quality Gates</h3>
-        <p class="feature-desc">Two QA checkpoints at 95% threshold: Review validates planning traceability, Verify validates implementation. Nothing ships without passing both gates.</p>
+      <div class="feature">
+        <h3>Session continuity</h3>
+        <p>Checkpoint state, close Claude Code, resume later. All progress survives across sessions — decisions are never lost.</p>
       </div>
-      <div class="feature-item reveal" style="--reveal-delay: 0.15s">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Session Continuity</h3>
-        <p class="feature-desc">Checkpoint state with <code>helm save</code>, close Claude Code, and resume later with <code>helm resume</code>. All progress survives across sessions.</p>
-      </div>
-      <div class="feature-item reveal" style="--reveal-delay: 0.2s">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Execution Profiles</h3>
-        <p class="feature-desc">Three modes — Explore (read-only), Guided (confirm before writes), Autonomous (auto-execute when gates pass at 95%). Safety net triggers revert to guided.</p>
-      </div>
-      <div class="feature-item reveal" style="--reveal-delay: 0.25s">
-        <div class="feature-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Full Traceability</h3>
-        <p class="feature-desc">Every task traces to a requirement. Every requirement traces to a research problem. Review validates this chain end-to-end before build starts.</p>
+      <div class="feature">
+        <h3>Markdown-driven</h3>
+        <p>Agent definitions are markdown files — no proprietary runtime. Fork, edit, and extend the pipeline to match your workflow.</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- STACK -->
-  <div class="stack-section reveal">
-    <p class="section-label">Stack</p>
-    <div class="stack-grid">
-      <div class="stack-item">
-        <p class="stack-label">CLI</p>
-        <p class="stack-value">Go 1.26 · spf13/cobra<br/>gopkg.in/yaml.v3 · fatih/color</p>
+  <!-- PIPELINE -->
+  <section>
+    <h2>Pipeline</h2>
+    <p class="section-lead">Every project flows through the same structured phases.</p>
+    <div class="pipeline">
+      <div class="pipeline-phase">
+        <span class="pipeline-label">Discover</span>
+        <div class="pipeline-agents">
+          <span>Scout</span>
+          <span>Research</span>
+        </div>
       </div>
-      <div class="stack-item">
-        <p class="stack-label">Agent Runtime</p>
-        <p class="stack-value">Claude Code · Markdown definitions<br/>YAML session state · Handoff documents</p>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-phase">
+        <span class="pipeline-label">Plan</span>
+        <div class="pipeline-agents">
+          <span>Planning</span>
+          <span>Architect</span>
+          <span>Roadmap</span>
+          <span>Breakdown</span>
+        </div>
       </div>
-      <div class="stack-item">
-        <p class="stack-label">Distribution</p>
-        <p class="stack-value">Single binary · ldflags version injection<br/>linux/amd64 · linux/arm64 · macOS (amd64 + arm64)</p>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-phase">
+        <span class="pipeline-label">Quality</span>
+        <div class="pipeline-agents">
+          <span>Review</span>
+        </div>
       </div>
-      <div class="stack-item">
-        <p class="stack-label">Quality</p>
-        <p class="stack-value">10 governance rules · 95% QA gates<br/>Given-When-Then acceptance criteria</p>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-phase">
+        <span class="pipeline-label">Build</span>
+        <div class="pipeline-agents">
+          <span>Build</span>
+        </div>
+      </div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-phase">
+        <span class="pipeline-label">Quality</span>
+        <div class="pipeline-agents">
+          <span>Verify</span>
+        </div>
+      </div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-phase">
+        <span class="pipeline-label">Deploy</span>
+        <div class="pipeline-agents">
+          <span>Ship</span>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <Footer
-    tool="helm"
-    extraLinks={[
-      { label: 'GitHub', href: 'https://github.com/getkaze/helm' },
-      { label: 'All tools', href: '/' },
-      { label: 'MIT License', href: 'https://github.com/getkaze/helm/blob/main/LICENSE' },
-    ]}
-  />
+  <!-- MODES -->
+  <section>
+    <div class="features-row">
+      <div class="feature">
+        <h3>Explore</h3>
+        <p>Read-only. Agents analyze and suggest but perform no writes. Safe for initial assessment.</p>
+      </div>
+      <div class="feature">
+        <h3>Guided</h3>
+        <p>Default. Agents propose actions, you confirm before writes. Full control with AI leverage.</p>
+      </div>
+      <div class="feature">
+        <h3>Autonomous</h3>
+        <p>Agents execute without confirmation when gate scores pass 95%. Reverts to guided when quality drops.</p>
+      </div>
+      <div class="feature">
+        <h3>10 governance rules</h3>
+        <p>Boundaries, quality bars, handoff protocols, security. Agents can't skip steps or inflate scores.</p>
+      </div>
+    </div>
+  </section>
+
+  <Footer product="helm" />
 </Base>
 
 <style>
-  /* ─── TOOL HERO ─── */
-  .tool-hero {
-    min-height: 100vh;
+  .hero {
+    text-align: center;
+    padding: calc(72px + var(--space-3xl)) var(--space-lg) var(--space-2xl);
+    width: var(--shell-narrow);
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .hero h1 {
+    font-size: var(--text-display);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-top: var(--space-lg);
+  }
+
+  .lead {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-md);
+    line-height: var(--leading-relaxed);
+    letter-spacing: -0.015em;
+  }
+
+  .install-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-xl);
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    margin-top: var(--space-xl);
+  }
+
+  .section-lead {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2xl);
+    letter-spacing: -0.015em;
+  }
+
+  /* Terminal */
+  .terminal-section {
+    padding-top: 0;
+  }
+
+  .helm-terminal {
+    width: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: #0f1117;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 24px 60px rgba(15, 23, 42, 0.08);
+    border: 1px solid #1e2028;
+  }
+
+  .helm-terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: #161822;
+    border-bottom: 1px solid #1e2028;
+  }
+
+  .helm-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2a2d3a;
+  }
+
+  .helm-terminal-title {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 0.04em;
+  }
+
+  .helm-terminal-body {
+    padding: 20px 24px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: #6b7280;
+  }
+
+  :global(.ht-line) { opacity: 0; transform: translateY(4px); white-space: pre; min-height: 1.7em; }
+  :global(.ht-line.ht-visible) { opacity: 1; transform: translateY(0); transition: opacity 0.3s ease, transform 0.3s ease; }
+  :global(.ht-line.ht-blank) { min-height: 0.8em; }
+  :global(.ht-prompt) { color: #22c55e; }
+  :global(.ht-cmd) { color: #e5e7eb; }
+  :global(.ht-heading) { color: #e5e7eb; font-weight: 700; }
+  :global(.ht-label) { color: #6b7280; }
+  :global(.ht-value) { color: #d1d5db; }
+  :global(.ht-done) { color: #22c55e; }
+  :global(.ht-active) { color: #f59e0b; }
+  :global(.ht-pending) { color: #374151; }
+  :global(.ht-agent) { color: #9ca3af; }
+  :global(.ht-agent-active) { color: #e5e7eb; font-weight: 600; }
+  :global(.ht-agent-pending) { color: #374151; }
+  :global(.ht-score) { color: #22c55e; }
+  :global(.ht-score-high) { color: #4ade80; font-weight: 600; }
+  :global(.ht-desc) { color: #4b5563; }
+  :global(.ht-desc-active) { color: #f59e0b; }
+  :global(.ht-desc-pending) { color: #374151; }
+  :global(.ht-blink) { animation: blink 1s step-end infinite; color: #f59e0b; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* Two col */
+  .two-col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .two-col h2 {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    margin-bottom: var(--space-sm);
+  }
+
+  .two-col p {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  /* Features */
+  .features-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .feature h3 {
+    font-size: var(--text-body);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .feature p {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  /* Pipeline */
+  .pipeline {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    overflow-x: auto;
+    padding: var(--space-sm) 0;
+  }
+
+  .pipeline-phase {
+    flex: 1;
+    min-width: 110px;
+    padding: var(--space-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    text-align: center;
+  }
+
+  .pipeline-label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .pipeline-agents {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 120px 24px 80px;
+    gap: var(--space-xs);
   }
 
-  .tool-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    border: 1px solid var(--border2);
-    padding: 6px 14px;
-    border-radius: 100px;
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fadeUp .5s .1s forwards;
-  }
-
-  .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 6px var(--green);
-  }
-
-  .tool-hero-logo {
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp .5s .15s forwards;
-  }
-
-  .tool-hero h1 {
-    font-size: clamp(56px, 10vw, 112px);
-    font-weight: 400;
-    letter-spacing: -.04em;
-    line-height: .95;
-    margin-bottom: 32px;
-    opacity: 0;
-    animation: fadeUp .5s .2s forwards;
-  }
-
-  .tool-tagline {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: clamp(14px, 1.8vw, 18px);
-    color: var(--muted);
-    max-width: 500px;
-    margin: 0 auto 56px;
-    opacity: 0;
-    animation: fadeUp .5s .3s forwards;
-  }
-
-  .tool-cta {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp .5s .5s forwards;
-  }
-
-  /* ─── STATS ─── */
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    margin: 0 auto 120px;
-    max-width: 960px;
-    padding: 0;
-    width: calc(100% - 48px);
-  }
-
-  .stat-item {
-    background: var(--surface);
-    padding: 36px 32px;
-  }
-
-  .stat-value {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 40px;
-    font-weight: 400;
-    letter-spacing: -.04em;
-    color: var(--text);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .stat-value em {
-    font-style: normal;
-    color: var(--accent);
-  }
-
-  .stat-label {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: .06em;
-  }
-
-  /* ─── ABOUT ─── */
-  .about-section {
-    padding: 0 24px 120px;
-    max-width: 960px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-
-  .about-block {
-    padding: 36px 0;
-  }
-
-  .about-block .section-label {
-    margin-bottom: 24px;
-  }
-
-  .about-text {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-
-  .about-text:last-child {
-    margin-bottom: 0;
-  }
-
-  .about-text code {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 13px;
-    color: var(--accent);
-  }
-
-  .about-text em {
-    font-style: italic;
-    color: var(--text);
-  }
-
-  .about-text strong {
+  .pipeline-agents span {
+    font-size: var(--text-small);
     font-weight: 500;
-    color: var(--text);
+    color: var(--color-text);
   }
 
-  /* ─── FEATURES ─── */
-  .features-section {
-    padding: 0 24px 120px;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  .features-header { margin-bottom: 0; }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .feature-item {
-    background: var(--surface);
-    padding: 36px 32px;
-    transition: background .2s;
-  }
-
-  .feature-item:hover { background: #161616; }
-
-  .feature-icon {
-    width: 36px; height: 36px;
-    border-radius: 6px;
-    border: 1px solid var(--border2);
+  .pipeline-arrow {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    color: var(--accent);
-    transition: border-color .2s;
-  }
-
-  .feature-item:hover .feature-icon { border-color: var(--accent); }
-
-  .feature-title {
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 8px;
-    letter-spacing: -.01em;
-  }
-
-  .feature-desc {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  .feature-desc code {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 12px;
-    color: var(--accent);
-  }
-
-  /* ─── STACK ─── */
-  .stack-section {
-    padding: 0 24px 120px;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  .stack-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .stack-item {
-    background: var(--surface);
-    padding: 28px 32px;
-  }
-
-  .stack-label {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 11px;
-    color: var(--muted2);
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  .stack-value {
-    font-family: var(--mono);
-    font-variation-settings: 'MONO' 1, 'CASL' 0;
-    font-size: 14px;
-    color: var(--text);
-    line-height: 2;
-  }
-
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
+    color: var(--color-text-muted);
+    font-size: var(--text-h2);
+    padding-top: var(--space-2xl);
+    flex-shrink: 0;
   }
 
   @media (max-width: 768px) {
-    .tool-hero {
-      padding: 80px 16px 60px;
-      min-height: auto;
-    }
-
-    .tool-hero h1 { margin-bottom: 24px; }
-
-    .tool-tagline { margin: 0 auto 40px; }
-
-    .tool-cta { gap: 10px; }
-
-    .stat-row {
+    .two-col {
       grid-template-columns: 1fr;
-      width: calc(100% - 32px);
-      margin-bottom: 64px;
     }
 
-    .stat-item { padding: 24px 20px; }
-
-    .stat-value { font-size: 32px; }
-
-    .about-section {
-      padding: 0 16px 64px;
-      grid-template-columns: 1fr;
-      gap: 0;
+    .features-row {
+      grid-template-columns: repeat(2, 1fr);
     }
 
-    .about-block { padding: 24px 0; }
-
-    .features-section {
-      padding: 0 16px 64px;
+    .pipeline {
+      flex-direction: column;
+      align-items: stretch;
     }
 
-    .features-grid { grid-template-columns: 1fr; }
-
-    .feature-item { padding: 24px 20px; }
-
-    .stack-section {
-      padding: 0 16px 64px;
+    .pipeline-arrow {
+      padding-top: 0;
+      justify-content: center;
+      transform: rotate(90deg);
     }
 
-    .stack-grid { grid-template-columns: 1fr; }
-
-    .stack-item { padding: 20px; }
+    .hero-ctas {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 </style>
 
 <script>
-  const observer = new IntersectionObserver(
-    (entries) => {
+  // Animate terminal on scroll into view
+  const terminal = document.querySelector('[data-helm-page-anim]');
+  if (terminal) {
+    const lines = terminal.querySelectorAll('.ht-line');
+    const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const el = entry.target as HTMLElement;
-          const delay = el.style.getPropertyValue('--reveal-delay') || '0s';
-          setTimeout(() => {
-            el.classList.add('visible');
-          }, parseFloat(delay) * 1000);
-          observer.unobserve(el);
+          lines.forEach(line => {
+            const delay = parseInt((line as HTMLElement).dataset.delay || '0', 10);
+            setTimeout(() => line.classList.add('ht-visible'), delay);
+          });
+          obs.unobserve(entry.target);
         }
       });
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
-  );
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }, { threshold: 0.3 });
+    obs.observe(terminal);
+  }
 </script>

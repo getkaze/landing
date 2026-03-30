@@ -1,0 +1,336 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import InstallBlock from '../../components/InstallBlock.astro';
+---
+
+<Base
+  title="Mole — AI-powered code review with gamification and team dashboards."
+  description="Automated PR reviews powered by Claude. Quality scoring, security scanning, growth dashboards, and gamification for development teams."
+>
+  <Nav activePage="mole" />
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="eyebrow">v0.1 · alpha · MIT</span>
+    <h1 class="mole-title">
+      <img src="/mole/mole-favicon.png" alt="Mole" width="56" height="56" class="mole-icon" />
+      Mole
+    </h1>
+    <p class="lead">Digs deep into code, elevates those who write it.</p>
+    <div class="install-wrap">
+      <InstallBlock
+        command="curl -fsSL https://getkaze.dev/mole/install.sh | bash"
+        thenCommand="mole init"
+      />
+    </div>
+    <div class="hero-ctas">
+      <a href="https://github.com/getkaze/mole" class="btn-primary">View on GitHub</a>
+      <a href="/mole/docs/en" class="btn-secondary">Docs</a>
+    </div>
+  </section>
+
+  <!-- SCREENSHOT -->
+  <section class="screenshot-section">
+    <div class="screenshot-frame">
+      <img src="/mole/screenshot-mole.png" alt="Mole dashboard" loading="eager" />
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section>
+    <div class="two-col">
+      <div>
+        <h2>Digs deep into code</h2>
+        <p>Mole uses Claude to analyze every pull request — from style nits to architectural concerns. It classifies issues into 6 categories, scores code quality, and catches security vulnerabilities before they ship.</p>
+      </div>
+      <div>
+        <h2>Elevates those who write it</h2>
+        <p>Code review shouldn't just find bugs — it should help developers grow. Mole tracks individual metrics, gamifies improvement with achievements and streaks, and gives tech leads a dashboard to see how the team evolves.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section>
+    <div class="features-row">
+      <div class="feature">
+        <h3>AI-powered reviews</h3>
+        <p>Automated PR reviews with inline comments and severity levels. Six categories — correctness, security, performance, maintainability, style, documentation.</p>
+      </div>
+      <div class="feature">
+        <h3>Deep review mode</h3>
+        <p>Multi-pass analysis with Claude Opus that catches architectural issues and subtle bugs a single pass misses.</p>
+      </div>
+      <div class="feature">
+        <h3>Quality scoring</h3>
+        <p>Automated scoring per PR and per developer. Track trends, set thresholds, detect vulnerabilities and hardcoded secrets.</p>
+      </div>
+      <div class="feature">
+        <h3>Gamification</h3>
+        <p>Achievements, streaks, and leaderboards. Three personality modes — strict, balanced, encouraging.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TERMINAL -->
+  <section class="terminal-section">
+    <div class="mole-terminal" data-mole-anim>
+      <div class="mole-terminal-bar">
+        <span class="mole-dot"></span><span class="mole-dot"></span><span class="mole-dot"></span>
+        <span class="mole-terminal-title">mole review</span>
+      </div>
+      <div class="mole-terminal-body">
+        <div class="mt-line" data-delay="0"><span class="mt-prompt">$</span> <span class="mt-cmd">mole review #42</span></div>
+        <div class="mt-line mt-blank" data-delay="600"></div>
+        <div class="mt-line" data-delay="900"><span class="mt-label">PR:</span>  <span class="mt-value">feat: add user authentication</span></div>
+        <div class="mt-line" data-delay="1050"><span class="mt-label">Author:</span> <span class="mt-value">@msantos</span> · <span class="mt-desc">3 files changed</span></div>
+        <div class="mt-line mt-blank" data-delay="1300"></div>
+        <div class="mt-line" data-delay="1500"><span class="mt-heading">Quality Score: 87/100</span></div>
+        <div class="mt-line mt-blank" data-delay="1700"></div>
+        <div class="mt-line" data-delay="1900"><span class="mt-label">Issues (4):</span></div>
+        <div class="mt-line" data-delay="2200">  <span class="mt-warn">⚠</span> <span class="mt-cat">security</span>      <span class="mt-desc">Password hash uses MD5</span>         <span class="mt-loc">auth.go:42</span></div>
+        <div class="mt-line" data-delay="2500">  <span class="mt-warn">⚠</span> <span class="mt-cat">correctness</span>   <span class="mt-desc">Missing nil check on session</span>   <span class="mt-loc">session.go:18</span></div>
+        <div class="mt-line" data-delay="2800">  <span class="mt-info">◦</span> <span class="mt-cat">style</span>         <span class="mt-desc">Exported func missing doc</span>      <span class="mt-loc">handler.go:7</span></div>
+        <div class="mt-line" data-delay="3100">  <span class="mt-info">◦</span> <span class="mt-cat">style</span>         <span class="mt-desc">Inconsistent error wrapping</span>    <span class="mt-loc">auth.go:55</span></div>
+        <div class="mt-line mt-blank" data-delay="3400"></div>
+        <div class="mt-line" data-delay="3600">  <span class="mt-pass">✓</span> <span class="mt-desc">No hardcoded secrets found</span></div>
+        <div class="mt-line" data-delay="3800">  <span class="mt-pass">✓</span> <span class="mt-desc">Architecture boundaries respected</span></div>
+        <div class="mt-line mt-blank" data-delay="4000"></div>
+        <div class="mt-line" data-delay="4200"><span class="mt-label">Streak:</span> <span class="mt-value">12 PRs</span> · <span class="mt-value">Level: Code Guardian</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK + ROLES -->
+  <section>
+    <div class="features-row">
+      <div class="feature">
+        <h3>Go</h3>
+        <p>Single binary backend. Compiles to ~15MB with zero runtime dependencies.</p>
+      </div>
+      <div class="feature">
+        <h3>MySQL</h3>
+        <p>Reviews, scores, developer metrics, and team data. Standard schema, easy to backup.</p>
+      </div>
+      <div class="feature">
+        <h3>Valkey</h3>
+        <p>Caching, rate limiting, and background job queues. Drop-in Redis replacement.</p>
+      </div>
+      <div class="feature">
+        <h3>Claude API</h3>
+        <p>Haiku for fast reviews, Opus for deep analysis. Bring your own Anthropic API key.</p>
+      </div>
+    </div>
+  </section>
+
+  <Footer product="mole" />
+</Base>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: calc(72px + var(--space-3xl)) var(--space-lg) var(--space-2xl);
+    width: var(--shell-narrow);
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .mole-title {
+    font-size: var(--text-display);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-top: var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .mole-icon {
+    border-radius: 8px;
+  }
+
+  .lead {
+    font-size: var(--text-body-lg);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-md);
+    line-height: var(--leading-relaxed);
+    letter-spacing: -0.015em;
+  }
+
+  .install-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-xl);
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    margin-top: var(--space-xl);
+  }
+
+  /* Screenshot */
+  .screenshot-section {
+    padding-top: 0;
+  }
+
+  .screenshot-frame {
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 24px 60px rgba(15, 23, 42, 0.08);
+  }
+
+  .screenshot-frame img {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: cover;
+    object-position: top left;
+    display: block;
+  }
+
+  /* Two col */
+  .two-col {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .two-col h2 {
+    font-size: var(--text-h2);
+    font-weight: 800;
+    margin-bottom: var(--space-sm);
+  }
+
+  .two-col p {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  /* Features */
+  .features-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .feature h3 {
+    font-size: var(--text-body);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .feature p {
+    font-size: var(--text-small);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-normal);
+  }
+
+  /* Mole terminal */
+  .terminal-section { padding-top: 0; }
+
+  .mole-terminal {
+    width: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: #0f1117;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), 0 24px 60px rgba(15, 23, 42, 0.08);
+    border: 1px solid #1e2028;
+  }
+
+  .mole-terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 16px;
+    background: #161822;
+    border-bottom: 1px solid #1e2028;
+  }
+
+  .mole-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2a2d3a;
+  }
+
+  .mole-terminal-title {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 0.04em;
+  }
+
+  .mole-terminal-body {
+    padding: 20px 24px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: #6b7280;
+  }
+
+  :global(.mt-line) { opacity: 0; transform: translateY(4px); white-space: pre; min-height: 1.7em; }
+  :global(.mt-line.mt-visible) { opacity: 1; transform: translateY(0); transition: opacity 0.3s ease, transform 0.3s ease; }
+  :global(.mt-line.mt-blank) { min-height: 0.8em; }
+  :global(.mt-prompt) { color: #22c55e; }
+  :global(.mt-cmd) { color: #e5e7eb; }
+  :global(.mt-heading) { color: #e5e7eb; font-weight: 700; }
+  :global(.mt-label) { color: #6b7280; }
+  :global(.mt-value) { color: #d1d5db; }
+  :global(.mt-warn) { color: #f59e0b; }
+  :global(.mt-info) { color: #374151; }
+  :global(.mt-pass) { color: #22c55e; }
+  :global(.mt-cat) { color: #9ca3af; }
+  :global(.mt-desc) { color: #4b5563; }
+  :global(.mt-loc) { color: #374151; }
+
+  @media (max-width: 768px) {
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+
+    .features-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-ctas {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+  // Animate terminal on scroll
+  const terminal = document.querySelector('[data-mole-anim]');
+  if (terminal) {
+    const lines = terminal.querySelectorAll('.mt-line');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          lines.forEach(line => {
+            const delay = parseInt((line as HTMLElement).dataset.delay || '0', 10);
+            setTimeout(() => line.classList.add('mt-visible'), delay);
+          });
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(terminal);
+  }
+</script>
