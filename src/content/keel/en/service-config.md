@@ -58,8 +58,8 @@ The `registry` field controls authentication when pulling images:
 
 | Value | Behavior |
 |-------|----------|
-| (omitted) | Docker Hub — no special authentication |
-| "ghcr" | GitHub Container Registry — auto-login to ghcr.io |
+| (omitted) | Docker Hub, no special authentication |
+| "ghcr" | GitHub Container Registry, auto-login to ghcr.io |
 
 ## Networking
 

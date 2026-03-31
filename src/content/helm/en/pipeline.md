@@ -26,7 +26,7 @@ Planning produces a Product Requirements Document (PRD) with functional and non-
 
 **Agent:** Review
 
-Review validates the entire planning chain — every task must trace to a requirement, every requirement to a research finding. Score must reach 95% before build starts. This gate prevents building the wrong thing.
+Review validates the entire planning chain. Every task must trace to a requirement, and every requirement to a research finding. Score must reach 95% before build starts. This gate prevents building the wrong thing.
 
 ### 4. Build
 
@@ -38,7 +38,7 @@ Build implements tasks from the breakdown, following the architecture and valida
 
 **Agents:** Verify, Ship
 
-Verify validates that the implementation matches the spec — running tests, checking security, and scoring quality. Ship handles release preparation and deployment.
+Verify validates that the implementation matches the spec by running tests, checking security, and scoring quality. Ship handles release preparation and deployment.
 
 ## Transitions
 

@@ -6,7 +6,7 @@ description: Execute scripts de seed de dados dentro de containers Docker.
 
 # Seeders
 
-Execute scripts de seed de dados dentro de containers em execução — migrações de banco, fixture data, configs iniciais.
+Execute scripts de seed de dados dentro de containers em execução: migrações de banco, fixture data, configs iniciais.
 
 ## Como funciona
 

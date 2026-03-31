@@ -46,9 +46,9 @@ Descreva a arquitetura do seu projeto em markdown. Claude usa isso para validar 
 # Arquitetura
 
 ## Camadas
-- handlers/ — Handlers HTTP (sem lógica de negócio)
-- services/ — Lógica de negócio
-- repositories/ — Acesso a dados
+- handlers/: Handlers HTTP (sem lógica de negócio)
+- services/: Lógica de negócio
+- repositories/: Acesso a dados
 
 ## Regras
 - Handlers não devem importar repositories diretamente

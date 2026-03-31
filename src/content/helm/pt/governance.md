@@ -16,7 +16,7 @@ Todo agente tem uma missão, inputs, outputs e critérios de sucesso definidos. 
 
 ## 2. Bar (Qualidade)
 
-Qualidade é medida contra critérios concretos e binários (passa/falha) — não avaliação subjetiva. Todo agente deve atingir >= 90% nos critérios de sucesso antes do handoff. Agentes QA (Review, Verify) requerem >= 95%.
+Qualidade é medida contra critérios concretos e binários (passa/falha), não avaliação subjetiva. Todo agente deve atingir >= 90% nos critérios de sucesso antes do handoff. Agentes QA (Review, Verify) requerem >= 95%.
 
 **Enforcement: BLOCK**
 
@@ -76,7 +76,7 @@ Agentes lideram a conversa. Eles conhecem sua missão pelo handoff e posição n
 
 ## 10. North Star (Princípios)
 
-1. **Research antes de código** — nunca construa sem entender o problema
-2. **Iterações curtas** — entregue em incrementos pequenos e verificáveis
-3. **Produto sobre processo** — foque em resultados, não em cerimônia
-4. **Sem over-engineering** — construa para requisitos atuais
+1. **Research antes de código**: nunca construa sem entender o problema
+2. **Iterações curtas**: entregue em incrementos pequenos e verificáveis
+3. **Produto sobre processo**: foque em resultados, não em cerimônia
+4. **Sem over-engineering**: construa para requisitos atuais

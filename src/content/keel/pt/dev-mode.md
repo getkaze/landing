@@ -19,7 +19,7 @@ keel dev <serviço> <caminho-local>
 1. Lê `dev.dockerfile` do JSON do serviço e builda uma imagem dev
 2. Para o container existente
 3. Executa o container dev em foreground com seu código local montado como volume
-4. Faz stream de stdout/stderr no seu terminal — `Ctrl+C` para parar
+4. Faz stream de stdout/stderr no seu terminal. `Ctrl+C` para parar
 
 > O modo dev só está disponível no target **local**. Não é suportado via SSH.
 

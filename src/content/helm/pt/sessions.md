@@ -21,7 +21,7 @@ execution_profile: guided
 current_agent: build
 language: pt-BR
 workflow: standard
-resume_point: "T2.1 — Fase 2 começa"
+resume_point: "T2.1 - Fase 2 começa"
 agents:
   survey:
     status: completed
@@ -45,8 +45,8 @@ agents:
 Todo agente produz um documento de handoff em `.helm/handoffs/`. O próximo agente lê este documento para entender o contexto e continuar o trabalho.
 
 Estrutura do handoff:
-- **Summary** (máx 150 linhas) — missão concluída, decisões chave, artefatos, score
-- **Deep Context** (opcional, máx 500 linhas) — descobertas complexas que não cabem no summary
+- **Summary** (máx 150 linhas): missão concluída, decisões chave, artefatos, score
+- **Deep Context** (opcional, máx 500 linhas): descobertas complexas que não cabem no summary
 
 ## Artefatos
 
@@ -81,4 +81,4 @@ Tipos: `scope_change`, `approach_change`, `skip_agent`, `revisit_agent`.
 
 ## Session lock
 
-Enquanto ativo, todas as mensagens passam pelo Helm. O lock é liberado apenas por `/helm exit` ou `/helm stop`. Sair preserva todo o estado — retomar reativa o lock.
+Enquanto ativo, todas as mensagens passam pelo Helm. O lock é liberado apenas por `/helm exit` ou `/helm stop`. Sair preserva todo o estado. Retomar reativa o lock.

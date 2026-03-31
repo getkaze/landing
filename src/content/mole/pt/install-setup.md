@@ -20,8 +20,8 @@ curl -fsSL https://getkaze.dev/mole/install.sh | bash
 |---------|--------|-----------|
 | MySQL | 8.0+ | Banco de dados primário |
 | Valkey | 7.0+ | Cache e fila |
-| Anthropic API key | — | Acesso à API do Claude |
-| GitHub App | — | Integração webhook de PR |
+| Anthropic API key | - | Acesso à API do Claude |
+| GitHub App | - | Integração webhook de PR |
 
 ## Configuração do GitHub App
 
@@ -77,6 +77,6 @@ O dashboard fica disponível em `http://localhost:8080`.
 
 ## Próximos passos
 
-- [Uso](/mole/docs/pt/usage) — comandos CLI e workflow de PR
-- [Arquivos de Contexto](/mole/docs/pt/context-files) — configure contexto do projeto
-- [Docker](/mole/docs/pt/docker) — execute com Docker
+- [Uso](/mole/docs/pt/usage): comandos CLI e workflow de PR
+- [Arquivos de Contexto](/mole/docs/pt/context-files): configure contexto do projeto
+- [Docker](/mole/docs/pt/docker): execute com Docker

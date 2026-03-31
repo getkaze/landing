@@ -46,9 +46,9 @@ Describe your project's architecture in markdown. Claude uses this to validate P
 # Architecture
 
 ## Layers
-- handlers/ — HTTP handlers (no business logic)
-- services/ — Business logic
-- repositories/ — Data access
+- handlers/ - HTTP handlers (no business logic)
+- services/ - Business logic
+- repositories/ - Data access
 
 ## Rules
 - Handlers must not import repositories directly

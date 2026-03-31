@@ -63,8 +63,8 @@ Cada issue tem um nível de severidade: critical, high, medium, low.
 ## Sync de reações
 
 Desenvolvedores podem reagir aos comentários de review no GitHub:
-- 👍 — Reconhecer o issue (vai corrigir)
-- 👎 — Discordar do achado
-- 🚀 — Já corrigido
+- 👍 Reconhecer o issue (vai corrigir)
+- 👎 Discordar do achado
+- 🚀 Já corrigido
 
 Reações sincronizam com o dashboard e afetam o score de qualidade.

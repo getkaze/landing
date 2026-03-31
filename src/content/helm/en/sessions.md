@@ -21,7 +21,7 @@ execution_profile: guided
 current_agent: build
 language: pt-BR
 workflow: standard
-resume_point: "T2.1 — Phase 2 starts"
+resume_point: "T2.1 - Phase 2 starts"
 agents:
   survey:
     status: completed
@@ -45,8 +45,8 @@ agents:
 Every agent produces a handoff document in `.helm/handoffs/`. The next agent reads this document to understand context and continue the work.
 
 Handoff structure:
-- **Summary** (max 150 lines) — mission completed, key decisions, artifacts, score
-- **Deep Context** (optional, max 500 lines) — complex discoveries that don't fit in the summary
+- **Summary** (max 150 lines): mission completed, key decisions, artifacts, score
+- **Deep Context** (optional, max 500 lines): complex discoveries that don't fit in the summary
 
 ## Artifacts
 
@@ -81,4 +81,4 @@ Types: `scope_change`, `approach_change`, `skip_agent`, `revisit_agent`.
 
 ## Session lock
 
-While active, all messages route through Helm. The lock is released only by `/helm exit` or `/helm stop`. Exiting preserves all state — resuming re-activates the lock.
+While active, all messages route through Helm. The lock is released only by `/helm exit` or `/helm stop`. Exiting preserves all state, and resuming re-activates the lock.

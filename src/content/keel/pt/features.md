@@ -14,7 +14,7 @@ Visualização em grid em tempo real de todos os containers com polling de statu
 
 ## Streaming de Logs SSE
 
-Stream de logs via `docker logs` ou arquivos host-path — mesmo quando o container está crashado ou parado. Múltiplas fontes de log por serviço com navegação por abas.
+Stream de logs via `docker logs` ou arquivos host-path, mesmo quando o container está crashado ou parado. Múltiplas fontes de log por serviço com navegação por abas.
 
 ## Terminal no Browser
 
@@ -34,11 +34,11 @@ Monte código-fonte local em um container com Dockerfile customizado e faça str
 
 ## Seeders
 
-Execute scripts de seed de dados dentro dos containers — migrações de banco, fixture data, configs iniciais. Execute via CLI ou dashboard.
+Execute scripts de seed de dados dentro dos containers: migrações de banco, fixture data, configs iniciais. Execute via CLI ou dashboard.
 
 ## Editor de Config
 
-Editor JSON inline para cada serviço. Edite e salve diretamente pelo dashboard — alterações escritas atomicamente com backup automático da versão anterior.
+Editor JSON inline para cada serviço. Edite e salve diretamente pelo dashboard. As alterações são escritas atomicamente com backup automático da versão anterior.
 
 ## Health Checks
 

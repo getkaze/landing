@@ -6,11 +6,11 @@ description: The 13 specialized agents that power Helm's pipeline.
 
 # Agents
 
-Helm has 13 agents — 11 in the pipeline, 1 orchestrator, and 1 on-demand. Each agent has a defined mission, inputs, outputs, and success criteria.
+Helm has 13 agents: 11 in the pipeline, 1 orchestrator, and 1 on-demand. Each agent has a defined mission, inputs, outputs, and success criteria.
 
 ## Orchestrator
 
-**Helm** — the single entry point. Routes requests, manages sessions, handles deviations, and guides users through the pipeline. All messages pass through Helm when a session is active.
+**Helm** is the single entry point. It routes requests, manages sessions, handles deviations, and guides users through the pipeline. All messages pass through Helm when a session is active.
 
 ## Discover Phase
 
@@ -18,7 +18,7 @@ Helm has 13 agents — 11 in the pipeline, 1 orchestrator, and 1 on-demand. Each
 Interviews the user about their project goals, pain points, and current workflow. Produces a discovery report that seeds the Research agent.
 
 ### Survey (brownfield only)
-Analyzes the existing codebase — file structure, dependencies, patterns, tech stack, and current state. Produces a codebase survey report.
+Analyzes the existing codebase: file structure, dependencies, patterns, tech stack, and current state. Produces a codebase survey report.
 
 ### Research
 Deep-dives into the project's domain. Reads documentation, source code, and external references. Validates findings from Scout or Survey and produces a comprehensive research report.
@@ -29,7 +29,7 @@ Deep-dives into the project's domain. Reads documentation, source code, and exte
 Produces a Product Requirements Document (PRD) with functional requirements, non-functional requirements, resolved questions, and open decisions. Every requirement traces to a research finding.
 
 ### Architect
-Defines the technical architecture — tech stack, project structure, component patterns, data flow, and deployment strategy. Decisions are justified against requirements.
+Defines the technical architecture: tech stack, project structure, component patterns, data flow, and deployment strategy. Decisions are justified against requirements.
 
 ### Roadmap
 Sequences delivery into phases based on dependencies, risk, and priority. Produces a phased delivery plan with clear milestones.

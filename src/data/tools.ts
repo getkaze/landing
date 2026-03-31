@@ -11,7 +11,7 @@ export interface ToolConfig {
 export const keel: ToolConfig = {
   name: 'keel',
   github: 'https://github.com/getkaze/keel',
-  description: 'Keel documentation — self-hosted Docker dashboard.',
+  description: 'Keel docs: self-hosted Docker dashboard.',
   sidebar: {
     en: [
       { label: 'Getting Started', href: '/keel/docs/en' },
@@ -35,7 +35,7 @@ export const keel: ToolConfig = {
 export const helm: ToolConfig = {
   name: 'helm',
   github: 'https://github.com/getkaze/helm',
-  description: 'Helm documentation — AI agent orchestration for backend development.',
+  description: 'Helm docs: AI agent orchestration for backend development.',
   sidebar: {
     en: [
       { label: 'Getting Started', href: '/helm/docs/en' },

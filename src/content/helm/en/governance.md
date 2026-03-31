@@ -16,7 +16,7 @@ Every agent has a defined mission, inputs, outputs, and success criteria. Agents
 
 ## 2. Bar
 
-Quality is measured against concrete, binary (pass/fail) criteria — not subjective assessment. Every agent must achieve >= 90% on its success criteria before handoff. QA agents (Review, Verify) require >= 95%.
+Quality is measured against concrete, binary (pass/fail) criteria, not subjective assessment. Every agent must achieve >= 90% on its success criteria before handoff. QA agents (Review, Verify) require >= 95%.
 
 **Enforcement: BLOCK**
 
@@ -76,7 +76,7 @@ Agents lead the conversation. They know their mission from the handoff and pipel
 
 ## 10. North Star
 
-1. **Research before code** — never build without understanding the problem
-2. **Short iterations** — deliver in small, verifiable increments
-3. **Product over process** — focus on outcomes, not ceremony
-4. **No over-engineering** — build for current requirements
+1. **Research before code**: never build without understanding the problem
+2. **Short iterations**: deliver in small, verifiable increments
+3. **Product over process**: focus on outcomes, not ceremony
+4. **No over-engineering**: build for current requirements

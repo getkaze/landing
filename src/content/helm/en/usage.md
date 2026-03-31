@@ -40,7 +40,7 @@ Inside Claude Code, these commands control the orchestrator:
 
 1. Run `helm init` in your project directory
 2. Open Claude Code and type `/helm`
-3. Describe your project — Helm routes to the first agent
+3. Describe your project. Helm routes to the first agent
 4. Follow the pipeline through each phase
 
 ### Resuming work

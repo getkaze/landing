@@ -6,7 +6,7 @@ description: Install Keel and start managing Docker containers in seconds.
 
 # Getting Started
 
-Keel is a self-hosted Docker dashboard — a single Go binary (~10MB) with zero external dependencies that gives you full control over local and remote Docker environments.
+Keel is a self-hosted Docker dashboard. It's a single Go binary (~10MB) with zero external dependencies that gives you full control over local and remote Docker environments.
 
 ## Install
 
@@ -38,16 +38,16 @@ Open `http://localhost:60000` and you have a full dashboard with live status, lo
 
 ## What you get
 
-- **Live Dashboard** — real-time grid view of all containers with status polling
-- **SSE Log Streaming** — stream from `docker logs` or host-path files
-- **Browser Terminal** — full interactive PTY via WebSocket
-- **Real-Time Metrics** — CPU, memory, disk, load average, per-container stats
-- **Remote Targets** — manage remote Docker hosts via SSH tunnel
-- **Dev Mode** — mount local code with hot reload
-- **Seeders** — run data seeding scripts inside containers
-- **Self-Update** — update the binary from the dashboard or CLI
-- **Config Editor** — edit service JSON configs inline from the dashboard
-- **Health Checks** — HTTP or command-based monitoring with configurable intervals
+- **Live Dashboard**: real-time grid view of all containers with status polling
+- **SSE Log Streaming**: stream from `docker logs` or host-path files
+- **Browser Terminal**: full interactive PTY via WebSocket
+- **Real-Time Metrics**: CPU, memory, disk, load average, per-container stats
+- **Remote Targets**: manage remote Docker hosts via SSH tunnel
+- **Dev Mode**: mount local code with hot reload
+- **Seeders**: run data seeding scripts inside containers
+- **Self-Update**: update the binary from the dashboard or CLI
+- **Config Editor**: edit service JSON configs inline from the dashboard
+- **Health Checks**: HTTP or command-based monitoring with configurable intervals
 
 ## Directory structure
 
@@ -72,6 +72,6 @@ Open `http://localhost:60000` and you have a full dashboard with live status, lo
 
 ## Next steps
 
-- [Usage](/keel/docs/en/usage) — CLI commands and flags
-- [Service Config](/keel/docs/en/service-config) — configure your containers
-- [Remote Targets](/keel/docs/en/remote-targets) — manage remote Docker hosts
+- [Usage](/keel/docs/en/usage): CLI commands and flags
+- [Service Config](/keel/docs/en/service-config): configure your containers
+- [Remote Targets](/keel/docs/en/remote-targets): manage remote Docker hosts

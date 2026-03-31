@@ -40,7 +40,7 @@ Dentro do Claude Code, estes comandos controlam o orquestrador:
 
 1. Execute `helm init` no diretório do projeto
 2. Abra o Claude Code e digite `/helm`
-3. Descreva seu projeto — Helm roteia para o primeiro agente
+3. Descreva seu projeto. Helm roteia para o primeiro agente
 4. Siga o pipeline em cada fase
 
 ### Retomando trabalho

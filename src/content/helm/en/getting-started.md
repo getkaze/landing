@@ -6,7 +6,7 @@ description: Install Helm and start orchestrating your backend projects.
 
 # Getting Started
 
-Helm is an AI agent orchestrator for backend development. It guides your project through a structured pipeline — from discovery to deployment — using specialized agents with quality gates at every stage.
+Helm is an AI agent orchestrator for backend development. It guides your project through a structured pipeline, from discovery to deployment, using specialized agents with quality gates at every stage.
 
 ## What is Helm?
 
@@ -15,7 +15,7 @@ Helm is a state manager, not an executor. Agent logic lives in markdown definiti
 - **13 specialized agents** across 5 pipeline phases
 - **10 governance rules** enforcing quality, boundaries, and traceability
 - **Quality gates** at 95% threshold before build and deploy
-- **Session continuity** — stop, resume, and checkpoint at any point
+- **Session continuity** that lets you stop, resume, and checkpoint at any point
 
 ## Install
 
@@ -55,14 +55,14 @@ Survey → Research → Planning → Architect → Roadmap → Breakdown → Rev
 
 ## What you get
 
-- **Discover phase** — Scout or Survey analyzes your project, Research validates findings
-- **Plan phase** — Planning creates the PRD, Architect defines the architecture, Roadmap sequences delivery, Breakdown creates tasks, Review validates traceability
-- **Build phase** — Build implements tasks against acceptance criteria
-- **Quality phase** — Verify validates implementation against the spec
-- **Deploy phase** — Ship handles release and deployment
+- **Discover phase**: Scout or Survey analyzes your project, Research validates findings
+- **Plan phase**: Planning creates the PRD, Architect defines the architecture, Roadmap sequences delivery, Breakdown creates tasks, Review validates traceability
+- **Build phase**: Build implements tasks against acceptance criteria
+- **Quality phase**: Verify validates implementation against the spec
+- **Deploy phase**: Ship handles release and deployment
 
 ## Next steps
 
-- [Pipeline](/helm/docs/en/pipeline) — understand the 5 phases
-- [Agents](/helm/docs/en/agents) — meet the 13 specialized agents
-- [Usage](/helm/docs/en/usage) — CLI commands and workflow
+- [Pipeline](/helm/docs/en/pipeline): understand the 5 phases
+- [Agents](/helm/docs/en/agents): meet the 13 specialized agents
+- [Usage](/helm/docs/en/usage): CLI commands and workflow

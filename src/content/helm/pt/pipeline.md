@@ -26,7 +26,7 @@ Planning produz um PRD (Product Requirements Document) com requisitos funcionais
 
 **Agente:** Review
 
-Review valida toda a cadeia de planejamento — cada tarefa deve rastrear a um requisito, cada requisito a um achado de pesquisa. Score deve atingir 95% antes do build começar. Este gate previne construir a coisa errada.
+Review valida toda a cadeia de planejamento: cada tarefa deve rastrear a um requisito, cada requisito a um achado de pesquisa. Score deve atingir 95% antes do build começar. Este gate previne construir a coisa errada.
 
 ### 4. Build
 
@@ -38,7 +38,7 @@ Build implementa tarefas do breakdown, seguindo a arquitetura e validando cada t
 
 **Agentes:** Verify, Ship
 
-Verify valida que a implementação corresponde à spec — rodando testes, verificando segurança e pontuando qualidade. Ship cuida da preparação de release e deployment.
+Verify valida que a implementação corresponde a spec, rodando testes, verificando segurança e pontuando qualidade. Ship cuida da preparação de release e deployment.
 
 ## Transições
 

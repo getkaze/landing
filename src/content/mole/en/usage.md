@@ -63,8 +63,8 @@ Each issue has a severity level: critical, high, medium, low.
 ## Reaction sync
 
 Developers can react to review comments on GitHub:
-- 👍 — Acknowledge the issue (will fix)
-- 👎 — Disagree with the finding
-- 🚀 — Already fixed
+- 👍 Acknowledge the issue (will fix)
+- 👎 Disagree with the finding
+- 🚀 Already fixed
 
 Reactions sync to the dashboard and affect quality scoring.

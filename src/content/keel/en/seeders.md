@@ -6,7 +6,7 @@ description: Run data seeding scripts inside Docker containers.
 
 # Seeders
 
-Run data seeding scripts inside running containers — database migrations, fixture data, initial configs.
+Run data seeding scripts inside running containers: database migrations, fixture data, initial configs.
 
 ## How it works
 

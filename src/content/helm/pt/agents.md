@@ -6,11 +6,11 @@ description: Os 13 agentes especializados que compõem o pipeline do Helm.
 
 # Agentes
 
-Helm tem 13 agentes — 11 no pipeline, 1 orquestrador e 1 sob demanda. Cada agente tem uma missão definida, inputs, outputs e critérios de sucesso.
+Helm tem 13 agentes: 11 no pipeline, 1 orquestrador e 1 sob demanda. Cada agente tem uma missão definida, inputs, outputs e critérios de sucesso.
 
 ## Orquestrador
 
-**Helm** — o ponto de entrada único. Roteia requisições, gerencia sessões, lida com desvios e guia usuários pelo pipeline. Todas as mensagens passam pelo Helm quando uma sessão está ativa.
+**Helm** é o ponto de entrada único. Roteia requisições, gerencia sessões, lida com desvios e guia usuários pelo pipeline. Todas as mensagens passam pelo Helm quando uma sessão está ativa.
 
 ## Fase Discover
 
@@ -18,7 +18,7 @@ Helm tem 13 agentes — 11 no pipeline, 1 orquestrador e 1 sob demanda. Cada age
 Entrevista o usuário sobre objetivos do projeto, dores e workflow atual. Produz um relatório de descoberta que alimenta o agente Research.
 
 ### Survey (apenas brownfield)
-Analisa a codebase existente — estrutura de arquivos, dependências, padrões, tech stack e estado atual. Produz um relatório de survey da codebase.
+Analisa a codebase existente: estrutura de arquivos, dependências, padrões, tech stack e estado atual. Produz um relatório de survey da codebase.
 
 ### Research
 Mergulha fundo no domínio do projeto. Lê documentação, código-fonte e referências externas. Valida achados do Scout ou Survey e produz um relatório de pesquisa abrangente.
@@ -29,7 +29,7 @@ Mergulha fundo no domínio do projeto. Lê documentação, código-fonte e refer
 Produz um PRD (Product Requirements Document) com requisitos funcionais, não-funcionais, questões resolvidas e decisões em aberto. Cada requisito rastreia a um achado de pesquisa.
 
 ### Architect
-Define a arquitetura técnica — tech stack, estrutura do projeto, padrões de componentes, fluxo de dados e estratégia de deploy. Decisões são justificadas contra requisitos.
+Define a arquitetura técnica: tech stack, estrutura do projeto, padrões de componentes, fluxo de dados e estratégia de deploy. Decisões são justificadas contra requisitos.
 
 ### Roadmap
 Sequencia entregas em fases baseadas em dependências, risco e prioridade. Produz um plano de entrega faseado com marcos claros.
@@ -43,7 +43,7 @@ Converte o roadmap em tarefas individuais com critérios de aceite Given-When-Th
 Valida toda a cadeia de planejamento de ponta a ponta. Verifica que cada tarefa rastreia a um requisito e cada requisito rastreia a um achado de pesquisa. Requer score de 95% para prosseguir ao build. Veredicto: APPROVED ou BLOCKED.
 
 ### Verify (Gate do Build)
-Valida a implementação contra a spec. Roda testes, verifica segurança (SAST) e pontua qualidade. Requer veredicto APPROVED para prosseguir ao ship.
+Valida a implementação contra a spec. Roda testes, verifica segurança (SAST) e pontua a qualidade. Requer veredicto APPROVED para prosseguir ao ship.
 
 ## Fase Build
 

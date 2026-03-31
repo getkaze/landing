@@ -62,6 +62,6 @@ keel target local
 
 When you switch to a remote target, Keel opens an SSH tunnel that forwards the remote Docker socket to a local Unix socket at `/tmp/keel-docker-<target>.sock`.
 
-All Docker operations — start, stop, logs, exec, stats — are transparently routed through this tunnel. The dashboard and CLI work exactly the same way regardless of target.
+All Docker operations (start, stop, logs, exec, stats) are transparently routed through this tunnel. The dashboard and CLI work exactly the same way regardless of target.
 
 The tunnel includes automatic reconnection with exponential backoff and live status updates via SSE in the dashboard.

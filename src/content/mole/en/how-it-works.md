@@ -23,22 +23,22 @@ GitHub PR Event
 
 ## Review flow
 
-1. **Webhook received** — GitHub sends a pull request event
-2. **Diff parsed** — Mole extracts changed files and hunks
-3. **Context loaded** — Project context from `.mole/` directory is assembled
-4. **Claude analysis** — The diff + context is sent to Claude for review
-5. **Issues classified** — Each finding is categorized and scored
-6. **Comments posted** — Inline comments are posted on the PR
-7. **Dashboard updated** — Quality metrics are recorded
+1. **Webhook received**: GitHub sends a pull request event
+2. **Diff parsed**: Mole extracts changed files and hunks
+3. **Context loaded**: project context from `.mole/` directory is assembled
+4. **Claude analysis**: the diff + context is sent to Claude for review
+5. **Issues classified**: each finding is categorized and scored
+6. **Comments posted**: inline comments are posted on the PR
+7. **Dashboard updated**: quality metrics are recorded
 
 ## Deep review
 
 For critical PRs, deep review uses Claude Opus with multi-pass analysis:
 
-1. **First pass** — Standard review (correctness, style)
-2. **Second pass** — Architecture and design review
-3. **Third pass** — Security-focused analysis
-4. **Synthesis** — Combine findings, remove duplicates, rank by severity
+1. **First pass**: standard review (correctness, style)
+2. **Second pass**: architecture and design review
+3. **Third pass**: security-focused analysis
+4. **Synthesis**: combine findings, remove duplicates, rank by severity
 
 ## Quality scoring
 

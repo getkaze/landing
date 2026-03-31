@@ -6,7 +6,7 @@ description: Instale o Keel e comece a gerenciar containers Docker em segundos.
 
 # Primeiros Passos
 
-Keel é um dashboard Docker self-hosted — um único binário Go (~10MB) sem dependências externas que dá controle total sobre ambientes Docker locais e remotos.
+Keel é um dashboard Docker self-hosted. Um único binário Go (~10MB) sem dependências externas que dá controle total sobre ambientes Docker locais e remotos.
 
 ## Instalação
 
@@ -38,16 +38,16 @@ Abra `http://localhost:60000` e você terá um dashboard completo com status em 
 
 ## O que você ganha
 
-- **Dashboard ao Vivo** — visualização em grid em tempo real de todos os containers com polling de status
-- **Streaming de Logs SSE** — stream de `docker logs` ou arquivos host-path
-- **Terminal no Browser** — PTY interativo completo via WebSocket
-- **Métricas em Tempo Real** — CPU, memória, disco, load average, stats por container
-- **Targets Remotos** — gerencie hosts Docker remotos via túnel SSH
-- **Modo Dev** — monte código local com hot reload
-- **Seeders** — execute scripts de seed de dados dentro dos containers
-- **Auto-Update** — atualize o binário pelo dashboard ou CLI
-- **Editor de Config** — edite configs JSON dos serviços inline pelo dashboard
-- **Health Checks** — monitoramento HTTP ou por comando com intervalos configuráveis
+- **Dashboard ao Vivo**: visualização em grid em tempo real de todos os containers com polling de status
+- **Streaming de Logs SSE**: stream de `docker logs` ou arquivos host-path
+- **Terminal no Browser**: PTY interativo completo via WebSocket
+- **Métricas em Tempo Real**: CPU, memória, disco, load average, stats por container
+- **Targets Remotos**: gerencie hosts Docker remotos via túnel SSH
+- **Modo Dev**: monte código local com hot reload
+- **Seeders**: execute scripts de seed de dados dentro dos containers
+- **Auto-Update**: atualize o binário pelo dashboard ou CLI
+- **Editor de Config**: edite configs JSON dos serviços inline pelo dashboard
+- **Health Checks**: monitoramento HTTP ou por comando com intervalos configuráveis
 
 ## Estrutura de diretórios
 
@@ -72,6 +72,6 @@ Abra `http://localhost:60000` e você terá um dashboard completo com status em 
 
 ## Próximos passos
 
-- [Uso](/keel/docs/pt/usage) — comandos e flags do CLI
-- [Config de Serviço](/keel/docs/pt/service-config) — configure seus containers
-- [Targets Remotos](/keel/docs/pt/remote-targets) — gerencie hosts Docker remotos
+- [Uso](/keel/docs/pt/usage): comandos e flags do CLI
+- [Config de Serviço](/keel/docs/pt/service-config): configure seus containers
+- [Targets Remotos](/keel/docs/pt/remote-targets): gerencie hosts Docker remotos

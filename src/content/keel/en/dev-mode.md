@@ -19,7 +19,7 @@ keel dev <service> <local-path>
 1. Reads `dev.dockerfile` from the service JSON and builds a dev image
 2. Stops the existing container
 3. Runs the dev container in foreground with your local code mounted as a volume
-4. Streams stdout/stderr to your terminal — `Ctrl+C` to stop
+4. Streams stdout/stderr to your terminal. `Ctrl+C` to stop
 
 > Dev mode is only available on the **local** target. It is not supported over SSH.
 
