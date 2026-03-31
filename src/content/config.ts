@@ -13,4 +13,5 @@ export const collections = {
   keel: docsCollection,
   helm: docsCollection,
   mole: docsCollection,
+  design: docsCollection,
 };

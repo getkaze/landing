@@ -72,8 +72,28 @@ export const moleNav: ProductNav = {
   ],
 };
 
+export const designNav: ProductNav = {
+  en: [
+    { title: 'Overview', slug: 'overview', order: 1 },
+    { title: 'Colors', slug: 'colors', order: 2 },
+    { title: 'Typography', slug: 'typography', order: 3 },
+    { title: 'Spacing & Layout', slug: 'spacing', order: 4 },
+    { title: 'Components', slug: 'components', order: 5 },
+    { title: 'Motion', slug: 'motion', order: 6 },
+  ],
+  pt: [
+    { title: 'Visao Geral', slug: 'overview', order: 1 },
+    { title: 'Cores', slug: 'colors', order: 2 },
+    { title: 'Tipografia', slug: 'typography', order: 3 },
+    { title: 'Espacamento & Layout', slug: 'spacing', order: 4 },
+    { title: 'Componentes', slug: 'components', order: 5 },
+    { title: 'Motion', slug: 'motion', order: 6 },
+  ],
+};
+
 export const navigation: Record<string, ProductNav> = {
   keel: keelNav,
   helm: helmNav,
   mole: moleNav,
+  design: designNav,
 };
