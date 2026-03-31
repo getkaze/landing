@@ -1,12 +1,12 @@
 ---
 title: Agents
 order: 4
-description: The 13 specialized agents that power Helm's pipeline.
+description: The 12 agents that power Helm's pipeline.
 ---
 
 # Agents
 
-Helm has 13 agents: 11 in the pipeline, 1 orchestrator, and 1 on-demand. Each agent has a defined mission, inputs, outputs, and success criteria.
+Helm has 12 agents: 11 specialized agents across 5 pipeline phases, plus the orchestrator. Each agent has a defined mission, inputs, outputs, and success criteria.
 
 ## Orchestrator
 
@@ -55,7 +55,3 @@ Implements tasks from the breakdown following the architecture. Self-validates e
 ### Ship
 Handles release preparation and deployment. Manages versioning, changelog, and deployment configuration.
 
-## On-Demand
-
-### Tradeoff
-Can be invoked at any point by any agent when facing a multi-option decision. Presents options with pros, cons, and recommendations. Returns control to the invoking agent after the decision is made.

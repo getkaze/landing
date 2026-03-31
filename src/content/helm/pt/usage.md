@@ -19,6 +19,9 @@ helm status
 
 # Retomar do último checkpoint
 helm resume
+
+# Salvar checkpoint do estado da sessão
+helm save
 ```
 
 ## Comandos no Claude Code

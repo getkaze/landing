@@ -12,7 +12,7 @@ Helm is an AI agent orchestrator for backend development. It guides your project
 
 Helm is a state manager, not an executor. Agent logic lives in markdown definitions and runs inside Claude Code. The CLI manages session state, displays progress, and bridges the gap between conversations.
 
-- **13 specialized agents** across 5 pipeline phases
+- **12 agents** across 5 pipeline phases
 - **10 governance rules** enforcing quality, boundaries, and traceability
 - **Quality gates** at 95% threshold before build and deploy
 - **Session continuity** that lets you stop, resume, and checkpoint at any point
@@ -64,5 +64,5 @@ Survey → Research → Planning → Architect → Roadmap → Breakdown → Rev
 ## Next steps
 
 - [Pipeline](/helm/docs/en/pipeline): understand the 5 phases
-- [Agents](/helm/docs/en/agents): meet the 13 specialized agents
+- [Agents](/helm/docs/en/agents): meet the 12 agents
 - [Usage](/helm/docs/en/usage): CLI commands and workflow

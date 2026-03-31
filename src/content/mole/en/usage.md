@@ -6,34 +6,53 @@ description: Mole CLI commands and PR review workflow.
 
 # Usage
 
-Mole works automatically via GitHub webhooks and manually via the CLI.
+Mole works automatically via GitHub webhooks and manually via the CLI or PR comments.
 
 ## Automatic reviews
 
 Once the GitHub App is installed, Mole automatically reviews every new pull request. No manual intervention needed.
 
+## PR commands
+
+Comment on any PR to trigger Mole:
+
+| Command | Description |
+|---------|-------------|
+| `/mole review` | Standard review (Claude Sonnet) |
+| `/mole deep-review` | Deep review with diagrams (Claude Opus) |
+| `/mole ignore` | Skip all future reviews for this PR |
+
 ## CLI commands
 
 ```bash
-# Start the server
+# Start server + workers + dashboard
 mole serve
 
-# Review a specific PR
-mole review --repo owner/repo --pr 42
+# Run database migrations
+mole migrate
 
-# Review with deep analysis (Claude Opus)
-mole review --repo owner/repo --pr 42 --deep
+# Check connectivity to MySQL, Valkey, and GitHub
+mole health
 
-# Review local staged changes
-mole review --local
+# Scan repo and generate .mole/ context files
+mole init /path/to/repo
 
-# Review a diff file
-mole review --diff changes.patch
+# Review PR from CLI
+mole review owner/repo#123
+mole review owner/repo#123 --deep
+mole review owner/repo#123 --install-id 12345
 
-# Set personality mode
-mole config set personality balanced
+# Sync reactions, recalculate scores, update metrics
+mole sync
 
-# Show version
+# Manage dashboard roles
+mole admin set-role <user> <role>
+mole admin list
+
+# Update to latest version
+mole update
+
+# Version
 mole version
 ```
 
@@ -41,9 +60,9 @@ mole version
 
 | Mode | Behavior |
 |------|----------|
-| strict | Flags everything. Best for critical codebases. |
-| balanced | Default. Focuses on correctness and security. |
-| encouraging | Gentle feedback. Best for junior developers. |
+| mole | Playful. Default personality with a lighthearted tone. |
+| formal | Professional. Straight-to-the-point technical feedback. |
+| minimal | Terse. Only the essentials, no filler. |
 
 ## Issue categories
 
@@ -51,20 +70,27 @@ Every issue found by Mole is classified into one of 6 categories:
 
 | Category | Description |
 |----------|-------------|
-| Correctness | Logic errors, bugs, incorrect behavior |
 | Security | Vulnerabilities, hardcoded secrets, injection risks |
+| Bugs | Logic errors, incorrect behavior, edge cases |
+| Smells | Complex code, tight coupling, code quality issues |
+| Architecture | Layer violations, pattern misuse, module boundary issues |
 | Performance | N+1 queries, unnecessary allocations, slow patterns |
-| Maintainability | Complex code, tight coupling, missing abstractions |
 | Style | Naming, formatting, idiomatic patterns |
-| Documentation | Missing docs, outdated comments, unclear APIs |
-
-Each issue has a severity level: critical, high, medium, low.
 
 ## Reaction sync
 
-Developers can react to review comments on GitHub:
-- 👍 Acknowledge the issue (will fix)
-- 👎 Disagree with the finding
-- 🚀 Already fixed
+Developers can react to inline review comments on GitHub:
+- 👍 Confirm the issue
+- 👎 Mark as false positive
 
-Reactions sync to the dashboard and affect quality scoring.
+Force immediate sync:
+
+```bash
+mole sync
+```
+
+This command:
+1. Polls GitHub for reactions on recent review comments
+2. Marks issues as confirmed or false_positive
+3. Recalculates PR scores excluding false positives
+4. Updates developer and module metrics

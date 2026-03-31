@@ -12,20 +12,30 @@ Mole uses files in the `.mole/` directory to understand your project's context. 
 
 ```
 .mole/
-  config.yaml       # Project-level review config
-  architecture.md   # Architecture description
-  patterns.md       # Approved patterns and conventions
-  ignore.yaml       # Files/patterns to skip
+  config.yaml       # Personality, severity filter, architecture rules
+  architecture.md   # System design, package structure
+  conventions.md    # Naming, error handling, patterns
+  decisions.md      # ADRs, tech choices
 ```
+
+Markdown files are loaded automatically and included in review prompts. `config.yaml` controls Mole's behavior for the repository.
+
+## Generate automatically
+
+```bash
+mole init /path/to/repo
+```
+
+This scans the repository and generates the `.mole/` context files.
 
 ## config.yaml
 
-Project-level review configuration:
+Project-level review configuration (overrides server-level defaults):
 
 ```yaml
 language: go
 framework: gin
-personality: balanced
+personality: formal
 deep_review:
   enabled: true
   triggers:
@@ -56,12 +66,12 @@ Describe your project's architecture in markdown. Claude uses this to validate P
 - Services are the only layer that can call external APIs
 ```
 
-## patterns.md
+## conventions.md
 
-Document approved patterns so Claude can enforce consistency:
+Document approved conventions so Claude can enforce consistency:
 
 ```markdown
-# Patterns
+# Conventions
 
 ## Error handling
 Always wrap errors with context: `fmt.Errorf("operation: %w", err)`
@@ -71,15 +81,16 @@ Always wrap errors with context: `fmt.Errorf("operation: %w", err)`
 - Constructors: New- prefix (NewService, NewClient)
 ```
 
-## ignore.yaml
+## decisions.md
 
-Skip files or patterns from review:
+Record Architecture Decision Records (ADRs) and tech choices that inform reviews:
 
-```yaml
-paths:
-  - "vendor/**"
-  - "*.generated.go"
-  - "testdata/**"
-categories:
-  - style    # Skip style issues globally
+```markdown
+# Decisions
+
+## ADR-001: Use Valkey over Redis
+We chose Valkey 7.0+ as our cache/queue layer for its open-source licensing.
+
+## ADR-002: Single binary deployment
+The application ships as a single Go binary with embedded migrations.
 ```

@@ -6,7 +6,7 @@ description: How Helm manages state across conversations.
 
 # Sessions
 
-Helm persists all state so that work survives across Claude Code sessions. You can stop at any point, close the editor, and resume later without losing progress.
+Helm persists all state so that work survives across Claude Code sessions. You can stop at any point, close the editor, and resume later without losing progress. Sessions include automatic backups with checkpoint rotation (max 5).
 
 ## Session state
 

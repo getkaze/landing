@@ -6,66 +6,71 @@ description: Install Mole and configure your GitHub integration.
 
 # Install & Setup
 
-Mole requires a GitHub App, a MySQL database, Valkey (Redis-compatible) for caching, and an Anthropic API key.
-
-## Install
-
-```bash
-curl -fsSL https://getkaze.dev/mole/install.sh | bash
-```
+Mole requires a GitHub App, a MySQL database, Valkey (Redis-compatible) for queuing, and an Anthropic API key.
 
 ## Prerequisites
 
 | Service | Version | Purpose |
 |---------|---------|---------|
 | MySQL | 8.0+ | Primary database |
-| Valkey | 7.0+ | Cache and queue |
+| Valkey | 7.0+ | Queue and cache (Redis-compatible) |
 | Anthropic API key | - | Claude API access |
 | GitHub App | - | PR webhook integration |
 
+## Install
+
+```bash
+curl -fsSL https://getkaze.dev/mole/install.sh | sudo bash
+```
+
+Or download from [Releases](https://github.com/getkaze/mole/releases).
+
 ## GitHub App setup
 
-1. Create a new GitHub App in your organization settings
-2. Set the webhook URL to your Mole instance
-3. Grant permissions: Pull Requests (read/write), Contents (read)
-4. Subscribe to events: Pull Request, Pull Request Review
-5. Install the app on your target repositories
+Create a new GitHub App at github.com/settings/apps/new:
+
+| Setting | Value |
+|---------|-------|
+| Webhook URL | `https://your-server.com/webhook` |
+| Webhook secret | Strong generated secret |
+| Permissions | Pull requests (read & write), Contents (read) |
+| Events | Pull request, Issue comment, Installation |
+
+Download the private key and note the App ID.
 
 ## Configuration
 
-Create `mole.yaml` in your project root:
-
-```yaml
-version: v0.1
-database:
-  host: localhost
-  port: 3306
-  name: mole
-  user: mole
-  password: ${MOLE_DB_PASSWORD}
-cache:
-  host: localhost
-  port: 6379
-anthropic:
-  api_key: ${ANTHROPIC_API_KEY}
-  model: claude-sonnet-4-20250514
-github:
-  app_id: ${GITHUB_APP_ID}
-  private_key_path: ./github-app.pem
-  webhook_secret: ${GITHUB_WEBHOOK_SECRET}
-server:
-  port: 8080
-  host: 0.0.0.0
+```bash
+cp mole.yaml.example mole.yaml
 ```
 
-## Environment variables
+Fill in GitHub App ID, private key path, webhook secret, Anthropic API key, and database credentials. All values can be overridden with `MOLE_` prefixed environment variables (e.g., `MOLE_GITHUB_APP_ID`, `MOLE_LLM_API_KEY`, `MOLE_MYSQL_HOST`).
 
-| Variable | Description |
-|----------|-------------|
-| `MOLE_DB_PASSWORD` | MySQL password |
-| `ANTHROPIC_API_KEY` | Claude API key |
-| `GITHUB_APP_ID` | GitHub App ID |
-| `GITHUB_WEBHOOK_SECRET` | Webhook validation secret |
+```yaml
+github:
+  app_id: 12345
+  private_key_path: /etc/mole/app.pem
+  webhook_secret: "secret"
+
+llm:
+  api_key: "sk-ant-..."
+  review_model: "claude-sonnet-4-6"
+  deep_review_model: "claude-opus-4-6"
+
+mysql:
+  host: localhost
+  port: 3306
+  database: mole
+  user: mole
+  password: "password"
+
+valkey:
+  host: localhost
+  port: 6379
+
+server:
+  port: 8080
+```
 
 ## Start
 
@@ -73,7 +78,7 @@ server:
 mole serve
 ```
 
-The dashboard is available at `http://localhost:8080`.
+Mole starts an HTTP server (default port 8080), worker pool, and metrics aggregator. Database migrations run automatically.
 
 ## Next steps
 

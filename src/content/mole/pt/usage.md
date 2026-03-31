@@ -6,34 +6,53 @@ description: Comandos CLI do Mole e workflow de review de PRs.
 
 # Uso
 
-Mole funciona automaticamente via webhooks do GitHub e manualmente via CLI.
+Mole funciona automaticamente via webhooks do GitHub e manualmente via CLI ou comentarios no PR.
 
-## Reviews automáticos
+## Reviews automaticos
 
-Uma vez que o GitHub App está instalado, Mole automaticamente revisa cada novo pull request. Nenhuma intervenção manual necessária.
+Uma vez que o GitHub App esta instalado, Mole automaticamente revisa cada novo pull request. Nenhuma intervencao manual necessaria.
+
+## Comandos no PR
+
+Comente em qualquer PR para acionar o Mole:
+
+| Comando | Descricao |
+|---------|-----------|
+| `/mole review` | Review padrao (Claude Sonnet) |
+| `/mole deep-review` | Deep review com diagramas (Claude Opus) |
+| `/mole ignore` | Ignorar todos os reviews futuros deste PR |
 
 ## Comandos CLI
 
 ```bash
-# Iniciar o servidor
+# Iniciar servidor + workers + dashboard
 mole serve
 
-# Revisar um PR específico
-mole review --repo owner/repo --pr 42
+# Rodar migrations do banco
+mole migrate
 
-# Revisar com análise profunda (Claude Opus)
-mole review --repo owner/repo --pr 42 --deep
+# Verificar conectividade com MySQL, Valkey e GitHub
+mole health
 
-# Revisar mudanças locais staged
-mole review --local
+# Escanear repo e gerar arquivos de contexto .mole/
+mole init /path/to/repo
 
-# Revisar um arquivo diff
-mole review --diff changes.patch
+# Revisar PR pelo CLI
+mole review owner/repo#123
+mole review owner/repo#123 --deep
+mole review owner/repo#123 --install-id 12345
 
-# Definir modo de personalidade
-mole config set personality balanced
+# Sincronizar reacoes, recalcular scores, atualizar metricas
+mole sync
 
-# Mostrar versão
+# Gerenciar roles do dashboard
+mole admin set-role <user> <role>
+mole admin list
+
+# Atualizar para ultima versao
+mole update
+
+# Versao
 mole version
 ```
 
@@ -41,30 +60,37 @@ mole version
 
 | Modo | Comportamento |
 |------|--------------|
-| strict | Aponta tudo. Melhor para codebases críticos. |
-| balanced | Padrão. Foca em corretude e segurança. |
-| encouraging | Feedback gentil. Melhor para devs juniores. |
+| mole | Divertido. Personalidade padrao com tom leve. |
+| formal | Profissional. Feedback tecnico direto ao ponto. |
+| minimal | Conciso. Apenas o essencial, sem preenchimento. |
 
 ## Categorias de issues
 
-Todo issue encontrado pelo Mole é classificado em uma de 6 categorias:
+Todo issue encontrado pelo Mole e classificado em uma de 6 categorias:
 
-| Categoria | Descrição |
+| Categoria | Descricao |
 |-----------|-----------|
-| Correctness | Erros de lógica, bugs, comportamento incorreto |
-| Security | Vulnerabilidades, secrets hardcoded, riscos de injeção |
-| Performance | Queries N+1, alocações desnecessárias, padrões lentos |
-| Maintainability | Código complexo, acoplamento forte, abstrações faltando |
-| Style | Nomenclatura, formatação, padrões idiomáticos |
-| Documentation | Docs faltando, comentários desatualizados, APIs confusas |
+| Security | Vulnerabilidades, secrets hardcoded, riscos de injecao |
+| Bugs | Erros de logica, comportamento incorreto, edge cases |
+| Smells | Codigo complexo, acoplamento forte, problemas de qualidade |
+| Architecture | Violacoes de camada, uso incorreto de padroes, limites de modulos |
+| Performance | Queries N+1, alocacoes desnecessarias, padroes lentos |
+| Style | Nomenclatura, formatacao, padroes idiomaticos |
 
-Cada issue tem um nível de severidade: critical, high, medium, low.
+## Sync de reacoes
 
-## Sync de reações
+Desenvolvedores podem reagir aos comentarios inline de review no GitHub:
+- 👍 Confirmar o issue
+- 👎 Marcar como falso positivo
 
-Desenvolvedores podem reagir aos comentários de review no GitHub:
-- 👍 Reconhecer o issue (vai corrigir)
-- 👎 Discordar do achado
-- 🚀 Já corrigido
+Forcar sync imediato:
 
-Reações sincronizam com o dashboard e afetam o score de qualidade.
+```bash
+mole sync
+```
+
+Este comando:
+1. Consulta o GitHub por reacoes em comentarios de review recentes
+2. Marca issues como confirmados ou falso_positivo
+3. Recalcula scores dos PRs excluindo falsos positivos
+4. Atualiza metricas de desenvolvedores e modulos

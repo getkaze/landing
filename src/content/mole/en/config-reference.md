@@ -6,114 +6,139 @@ description: Complete reference for Mole YAML configuration.
 
 # Config Reference
 
-Mole's configuration lives in `mole.yaml` at the project root.
+Mole's configuration lives in `mole.yaml`. All fields can be overridden with `MOLE_` prefixed environment variables (e.g., `MOLE_GITHUB_APP_ID`, `MOLE_LLM_API_KEY`, `MOLE_MYSQL_HOST`).
 
 ## Full example
 
 ```yaml
-version: v0.1
+github:
+  app_id: 12345
+  private_key_path: /etc/mole/app.pem
+  webhook_secret: "secret"
+
+llm:
+  api_key: "sk-ant-..."
+  review_model: "claude-sonnet-4-6"
+  deep_review_model: "claude-opus-4-6"
+  # Pricing per 1M tokens [input, output] - for the Costs dashboard
+  # Defaults to Anthropic's published pricing if omitted
+  pricing:
+    claude-sonnet-4-6: [3.00, 15.00]
+    claude-opus-4-6: [15.00, 75.00]
+
+mysql:
+  host: localhost
+  port: 3306
+  database: mole
+  user: mole
+  password: "password"
+
+valkey:
+  host: localhost
+  port: 6379
 
 server:
   port: 8080
-  host: 0.0.0.0
 
-database:
-  host: localhost
-  port: 3306
-  name: mole
-  user: mole
-  password: ${MOLE_DB_PASSWORD}
-  max_connections: 25
+worker:
+  count: 3
 
-cache:
-  host: localhost
-  port: 6379
-  db: 0
-  ttl: 3600
+log:
+  level: info
 
-anthropic:
-  api_key: ${ANTHROPIC_API_KEY}
-  model: claude-sonnet-4-20250514
-  deep_model: claude-opus-4-20250514
-  max_tokens: 4096
-  timeout: 120
+# Server-level defaults (overridable per-repo via .mole/config.yaml)
+defaults:
+  language: en
+  personality: mole
 
-github:
-  app_id: ${GITHUB_APP_ID}
-  private_key_path: ./github-app.pem
-  webhook_secret: ${GITHUB_WEBHOOK_SECRET}
-
-review:
-  personality: balanced
-  auto_review: true
-  deep_review_labels:
-    - security
-    - critical
-  max_files_per_review: 50
-  ignore_draft: true
-
-metrics:
-  enabled: true
-  port: 9090
-
-language: en
+# Dashboard (optional)
+dashboard:
+  github_client_id: ""
+  github_client_secret: ""
+  session_secret: ""
+  base_url: "http://localhost:8080"
+  allowed_org: ""
 ```
+
+## GitHub
+
+| Field | Type | Description |
+|-------|------|-------------|
+| github.app_id | number | GitHub App ID |
+| github.private_key_path | string | Path to PEM key file |
+| github.webhook_secret | string | Webhook validation secret |
+
+## LLM
+
+| Field | Type | Description |
+|-------|------|-------------|
+| llm.api_key | string | Anthropic API key |
+| llm.review_model | string | Model for standard reviews |
+| llm.deep_review_model | string | Model for deep reviews |
+| llm.pricing | object | Pricing per 1M tokens [input, output] for cost tracking |
+
+## MySQL
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mysql.host | string | MySQL host |
+| mysql.port | number | MySQL port |
+| mysql.database | string | Database name |
+| mysql.user | string | Database user |
+| mysql.password | string | Database password |
+
+## Valkey
+
+| Field | Type | Description |
+|-------|------|-------------|
+| valkey.host | string | Valkey host |
+| valkey.port | number | Valkey port |
 
 ## Server
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | server.port | number | 8080 | HTTP port |
-| server.host | string | 0.0.0.0 | Bind address |
 
-## Database
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| database.host | string | yes | MySQL host |
-| database.port | number | yes | MySQL port |
-| database.name | string | yes | Database name |
-| database.user | string | yes | Database user |
-| database.password | string | yes | Database password |
-| database.max_connections | number | no | Connection pool size (default: 25) |
-
-## Cache
+## Worker
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| cache.host | string | localhost | Valkey host |
-| cache.port | number | 6379 | Valkey port |
-| cache.db | number | 0 | Database index |
-| cache.ttl | number | 3600 | Default TTL in seconds |
+| worker.count | number | 3 | Number of worker goroutines |
 
-## Anthropic
-
-| Field | Type | Description |
-|-------|------|-------------|
-| anthropic.api_key | string | Claude API key |
-| anthropic.model | string | Model for standard reviews |
-| anthropic.deep_model | string | Model for deep reviews |
-| anthropic.max_tokens | number | Max response tokens |
-| anthropic.timeout | number | Request timeout in seconds |
-
-## GitHub
-
-| Field | Type | Description |
-|-------|------|-------------|
-| github.app_id | string | GitHub App ID |
-| github.private_key_path | string | Path to PEM key file |
-| github.webhook_secret | string | Webhook validation secret |
-
-## Review
+## Log
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| review.personality | string | balanced | Review mode (strict, balanced, encouraging) |
-| review.auto_review | boolean | true | Auto-review new PRs |
-| review.deep_review_labels | string[] | [] | PR labels that trigger deep review |
-| review.max_files_per_review | number | 50 | Max files to analyze per PR |
-| review.ignore_draft | boolean | true | Skip draft PRs |
+| log.level | string | info | Log level (debug, info, warn, error) |
 
-## Environment variables
+## Defaults
 
-All config values support `${VAR_NAME}` syntax for environment variable substitution. Sensitive values (passwords, API keys) should always use environment variables.
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| defaults.language | string | en | Review language (en, pt-BR) |
+| defaults.personality | string | mole | Personality mode (mole, formal, minimal) |
+
+## Dashboard
+
+Optional HTMX-powered dashboard for developer growth tracking. Requires a GitHub OAuth App (created at github.com/settings/developers) with callback URL `http://your-server/auth/callback`.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| dashboard.github_client_id | string | GitHub OAuth App client ID |
+| dashboard.github_client_secret | string | GitHub OAuth App client secret |
+| dashboard.session_secret | string | Random 32-char session secret |
+| dashboard.base_url | string | Public URL of the Mole instance |
+| dashboard.allowed_org | string | Restrict access to members of a GitHub org (empty = allow all) |
+
+### Access roles
+
+| Role | Own Data | Team Average | Individual Others | Modules | Costs |
+|------|----------|--------------|------------------|---------|-------|
+| Dev | Yes | Yes (anonymous) | No | Yes | No |
+| Tech Lead | Yes | Yes | Yes (opt-in) | Yes | No |
+| Architect | Yes | Yes | Yes (opt-in) | Yes | No |
+| Manager | No | Yes | No | Yes | No |
+| Admin | Yes | Yes | Yes | Yes | Yes |
+
+Manager sees less than Tech Lead by design -- this tool is for growth, not HR evaluation.

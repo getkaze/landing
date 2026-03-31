@@ -6,7 +6,7 @@ description: Como o Helm gerencia estado entre conversas.
 
 # Sessões
 
-Helm persiste todo o estado para que o trabalho sobreviva entre sessões do Claude Code. Você pode parar a qualquer momento, fechar o editor e retomar depois sem perder progresso.
+Helm persiste todo o estado para que o trabalho sobreviva entre sessões do Claude Code. Você pode parar a qualquer momento, fechar o editor e retomar depois sem perder progresso. As sessões incluem backups automáticos com rotação de checkpoints (máx 5).
 
 ## Estado da sessão
 

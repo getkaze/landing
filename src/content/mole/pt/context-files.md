@@ -6,26 +6,36 @@ description: Configure contexto do projeto para melhores reviews com arquivos .m
 
 # Arquivos de Contexto
 
-Mole usa arquivos no diretório `.mole/` para entender o contexto do seu projeto. Melhor contexto significa reviews mais relevantes.
+Mole usa arquivos no diretorio `.mole/` para entender o contexto do seu projeto. Melhor contexto significa reviews mais relevantes.
 
-## Estrutura de diretórios
+## Estrutura de diretorios
 
 ```
 .mole/
-  config.yaml       # Config de review do projeto
-  architecture.md   # Descrição da arquitetura
-  patterns.md       # Padrões e convenções aprovados
-  ignore.yaml       # Arquivos/padrões a ignorar
+  config.yaml       # Personalidade, filtro de severidade, regras de arquitetura
+  architecture.md   # Design do sistema, estrutura de pacotes
+  conventions.md    # Nomenclatura, tratamento de erros, padroes
+  decisions.md      # ADRs, escolhas tecnicas
 ```
+
+Arquivos markdown sao carregados automaticamente e incluidos nos prompts de review. `config.yaml` controla o comportamento do Mole para o repositorio.
+
+## Gerar automaticamente
+
+```bash
+mole init /path/to/repo
+```
+
+Isso escaneia o repositorio e gera os arquivos de contexto `.mole/`.
 
 ## config.yaml
 
-Configuração de review no nível do projeto:
+Configuracao de review no nivel do projeto (sobrescreve defaults do servidor):
 
 ```yaml
 language: go
 framework: gin
-personality: balanced
+personality: formal
 deep_review:
   enabled: true
   triggers:
@@ -40,46 +50,47 @@ ignore_categories:
 
 ## architecture.md
 
-Descreva a arquitetura do seu projeto em markdown. Claude usa isso para validar PRs contra padrões pretendidos:
+Descreva a arquitetura do seu projeto em markdown. Claude usa isso para validar PRs contra padroes pretendidos:
 
 ```markdown
 # Arquitetura
 
 ## Camadas
-- handlers/: Handlers HTTP (sem lógica de negócio)
-- services/: Lógica de negócio
-- repositories/: Acesso a dados
+- handlers/ - Handlers HTTP (sem logica de negocio)
+- services/ - Logica de negocio
+- repositories/ - Acesso a dados
 
 ## Regras
-- Handlers não devem importar repositories diretamente
+- Handlers nao devem importar repositories diretamente
 - Todo acesso ao banco passa por repositories
-- Services são a única camada que pode chamar APIs externas
+- Services sao a unica camada que pode chamar APIs externas
 ```
 
-## patterns.md
+## conventions.md
 
-Documente padrões aprovados para que Claude aplique consistência:
+Documente convencoes aprovadas para que Claude aplique consistencia:
 
 ```markdown
-# Padrões
+# Convencoes
 
 ## Tratamento de erros
-Sempre encapsule erros com contexto: `fmt.Errorf("operação: %w", err)`
+Sempre encapsule erros com contexto: `fmt.Errorf("operacao: %w", err)`
 
 ## Nomenclatura
 - Interfaces: sufixo -er (Reader, Writer)
 - Construtores: prefixo New- (NewService, NewClient)
 ```
 
-## ignore.yaml
+## decisions.md
 
-Ignore arquivos ou padrões no review:
+Registre Architecture Decision Records (ADRs) e escolhas tecnicas que informam os reviews:
 
-```yaml
-paths:
-  - "vendor/**"
-  - "*.generated.go"
-  - "testdata/**"
-categories:
-  - style    # Ignorar issues de estilo globalmente
+```markdown
+# Decisoes
+
+## ADR-001: Usar Valkey ao inves de Redis
+Escolhemos Valkey 7.0+ como camada de cache/fila pelo licenciamento open-source.
+
+## ADR-002: Deploy como binario unico
+A aplicacao e distribuida como um unico binario Go com migrations embarcadas.
 ```

@@ -1,119 +1,144 @@
 ---
-title: Referência de Config
+title: Referencia de Config
 order: 7
-description: Referência completa para configuração YAML do Mole.
+description: Referencia completa para configuracao YAML do Mole.
 ---
 
-# Referência de Config
+# Referencia de Config
 
-A configuração do Mole vive em `mole.yaml` na raiz do projeto.
+A configuracao do Mole vive em `mole.yaml`. Todos os campos podem ser sobrescritos com variaveis de ambiente prefixadas com `MOLE_` (ex: `MOLE_GITHUB_APP_ID`, `MOLE_LLM_API_KEY`, `MOLE_MYSQL_HOST`).
 
 ## Exemplo completo
 
 ```yaml
-version: v0.1
+github:
+  app_id: 12345
+  private_key_path: /etc/mole/app.pem
+  webhook_secret: "secret"
+
+llm:
+  api_key: "sk-ant-..."
+  review_model: "claude-sonnet-4-6"
+  deep_review_model: "claude-opus-4-6"
+  # Pricing por 1M tokens [input, output] - para o dashboard de Custos
+  # Usa pricing publicado da Anthropic se omitido
+  pricing:
+    claude-sonnet-4-6: [3.00, 15.00]
+    claude-opus-4-6: [15.00, 75.00]
+
+mysql:
+  host: localhost
+  port: 3306
+  database: mole
+  user: mole
+  password: "password"
+
+valkey:
+  host: localhost
+  port: 6379
 
 server:
   port: 8080
-  host: 0.0.0.0
 
-database:
-  host: localhost
-  port: 3306
-  name: mole
-  user: mole
-  password: ${MOLE_DB_PASSWORD}
-  max_connections: 25
+worker:
+  count: 3
 
-cache:
-  host: localhost
-  port: 6379
-  db: 0
-  ttl: 3600
+log:
+  level: info
 
-anthropic:
-  api_key: ${ANTHROPIC_API_KEY}
-  model: claude-sonnet-4-20250514
-  deep_model: claude-opus-4-20250514
-  max_tokens: 4096
-  timeout: 120
+# Defaults no nivel do servidor (sobrescriveis por repo via .mole/config.yaml)
+defaults:
+  language: en
+  personality: mole
 
-github:
-  app_id: ${GITHUB_APP_ID}
-  private_key_path: ./github-app.pem
-  webhook_secret: ${GITHUB_WEBHOOK_SECRET}
-
-review:
-  personality: balanced
-  auto_review: true
-  deep_review_labels:
-    - security
-    - critical
-  max_files_per_review: 50
-  ignore_draft: true
-
-metrics:
-  enabled: true
-  port: 9090
-
-language: pt-BR
+# Dashboard (opcional)
+dashboard:
+  github_client_id: ""
+  github_client_secret: ""
+  session_secret: ""
+  base_url: "http://localhost:8080"
+  allowed_org: ""
 ```
-
-## Server
-
-| Campo | Tipo | Padrão | Descrição |
-|-------|------|--------|-----------|
-| server.port | number | 8080 | Porta HTTP |
-| server.host | string | 0.0.0.0 | Endereço de bind |
-
-## Database
-
-| Campo | Tipo | Obrigatório | Descrição |
-|-------|------|-------------|-----------|
-| database.host | string | sim | Host do MySQL |
-| database.port | number | sim | Porta do MySQL |
-| database.name | string | sim | Nome do banco |
-| database.user | string | sim | Usuário do banco |
-| database.password | string | sim | Senha do banco |
-| database.max_connections | number | não | Tamanho do pool de conexões (padrão: 25) |
-
-## Cache
-
-| Campo | Tipo | Padrão | Descrição |
-|-------|------|--------|-----------|
-| cache.host | string | localhost | Host do Valkey |
-| cache.port | number | 6379 | Porta do Valkey |
-| cache.db | number | 0 | Índice do banco |
-| cache.ttl | number | 3600 | TTL padrão em segundos |
-
-## Anthropic
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| anthropic.api_key | string | API key do Claude |
-| anthropic.model | string | Modelo para reviews padrão |
-| anthropic.deep_model | string | Modelo para deep reviews |
-| anthropic.max_tokens | number | Max tokens na resposta |
-| anthropic.timeout | number | Timeout da requisição em segundos |
 
 ## GitHub
 
-| Campo | Tipo | Descrição |
+| Campo | Tipo | Descricao |
 |-------|------|-----------|
-| github.app_id | string | ID do GitHub App |
+| github.app_id | number | ID do GitHub App |
 | github.private_key_path | string | Caminho para o arquivo PEM |
-| github.webhook_secret | string | Secret de validação do webhook |
+| github.webhook_secret | string | Secret de validacao do webhook |
 
-## Review
+## LLM
 
-| Campo | Tipo | Padrão | Descrição |
+| Campo | Tipo | Descricao |
+|-------|------|-----------|
+| llm.api_key | string | API key da Anthropic |
+| llm.review_model | string | Modelo para reviews padrao |
+| llm.deep_review_model | string | Modelo para deep reviews |
+| llm.pricing | object | Pricing por 1M tokens [input, output] para rastreamento de custos |
+
+## MySQL
+
+| Campo | Tipo | Descricao |
+|-------|------|-----------|
+| mysql.host | string | Host do MySQL |
+| mysql.port | number | Porta do MySQL |
+| mysql.database | string | Nome do banco |
+| mysql.user | string | Usuario do banco |
+| mysql.password | string | Senha do banco |
+
+## Valkey
+
+| Campo | Tipo | Descricao |
+|-------|------|-----------|
+| valkey.host | string | Host do Valkey |
+| valkey.port | number | Porta do Valkey |
+
+## Server
+
+| Campo | Tipo | Padrao | Descricao |
 |-------|------|--------|-----------|
-| review.personality | string | balanced | Modo de review (strict, balanced, encouraging) |
-| review.auto_review | boolean | true | Auto-review novos PRs |
-| review.deep_review_labels | string[] | [] | Labels de PR que acionam deep review |
-| review.max_files_per_review | number | 50 | Max arquivos para analisar por PR |
-| review.ignore_draft | boolean | true | Ignorar PRs draft |
+| server.port | number | 8080 | Porta HTTP |
 
-## Variáveis de ambiente
+## Worker
 
-Todos os valores de config suportam sintaxe `${VAR_NAME}` para substituição de variáveis de ambiente. Valores sensíveis (senhas, API keys) devem sempre usar variáveis de ambiente.
+| Campo | Tipo | Padrao | Descricao |
+|-------|------|--------|-----------|
+| worker.count | number | 3 | Numero de goroutines de worker |
+
+## Log
+
+| Campo | Tipo | Padrao | Descricao |
+|-------|------|--------|-----------|
+| log.level | string | info | Nivel de log (debug, info, warn, error) |
+
+## Defaults
+
+| Campo | Tipo | Padrao | Descricao |
+|-------|------|--------|-----------|
+| defaults.language | string | en | Idioma do review (en, pt-BR) |
+| defaults.personality | string | mole | Modo de personalidade (mole, formal, minimal) |
+
+## Dashboard
+
+Dashboard opcional com HTMX para rastreamento de crescimento de desenvolvedores. Requer um GitHub OAuth App (criado em github.com/settings/developers) com callback URL `http://seu-servidor/auth/callback`.
+
+| Campo | Tipo | Descricao |
+|-------|------|-----------|
+| dashboard.github_client_id | string | Client ID do GitHub OAuth App |
+| dashboard.github_client_secret | string | Client secret do GitHub OAuth App |
+| dashboard.session_secret | string | Secret de sessao aleatorio de 32 caracteres |
+| dashboard.base_url | string | URL publica da instancia Mole |
+| dashboard.allowed_org | string | Restringir acesso a membros de uma org GitHub (vazio = permitir todos) |
+
+### Roles de acesso
+
+| Role | Dados Proprios | Media da Equipe | Individual Outros | Modulos | Custos |
+|------|----------------|-----------------|-------------------|---------|--------|
+| Dev | Sim | Sim (anonimo) | Nao | Sim | Nao |
+| Tech Lead | Sim | Sim | Sim (opt-in) | Sim | Nao |
+| Architect | Sim | Sim | Sim (opt-in) | Sim | Nao |
+| Manager | Nao | Sim | Nao | Sim | Nao |
+| Admin | Sim | Sim | Sim | Sim | Sim |
+
+Manager ve menos que Tech Lead por design -- esta ferramenta e para crescimento, nao avaliacao de RH.

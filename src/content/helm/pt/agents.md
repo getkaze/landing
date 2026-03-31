@@ -1,12 +1,12 @@
 ---
 title: Agentes
 order: 4
-description: Os 13 agentes especializados que compõem o pipeline do Helm.
+description: Os 12 agentes que compõem o pipeline do Helm.
 ---
 
 # Agentes
 
-Helm tem 13 agentes: 11 no pipeline, 1 orquestrador e 1 sob demanda. Cada agente tem uma missão definida, inputs, outputs e critérios de sucesso.
+Helm tem 12 agentes: 11 especializados em 5 fases do pipeline, mais o orquestrador. Cada agente tem uma missão definida, inputs, outputs e critérios de sucesso.
 
 ## Orquestrador
 
@@ -55,7 +55,3 @@ Implementa tarefas do breakdown seguindo a arquitetura. Auto-valida cada tarefa 
 ### Ship
 Cuida da preparação de release e deployment. Gerencia versionamento, changelog e configuração de deploy.
 
-## Sob Demanda
-
-### Tradeoff
-Pode ser invocado a qualquer momento por qualquer agente ao enfrentar uma decisão com múltiplas opções. Apresenta opções com prós, contras e recomendações. Retorna o controle ao agente invocador após a decisão.

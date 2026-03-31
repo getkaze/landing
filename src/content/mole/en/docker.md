@@ -6,20 +6,35 @@ description: Run Mole with Docker and Docker Compose.
 
 # Docker
 
-Run Mole in a container for easy deployment.
-
-## Quick start
+Pre-built images are published to GHCR on every push to main.
 
 ```bash
-docker run -d \
-  --name mole \
+docker pull ghcr.io/getkaze/mole:main
+```
+
+## Run with config file
+
+```bash
+docker run -d --name mole \
   -p 8080:8080 \
-  -v ./mole.yaml:/app/mole.yaml \
-  -e MOLE_DB_PASSWORD=secret \
-  -e ANTHROPIC_API_KEY=sk-ant-... \
-  -e GITHUB_APP_ID=12345 \
-  -e GITHUB_WEBHOOK_SECRET=whsec_... \
-  ghcr.io/getkaze/mole:latest
+  -v /path/to/mole.yaml:/etc/mole/mole.yaml \
+  -v /path/to/github-app.pem:/etc/mole/github-app.pem \
+  ghcr.io/getkaze/mole:main serve --config /etc/mole/mole.yaml
+```
+
+## Run with environment variables
+
+```bash
+docker run -d --name mole \
+  -p 8080:8080 \
+  -v /path/to/github-app.pem:/etc/mole/github-app.pem \
+  -e MOLE_GITHUB_APP_ID=12345 \
+  -e MOLE_GITHUB_PRIVATE_KEY_PATH=/etc/mole/github-app.pem \
+  -e MOLE_GITHUB_WEBHOOK_SECRET=secret \
+  -e MOLE_LLM_API_KEY=sk-ant-... \
+  -e MOLE_MYSQL_HOST=mysql \
+  -e MOLE_VALKEY_HOST=valkey \
+  ghcr.io/getkaze/mole:main
 ```
 
 ## Docker Compose
@@ -27,17 +42,15 @@ docker run -d \
 ```yaml
 services:
   mole:
-    image: ghcr.io/getkaze/mole:latest
+    image: ghcr.io/getkaze/mole:main
     ports:
       - "8080:8080"
     volumes:
-      - ./mole.yaml:/app/mole.yaml
-      - ./github-app.pem:/app/github-app.pem:ro
+      - ./mole.yaml:/etc/mole/mole.yaml
+      - ./github-app.pem:/etc/mole/github-app.pem:ro
     environment:
-      - MOLE_DB_PASSWORD=${MOLE_DB_PASSWORD}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - GITHUB_APP_ID=${GITHUB_APP_ID}
-      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET}
+      - MOLE_MYSQL_HOST=mysql
+      - MOLE_VALKEY_HOST=valkey
     depends_on:
       mysql:
         condition: service_healthy
@@ -68,17 +81,22 @@ volumes:
   valkey-data:
 ```
 
-## Build from source
+## Build locally
 
 ```bash
-git clone https://github.com/getkaze/mole.git
-cd mole
 docker build -t mole .
 ```
 
-## Environment variables
+## Build from source
 
-All configuration can be overridden with environment variables. See [Config Reference](/mole/docs/en/config-reference) for the full list.
+```bash
+make build     # current platform
+make release   # cross-compile for linux/darwin amd64/arm64
+make test      # run tests
+make clean     # remove binaries
+```
+
+Binaries are output to `dist/` with SHA256 checksums.
 
 ## Health check
 
@@ -90,4 +108,4 @@ curl http://localhost:8080/health
 
 ## Metrics
 
-When enabled, Prometheus metrics are available at `:9090/metrics`.
+Prometheus metrics are available at `/metrics`.
