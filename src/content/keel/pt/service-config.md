@@ -60,6 +60,7 @@ O campo `registry` controla autenticação ao baixar imagens:
 |-------|--------------|
 | (omitido) | Docker Hub, sem autenticação especial |
 | "ghcr" | GitHub Container Registry, auto-login no ghcr.io |
+| "local" | Pula o pull — a imagem já deve existir no host |
 
 ## Rede
 

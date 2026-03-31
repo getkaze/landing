@@ -60,6 +60,7 @@ The `registry` field controls authentication when pulling images:
 |-------|----------|
 | (omitted) | Docker Hub, no special authentication |
 | "ghcr" | GitHub Container Registry, auto-login to ghcr.io |
+| "local" | Skip pull — image must already exist on the host |
 
 ## Networking
 
