@@ -13,18 +13,19 @@ Mole e um backend Go que integra com GitHub via webhooks e usa Claude para anali
 ```
 GitHub webhook --> POST /webhook --> Fila Valkey --> Pool de workers
                    (verificacao de assinatura) (dedup)    |
-                                                    +-----+-----+
-                                                    | Buscar diff do PR (GitHub API)
-                                                    | Carregar contexto .mole/ + config
-                                                    | Rodar validacao de arquitetura (AST)
-                                                    | Rodar scanner de seguranca (AST)
-                                                    | Chamar API Claude (review + taxonomia)
-                                                    | Calcular score de qualidade
-                                                    | Aplicar personalidade + filtro de severidade
-                                                    | Validar numeros de linha contra diff
-                                                    | Postar review (resumo + comentarios inline)
-                                                    | Salvar review + issues no MySQL
-                                                    +-- Agregador computa metricas (por hora)
+                                                          +-- Buscar diff do PR (GitHub API)
+                                                          +-- Carregar contexto .mole/ + config
+                                                          +-- [/mole dig] Clone/fetch repo + worktree
+                                                          +-- [/mole dig] Sonnet explora codebase (tools)
+                                                          +-- Rodar validacao de arquitetura (AST)
+                                                          +-- Rodar scanner de seguranca (AST)
+                                                          +-- Chamar API Claude (review + taxonomia)
+                                                          +-- Calcular score de qualidade
+                                                          +-- Aplicar personalidade + filtro de severidade
+                                                          +-- Validar numeros de linha contra diff
+                                                          +-- Postar review (resumo + comentarios inline)
+                                                          +-- Salvar review + issues no MySQL
+                                                          +-- Agregador computa metricas (por hora)
 ```
 
 ## Fluxo de review

@@ -24,7 +24,7 @@ keel start
 # Iniciar serviços específicos
 keel start redis mysql
 
-# Iniciar um grupo
+# Iniciar todos os serviços de um grupo
 keel start infra
 
 # Parar todos os serviços
@@ -33,8 +33,14 @@ keel stop
 # Parar um serviço específico
 keel stop traefik
 
-# Parar um grupo
-keel stop app
+# Parar todos os serviços de um grupo
+keel stop tools
+
+# Reiniciar todos os serviços (stop + start)
+keel restart
+
+# Reiniciar serviços específicos
+keel restart redis mysql
 
 # Destruir e recriar todos os containers
 keel reset --all
@@ -106,7 +112,7 @@ keel update
 ## Manutenção
 
 ```bash
-# Remover todos os containers + rede + diretório de dados (requer sudo)
+# Remover todos os containers + rede + diretório de dados
 keel purge
 
 # Mostrar versão
@@ -120,9 +126,9 @@ keel help
 
 | Flag | Padrão | Descrição |
 |------|--------|-----------|
-| -port | 60000 | Porta HTTP |
-| -bind | 127.0.0.1 | Endereço de bind |
-| -keel-dir | (padrão da plataforma) | Diretório de dados |
-| -dev | false | Servir assets web do filesystem |
+| `-port` | `60000` | Porta HTTP |
+| `-bind` | `127.0.0.1` | Endereço de bind |
+| `-keel-dir` | `/var/lib/keel` (Linux) ou `~/.keel` (macOS) | Diretório de dados |
+| `-dev` | `false` | Servir assets web do filesystem |
 
-> Você também pode sobrescrever o diretório de dados com a variável de ambiente `KEEL_DIR`.
+Sobrescreva o diretório de dados com a variável de ambiente `KEEL_DIR`.

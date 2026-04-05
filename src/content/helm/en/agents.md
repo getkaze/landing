@@ -8,6 +8,22 @@ description: The 12 agents that power Helm's pipeline.
 
 Helm has 12 agents: 11 specialized agents across 5 pipeline phases, plus the orchestrator. Each agent has a defined mission, inputs, outputs, and success criteria.
 
+| Agent | Phase | Role |
+|-------|-------|------|
+| **scout** | Discover | Explore greenfield project requirements |
+| **survey** | Discover | Analyze existing codebase |
+| **research** | Discover | Deep research on problems and constraints |
+| **planning** | Plan | Write product requirements document |
+| **architect** | Plan | Design system architecture |
+| **roadmap** | Plan | Define phases and milestones |
+| **breakdown** | Plan | Decompose into atomic tasks |
+| **review** | Quality | Validate plan traceability (95% gate) |
+| **build** | Build | Implement code from task breakdown |
+| **verify** | Quality | Test, SAST, code review (95% gate) |
+| **ship** | Deploy | Git operations, PR, deployment |
+
+Agent definitions live in `agents/`. Governance rules in `rules/governance.md`. Quality checklists in `references/`.
+
 ## Orchestrator
 
 **Helm** is the single entry point. It routes requests, manages sessions, handles deviations, and guides users through the pipeline. All messages pass through Helm when a session is active.

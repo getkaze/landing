@@ -13,8 +13,10 @@ import InstallBlock from '../../components/InstallBlock.astro';
 
   <!-- HERO -->
   <section class="hero">
-    <span class="eyebrow">v0.4 · alpha · MIT</span>
-    <h1>Keel</h1>
+    <span class="eyebrow">v0.6 · alpha · MIT</span>
+    <div class="keel-banner-wrap">
+      <img src="/keel/keel-banner-dark.png" alt="Keel" class="keel-banner" />
+    </div>
     <p class="lead">One binary. Zero dependencies. Full Docker control.</p>
     <div class="install-wrap">
       <InstallBlock
@@ -31,7 +33,7 @@ import InstallBlock from '../../components/InstallBlock.astro';
   <!-- SCREENSHOT -->
   <section class="screenshot-section">
     <div class="screenshot-frame">
-      <img src="/keel/screenshot-dashboard.webp" alt="Keel dashboard" loading="eager" />
+      <img src="/keel/screenshot-dashboard.png" alt="Keel dashboard" loading="eager" />
     </div>
   </section>
 
@@ -74,7 +76,7 @@ import InstallBlock from '../../components/InstallBlock.astro';
   <!-- METRICS SCREENSHOT -->
   <section class="screenshot-section">
     <div class="screenshot-frame">
-      <img src="/keel/screenshot-metrics.webp" alt="Keel metrics" loading="lazy" />
+      <img src="/keel/screenshot-metrics.png" alt="Keel metrics" loading="lazy" />
     </div>
     <p class="caption">Metrics: real-time host and container monitoring</p>
   </section>
@@ -139,12 +141,15 @@ import InstallBlock from '../../components/InstallBlock.astro';
     color: var(--color-text-muted);
   }
 
-  .hero h1 {
-    font-size: var(--text-display);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-top: var(--space-lg);
+  .keel-banner-wrap {
+    margin-top: var(--space-md);
+    display: flex;
+    justify-content: center;
+  }
+
+  .keel-banner {
+    height: 160px;
+    width: auto;
   }
 
   .lead {

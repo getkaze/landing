@@ -6,44 +6,39 @@ description: Reviews de PR com IA e plataforma de crescimento de desenvolvedores
 
 # O que e o Mole?
 
-Mole e uma plataforma open-source e self-hosted de code review com IA e crescimento de desenvolvedores. Ele se instala como um GitHub App e usa Claude para revisar pull requests automaticamente, classificar issues e rastrear metricas de crescimento.
+Mole (o animal que cava fundo, encontrando o que outros nao veem) e uma plataforma open-source e self-hosted de code review com IA e crescimento de desenvolvedores. Instale como um GitHub App, aponte para seus repos, e cada PR recebe um review automatizado com Claude -- com personalidade, taxonomia formal de issues, scoring de qualidade e rastreamento de crescimento.
 
-Review PR -- Classificar issues -- Rastrear padroes -- Revelar insights -- Crescer desenvolvedores
+O loop completo, self-hosted:
 
-## Principais funcionalidades
+```
+Review PR -> Classificar issues -> Rastrear padroes -> Revelar insights -> Crescer desenvolvedores
+```
 
-- **Reviews automaticos de PR**: Claude analisa cada pull request ao abrir
-- **Deep reviews**: analise multi-pass com Claude Opus, acionada automaticamente ou via `/mole deep-review`
-- **Reviews padrao**: reviews mais leves com Claude Sonnet via `/mole review`
-- **6 categorias de issues**: Security, Bugs, Smells, Architecture, Performance, Style
-- **Score de qualidade**: 0-100 por PR
-- **Validacao de arquitetura**: enforcement de camadas via analise AST
-- **Scanning de seguranca**: deteccao de vulnerabilidades baseada em AST
-- **Diagramas Mermaid**: diagramas de sequencia e classe em deep reviews
-- **3 modos de personalidade**: mole (divertido), formal (profissional), minimal (conciso)
-- **Reviews localizados**: output completo no idioma configurado
-- **Dashboard de crescimento**: analytics individual e de equipe com gamificacao
-- **5 roles de acesso**: Dev, Tech Lead, Architect, Manager, Admin
-- **CLI**: revise qualquer PR pelo terminal
-- **i18n**: Ingles e Portugues (PT-BR)
+## Funcionalidades de Review de PR
 
-## Como funciona
+- **Deep reviews** -- acionados automaticamente ao abrir PR (Claude Opus), ou manualmente com `/mole deep-review`
+- **Reviews padrao** -- review mais leve com `/mole review` (Claude Sonnet)
+- **Ignorar PRs** -- pular reviews com `/mole ignore`
+- **Reviews via CLI** -- revise qualquer PR pelo terminal com `mole review owner/repo#123`
+- **Personalidade do bot** -- 3 modos: `mole` (divertido), `formal` (profissional), `minimal` (conciso) -- configuravel no servidor ou por repo
+- **Reviews localizados** -- output completo do review (issues, resumo) no idioma configurado, nao apenas o chrome da UI
+- **Taxonomia de issues** -- Security, Bugs, Smells, Architecture, Performance, Style (com subcategorias)
+- **Dois niveis de severidade** -- Critical (vermelho) e Attention (amarelo) apenas -- sem sugestoes de baixo valor
+- **Score de qualidade** -- 0-100 por PR (critical = -8, attention = -5)
+- **Validacao de arquitetura** -- regras de enforcement de camadas via analise AST
+- **Scanner de seguranca** -- deteccao baseada em AST de vulnerabilidades comuns
+- **Diagramas Mermaid** -- diagramas de sequencia e classe em deep reviews
 
-1. Um desenvolvedor abre um pull request no GitHub
-2. O GitHub App do Mole recebe um evento webhook
-3. Claude analisa o diff com contexto do projeto dos arquivos `.mole/`
-4. Comentarios de review sao postados inline no PR com score de qualidade
-5. Metricas sao agregadas por hora para o dashboard de crescimento
+## Dashboard de Crescimento de Desenvolvedores
 
-## Dashboard de crescimento
-
-- Visao individual com heat maps, tendencias de score, streaks, badges
-- Visao de equipe com distribuicao de issues e tendencias de qualidade
-- Visao de modulos com scores de saude e rastreamento de tech debt
-- Visao de custos para uso da API Claude (apenas admin)
-- Gamificacao com streaks e conquistas
-- Controle de acesso baseado em roles
-- Suporte a i18n (Portugues e Ingles)
+- **Visao individual** -- heat map de issues, tendencias de score, streaks, badges
+- **Visao de equipe** -- distribuicao de issues, tendencias de qualidade, sugestoes de treinamento
+- **Visao de modulos** -- score de saude, rastreamento de tech debt, agrupado por repositorio
+- **Visao de custos** -- uso da API Claude e custos estimados por modelo (apenas admin)
+- **Gamificacao** -- streaks, badges, conquistas
+- **Pagina About** -- informacoes e versao da aplicacao
+- **Acesso baseado em roles** -- Dev, Tech Lead, Manager, Admin
+- **i18n** -- Portugues (padrao) e Ingles, alternavel via seletor de bandeira
 
 ## Proximos passos
 

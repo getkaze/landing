@@ -6,7 +6,13 @@ description: The 5-phase pipeline that guides every Helm project.
 
 # Pipeline
 
-Every Helm project follows a structured pipeline with 5 phases. Each phase has a specific purpose, and agents must meet quality thresholds before the project advances.
+Helm guides projects through a structured pipeline of AI agents:
+
+```
+DISCOVER    →    PLAN    →    BUILD    →    QUALITY    →    DEPLOY
+```
+
+Every Helm project follows this pipeline with 5 phases. Each phase has a specific purpose, and agents must meet quality thresholds before the project advances.
 
 ## Phases
 
@@ -39,6 +45,40 @@ Build implements tasks from the breakdown, following the architecture and valida
 **Agents:** Verify, Ship
 
 Verify validates that the implementation matches the spec by running tests, checking security, and scoring quality. Ship handles release preparation and deployment.
+
+## Greenfield Flow (new project)
+```
+scout → research → planning → architect → roadmap → breakdown → review → build → verify → ship
+```
+
+## Brownfield Flow (existing codebase)
+```
+survey → research → planning → architect → roadmap → breakdown → review → build → verify → ship
+```
+
+## Status Dashboard
+
+```
+  Helm v0.2.0
+
+  Project:  my-api
+  Type:     brownfield
+  Phase:    build
+  Profile:  guided
+  Language: en-US
+
+  Pipeline:
+    [done]  survey       100%
+    [done]  research     100%
+    [done]  planning     100%
+    [done]  architect    100%
+    [done]  roadmap      100%
+    [done]  breakdown    100%
+    [done]  review       100%
+    [>>  ]  build        in progress
+    [    ]  verify       pending
+    [    ]  ship         pending
+```
 
 ## Transitions
 

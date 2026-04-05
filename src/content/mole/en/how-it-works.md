@@ -12,19 +12,20 @@ Mole is a Go backend that integrates with GitHub via webhooks and uses Claude fo
 
 ```
 GitHub webhook --> POST /webhook --> Valkey queue --> Worker pool
-                   (signature check)   (dedup)          |
-                                                  +-----+-----+
-                                                  | Fetch PR diff (GitHub API)
-                                                  | Load .mole/ context + config
-                                                  | Run architecture validation (AST)
-                                                  | Run security scanner (AST)
-                                                  | Call Claude API (review + taxonomy)
-                                                  | Calculate quality score
-                                                  | Apply personality + severity filter
-                                                  | Validate line numbers against diff
-                                                  | Post review (summary + inline comments)
-                                                  | Save review + issues to MySQL
-                                                  +-- Aggregator computes metrics (hourly)
+                   (signature check)   (dedup)        |
+                                                      +-- Fetch PR diff (GitHub API)
+                                                      +-- Load .mole/ context + config
+                                                      +-- [/mole dig] Clone/fetch repo + worktree
+                                                      +-- [/mole dig] Sonnet explores codebase (tools)
+                                                      +-- Run architecture validation (AST)
+                                                      +-- Run security scanner (AST)
+                                                      +-- Call Claude API (review + taxonomy)
+                                                      +-- Calculate quality score
+                                                      +-- Apply personality + severity filter
+                                                      +-- Validate line numbers against diff
+                                                      +-- Post review (summary + inline comments)
+                                                      +-- Save review + issues to MySQL
+                                                      +-- Aggregator computes metrics (hourly)
 ```
 
 ## Review flow

@@ -6,22 +6,40 @@ description: Instale o Helm e comece a orquestrar seus projetos backend.
 
 # Primeiros Passos
 
-Helm é um orquestrador de agentes AI para desenvolvimento backend. Ele guia seu projeto por um pipeline estruturado, da descoberta ao deploy, usando agentes especializados com gates de qualidade em cada etapa.
+**Helm** (o leme de um navio -- a roda que direciona) é uma ferramenta CLI que gerencia o ciclo de vida de sessões de pipeline de agentes AI. Oferece visibilidade no progresso do pipeline, continuidade de sessão entre conversas do Claude Code e checkpointing de estado.
 
 ## O que é o Helm?
 
-Helm é um gerenciador de estado, não um executor. A lógica dos agentes vive em definições markdown e roda dentro do Claude Code. O CLI gerencia o estado da sessão, exibe progresso e faz a ponte entre conversas.
+Helm é um **gerenciador de estado, não um executor**. A lógica dos agentes vive em definições markdown e roda dentro do Claude Code. O CLI gerencia o estado da sessão, exibe progresso e faz a ponte entre conversas.
 
-- **12 agentes** em 5 fases do pipeline
-- **10 regras de governança** garantindo qualidade, limites e rastreabilidade
-- **Gates de qualidade** com threshold de 95% antes de build e deploy
-- **Continuidade de sessão**: pare, retome e faça checkpoint a qualquer momento
+```bash
+helm init
+helm status
+helm resume
+helm save
+```
 
 ## Instalação
 
 ```bash
 curl -fsSL https://getkaze.dev/helm/install.sh | bash
 ```
+
+Instala a versão mais recente em `~/.local/bin/helm`. Para atualizar depois, execute `helm update`.
+
+### A partir do código-fonte
+
+```bash
+git clone https://github.com/getkaze/helm.git
+cd helm
+make build
+```
+
+O binário é gerado em `bin/helm`. Adicione ao seu PATH ou execute diretamente.
+
+### Dentro do Claude Code
+
+Use o slash command `/helm` para ativar o orquestrador. O CLI complementa o Claude Code -- use-o standalone para verificar status e fazer checkpoint do estado.
 
 ## Inicializar um projeto
 
@@ -44,13 +62,13 @@ O Helm detecta se seu projeto é greenfield (novo) ou brownfield (existente) e r
 ### Fluxo greenfield
 
 ```
-Scout → Research → Planning → Architect → Roadmap → Breakdown → Review → Build → Verify → Ship
+scout → research → planning → architect → roadmap → breakdown → review → build → verify → ship
 ```
 
 ### Fluxo brownfield
 
 ```
-Survey → Research → Planning → Architect → Roadmap → Breakdown → Review → Build → Verify → Ship
+survey → research → planning → architect → roadmap → breakdown → review → build → verify → ship
 ```
 
 ## O que você ganha

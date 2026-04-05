@@ -8,6 +8,22 @@ description: Os 12 agentes que compõem o pipeline do Helm.
 
 Helm tem 12 agentes: 11 especializados em 5 fases do pipeline, mais o orquestrador. Cada agente tem uma missão definida, inputs, outputs e critérios de sucesso.
 
+| Agente | Fase | Papel |
+|--------|------|-------|
+| **scout** | Discover | Explorar requisitos de projetos greenfield |
+| **survey** | Discover | Analisar codebase existente |
+| **research** | Discover | Pesquisa profunda sobre problemas e restrições |
+| **planning** | Plan | Escrever documento de requisitos do produto |
+| **architect** | Plan | Projetar arquitetura do sistema |
+| **roadmap** | Plan | Definir fases e marcos |
+| **breakdown** | Plan | Decompor em tarefas atômicas |
+| **review** | Quality | Validar rastreabilidade do plano (gate 95%) |
+| **build** | Build | Implementar código a partir do breakdown de tarefas |
+| **verify** | Quality | Testes, SAST, code review (gate 95%) |
+| **ship** | Deploy | Operações git, PR, deployment |
+
+Definições dos agentes estão em `agents/`. Regras de governança em `rules/governance.md`. Checklists de qualidade em `references/`.
+
 ## Orquestrador
 
 **Helm** é o ponto de entrada único. Roteia requisições, gerencia sessões, lida com desvios e guia usuários pelo pipeline. Todas as mensagens passam pelo Helm quando uma sessão está ativa.

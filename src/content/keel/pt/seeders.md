@@ -6,23 +6,19 @@ description: Execute scripts de seed de dados dentro de containers Docker.
 
 # Seeders
 
-Execute scripts de seed de dados dentro de containers em execução: migrações de banco, fixture data, configs iniciais.
+Execute scripts de seed de dados dentro de containers em execução -- migrações de banco, fixture data, configs iniciais.
 
-## Como funciona
-
-Cada seeder é um arquivo JSON em `data/seeders/`. Um seeder aponta para um container específico e executa uma lista de comandos em ordem.
-
-## Config do seeder
+Cada seeder é um arquivo JSON em `data/seeders/`:
 
 ```json
 {
   "name": "mysql-init",
   "target": "db-seeder",
-  "description": "Criar bancos localdev, usuários e seed de dados",
+  "description": "Create localdev databases, users, and seed data",
   "order": 1,
   "commands": [
-    { "name": "Instalar dependências", "command": "pip install mysql-connector-python" },
-    { "name": "Seed de dados", "command": "python3 seed.py --env localdev" }
+    { "name": "Install dependencies", "command": "pip install mysql-connector-python" },
+    { "name": "Seed data",            "command": "python3 seed.py --env localdev" }
   ]
 }
 ```
@@ -31,28 +27,25 @@ Cada seeder é um arquivo JSON em `data/seeders/`. Um seeder aponta para um cont
 
 | Campo | Descrição |
 |-------|-----------|
-| name | Nome do seeder (deve corresponder ao nome do arquivo) |
-| target | Nome do container para exec |
-| description | Descrição legível |
-| order | Ordem de execução (menor = primeiro) |
-| commands | Lista ordenada de passos |
-| commands[].name | Nome de exibição do passo |
-| commands[].command | Comando shell a executar (inline) |
-| commands[].script | Caminho para um arquivo de script (alternativa ao command) |
-| commands[].interpreter | Interpretador do script (ex: "python3", "bash") |
+| `target` | Nome do container para exec |
+| `order` | Ordem de execução (menor = primeiro) |
+| `commands` | Lista ordenada de passos (veja abaixo) |
+
+Cada entrada de comando suporta:
+
+| Campo | Descrição |
+|-------|-----------|
+| `name` | Identificador do passo |
+| `command` | Comando único a executar via `docker exec` |
+| `script` | Nome de arquivo de um script no diretório de seeders (alternativa ao `command`) |
+| `interpreter` | Interpretador para pipe do script -- ex: `bash`, `python3` (usado com `script`) |
+| `http` | Requisição HTTP a executar via `curl` dentro do container alvo (alternativa ao `command`/`script`) |
 
 ## Executando seeders
 
-Pelo CLI:
+Seeders podem ser executados pela UI (página Seeders) ou via CLI:
 
 ```bash
-# Executar todos os seeders em ordem
-keel seed
-
-# Executar um único seeder
-keel seed mysql-init
+keel seed                      # executar todos os seeders em ordem
+keel seed mysql-init           # executar um único seeder
 ```
-
-Você também pode executar seeders pelo dashboard na página **Seeders**.
-
-> Seeders são executados via `docker exec` dentro do container alvo. O container deve estar rodando.

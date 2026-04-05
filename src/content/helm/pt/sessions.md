@@ -8,6 +8,36 @@ description: Como o Helm gerencia estado entre conversas.
 
 Helm persiste todo o estado para que o trabalho sobreviva entre sessões do Claude Code. Você pode parar a qualquer momento, fechar o editor e retomar depois sem perder progresso. As sessões incluem backups automáticos com rotação de checkpoints (máx 5).
 
+## Como funciona
+
+1. `helm init` cria `.helm/session.yaml` e `helm.yaml`
+2. Agentes rodam dentro do Claude Code via `/helm` e atualizam o estado da sessão
+3. `helm save` faz checkpoint do estado para handoff seguro de sessão
+4. `helm resume` mostra onde retomar em uma nova sessão do Claude Code
+
+## Estrutura de Arquivos
+
+```
+.helm/                    # Estado runtime (gitignored)
+  session.yaml            # Estado atual da sessão
+  session.yaml.backup     # Auto-backup antes de cada escrita
+  handoffs/               # Documentos de handoff entre agentes
+  artifacts/              # Output por agente (relatórios, specs)
+  checkpoints/            # Snapshots da sessão (máx 5, rotação FIFO)
+
+helm.yaml                 # Config do projeto (commitado)
+references/               # Checklists de qualidade (segurança, testes, performance, launch)
+```
+
+## Checkpoints
+
+`helm save` valida a integridade da sessão antes de fazer checkpoint:
+- Verifica campos obrigatórios em session.yaml
+- Verifica se arquivos de handoff existem para agentes completados
+- Verifica se diretórios de artefatos existem para agentes completados
+- Rotaciona checkpoints antigos (mantém últimos 5)
+- Faz auto-backup de session.yaml antes de escrever
+
 ## Estado da sessão
 
 O estado da sessão vive em `.helm/session.yaml`:

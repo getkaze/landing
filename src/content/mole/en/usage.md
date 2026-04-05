@@ -20,7 +20,10 @@ Comment on any PR to trigger Mole:
 |---------|-------------|
 | `/mole review` | Standard review (Claude Sonnet) |
 | `/mole deep-review` | Deep review with diagrams (Claude Opus) |
+| `/mole dig` | Contextual review -- clones repo, explores codebase with Sonnet, reviews with Opus |
 | `/mole ignore` | Skip all future reviews for this PR |
+
+PRs are also reviewed automatically when opened.
 
 ## CLI commands
 
@@ -34,15 +37,21 @@ mole migrate
 # Check connectivity to MySQL, Valkey, and GitHub
 mole health
 
-# Scan repo and generate .mole/ context files
+# Scan a repo and generate .mole/ context files
 mole init /path/to/repo
+mole init /path/to/repo --language pt-BR
 
-# Review PR from CLI
+# Review a PR from the CLI
 mole review owner/repo#123
 mole review owner/repo#123 --deep
+mole review owner/repo#123 --dig       # clone + explore + review
 mole review owner/repo#123 --install-id 12345
 
-# Sync reactions, recalculate scores, update metrics
+# Review from local fixtures (no GitHub App needed)
+mole review --local ./testdata/fixtures/01-auth-tokens/
+mole review --local ./testdata/fixtures/05-cache-layer/ --deep
+
+# Sync reactions, recalculate scores, and update metrics
 mole sync
 
 # Manage dashboard roles
@@ -79,11 +88,7 @@ Every issue found by Mole is classified into one of 6 categories:
 
 ## Reaction sync
 
-Developers can react to inline review comments on GitHub:
-- 👍 Confirm the issue
-- 👎 Mark as false positive
-
-Force immediate sync:
+Developers can react to Mole's inline comments with :+1: (confirm issue) or :-1: (false positive). Mole syncs reactions automatically every hour, but you can force an immediate sync:
 
 ```bash
 mole sync
@@ -91,6 +96,6 @@ mole sync
 
 This command:
 1. Polls GitHub for reactions on recent review comments
-2. Marks issues as confirmed or false_positive
+2. Marks issues as `confirmed` or `false_positive` based on reactions
 3. Recalculates PR scores excluding false positives
-4. Updates developer and module metrics
+4. Updates developer and module metrics (false positives are no longer counted)

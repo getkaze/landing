@@ -1,12 +1,12 @@
 ---
 title: Docker
 order: 8
-description: Execute o Mole com Docker e Docker Compose.
+description: Execute o Mole com Docker.
 ---
 
 # Docker
 
-Imagens pre-built sao publicadas no GHCR a cada push na main.
+Uma imagem pre-built e publicada no GHCR a cada push na `main`:
 
 ```bash
 docker pull ghcr.io/getkaze/mole:main
@@ -37,75 +37,8 @@ docker run -d --name mole \
   ghcr.io/getkaze/mole:main
 ```
 
-## Docker Compose
-
-```yaml
-services:
-  mole:
-    image: ghcr.io/getkaze/mole:main
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./mole.yaml:/etc/mole/mole.yaml
-      - ./github-app.pem:/etc/mole/github-app.pem:ro
-    environment:
-      - MOLE_MYSQL_HOST=mysql
-      - MOLE_VALKEY_HOST=valkey
-    depends_on:
-      mysql:
-        condition: service_healthy
-      valkey:
-        condition: service_started
-
-  mysql:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: mole
-      MYSQL_USER: mole
-      MYSQL_PASSWORD: ${MOLE_DB_PASSWORD}
-    volumes:
-      - mysql-data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      retries: 10
-
-  valkey:
-    image: valkey/valkey:7
-    volumes:
-      - valkey-data:/data
-
-volumes:
-  mysql-data:
-  valkey-data:
-```
-
 ## Build local
 
 ```bash
 docker build -t mole .
 ```
-
-## Build a partir do codigo fonte
-
-```bash
-make build     # plataforma atual
-make release   # cross-compile para linux/darwin amd64/arm64
-make test      # rodar testes
-make clean     # remover binarios
-```
-
-Binarios sao gerados em `dist/` com checksums SHA256.
-
-## Health check
-
-Mole expoe um endpoint de saude em `/health`:
-
-```bash
-curl http://localhost:8080/health
-```
-
-## Metricas
-
-Metricas Prometheus estao disponiveis em `/metrics`.

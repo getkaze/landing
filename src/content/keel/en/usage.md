@@ -24,7 +24,7 @@ keel start
 # Start specific services
 keel start redis mysql
 
-# Start a group
+# Start all services in a group
 keel start infra
 
 # Stop all services
@@ -33,8 +33,14 @@ keel stop
 # Stop a specific service
 keel stop traefik
 
-# Stop a group
-keel stop app
+# Stop all services in a group
+keel stop tools
+
+# Restart all services (stop + start)
+keel restart
+
+# Restart specific services
+keel restart redis mysql
 
 # Destroy and recreate all containers
 keel reset --all
@@ -106,7 +112,7 @@ keel update
 ## Maintenance
 
 ```bash
-# Remove all containers + network + data directory (requires sudo)
+# Remove all containers + network + data directory
 keel purge
 
 # Show version
@@ -120,9 +126,9 @@ keel help
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| -port | 60000 | HTTP port |
-| -bind | 127.0.0.1 | Bind address |
-| -keel-dir | (platform default) | Data directory |
-| -dev | false | Serve web assets from filesystem |
+| `-port` | `60000` | HTTP port |
+| `-bind` | `127.0.0.1` | Bind address |
+| `-keel-dir` | `/var/lib/keel` (Linux) or `~/.keel` (macOS) | Data directory |
+| `-dev` | `false` | Serve web assets from filesystem |
 
-> You can also override the data directory with the `KEEL_DIR` environment variable.
+Override the data directory with `KEEL_DIR` environment variable.

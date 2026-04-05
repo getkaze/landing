@@ -13,16 +13,38 @@ Helm is invoked inside Claude Code via the `/helm` command. The CLI manages init
 ```bash
 # Initialize a new project
 helm init
+helm init --name my-api --type brownfield --lang pt-BR
+helm init --force                    # reinitialize existing project
 
-# Show current state and version
-helm status
+# Check pipeline status
+helm status                          # colored dashboard
+helm status --short                  # one-line summary
+helm status --json                   # machine-readable output
 
-# Resume from last checkpoint
-helm resume
+# Resume from where you left off
+helm resume                          # show context + next steps
+helm resume --json                   # structured output
 
 # Checkpoint session state
-helm save
+helm save                            # validate + checkpoint
+helm save --message "before refactor"
+helm save --force                    # skip recent checkpoint warning
+
+# Update to latest version
+helm update
+
+# Other
+helm version
+helm help
 ```
+
+### Global Flags
+
+| Flag | Description |
+|------|-------------|
+| `--no-color` | Disable colored output |
+
+Color is automatically disabled when piping output or when `NO_COLOR` environment variable is set.
 
 ## Claude Code commands
 

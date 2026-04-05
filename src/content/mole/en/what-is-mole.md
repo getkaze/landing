@@ -6,44 +6,39 @@ description: AI-powered PR reviews and developer growth platform.
 
 # What is Mole?
 
-Mole is an open-source, self-hosted AI code review and developer growth platform. It installs as a GitHub App and uses Claude to automatically review pull requests, classify issues, and track developer growth metrics.
+Mole (the animal that digs deep, finding what others miss) is an open-source, self-hosted AI code review and developer growth platform. Install it as a GitHub App, point it at your repos, and every PR gets an automated review powered by Claude -- with personality, formal issue taxonomy, quality scoring, and growth tracking.
 
-Review PR -- Classify issues -- Track patterns -- Surface insights -- Grow developers
+The full loop, self-hosted:
 
-## Key features
+```
+Review PR -> Classify issues -> Track patterns -> Surface insights -> Grow developers
+```
 
-- **Automated PR reviews**: Claude analyzes every pull request on open
-- **Deep reviews**: multi-pass analysis with Claude Opus, triggered automatically or via `/mole deep-review`
-- **Standard reviews**: lighter reviews with Claude Sonnet via `/mole review`
-- **6 issue categories**: Security, Bugs, Smells, Architecture, Performance, Style
-- **Quality scoring**: 0-100 per PR
-- **Architecture validation**: layer enforcement via AST analysis
-- **Security scanning**: AST-based vulnerability detection
-- **Mermaid diagrams**: sequence and class diagrams in deep reviews
-- **3 personality modes**: mole (playful), formal (professional), minimal (terse)
-- **Localized reviews**: full output in configured language
-- **Growth dashboard**: individual and team analytics with gamification
-- **5 access roles**: Dev, Tech Lead, Architect, Manager, Admin
-- **CLI**: review any PR from the terminal
-- **i18n**: English and Portuguese (PT-BR)
+## PR Review Features
 
-## How it works
+- **Deep reviews** -- triggered automatically on PR open (Claude Opus), or manually with `/mole deep-review`
+- **Standard reviews** -- lighter review with `/mole review` (Claude Sonnet)
+- **Ignore PRs** -- skip reviews with `/mole ignore`
+- **CLI reviews** -- review any PR from your terminal with `mole review owner/repo#123`
+- **Bot personality** -- 3 modes: `mole` (playful), `formal` (professional), `minimal` (terse) -- configurable server-wide or per-repo
+- **Localized reviews** -- full review output (issues, summary) in the configured language, not just the UI chrome
+- **Issue taxonomy** -- Security, Bugs, Smells, Architecture, Performance, Style (with subcategories)
+- **Two severity levels** -- Critical (red) and Attention (yellow) only -- no low-value suggestions
+- **Quality score** -- 0-100 per PR (critical = -8, attention = -5)
+- **Architecture validation** -- layer enforcement rules via AST analysis
+- **Security scanner** -- AST-based detection of common vulnerabilities
+- **Mermaid diagrams** -- sequence and class diagrams in deep reviews
 
-1. A developer opens a pull request on GitHub
-2. Mole's GitHub App receives a webhook event
-3. Claude analyzes the diff with project context from `.mole/` files
-4. Review comments are posted inline on the PR with quality score
-5. Metrics are aggregated hourly for the growth dashboard
+## Developer Growth Dashboard
 
-## Growth dashboard
-
-- Individual view with heat maps, score trends, streaks, badges
-- Team view showing issue distribution and quality trends
-- Module view with health scores and tech debt tracking
-- Costs view for Claude API usage (admin only)
-- Gamification with streaks and achievements
-- Role-based access control
-- i18n support (Portuguese and English)
+- **Individual view** -- issue heat map, score trends, streaks, badges
+- **Team view** -- issue distribution, quality trends, training suggestions
+- **Module view** -- health score, tech debt tracking, grouped by repository
+- **Costs view** -- Claude API usage and estimated costs per model (admin only)
+- **Gamification** -- streaks, badges, achievements
+- **About page** -- application info and version
+- **Role-based access** -- Dev, Tech Lead, Manager, Admin
+- **i18n** -- Portuguese (default) and English, switchable via flag selector
 
 ## Next steps
 

@@ -18,15 +18,14 @@ Mole uses files in the `.mole/` directory to understand your project's context. 
   decisions.md      # ADRs, tech choices
 ```
 
-Markdown files are loaded automatically and included in review prompts. `config.yaml` controls Mole's behavior for the repository.
+Markdown files are loaded automatically and included in the review prompt. `config.yaml` controls Mole's behavior for this repo.
 
 ## Generate automatically
 
 ```bash
 mole init /path/to/repo
+mole init /path/to/repo --language pt-BR   # generate docs in Portuguese
 ```
-
-This scans the repository and generates the `.mole/` context files.
 
 ## config.yaml
 

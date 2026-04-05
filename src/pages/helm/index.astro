@@ -13,8 +13,10 @@ import InstallBlock from '../../components/InstallBlock.astro';
 
   <!-- HERO -->
   <section class="hero">
-    <span class="eyebrow">v0.1 · alpha · MIT</span>
-    <h1>Helm</h1>
+    <span class="eyebrow">v0.2 · alpha · MIT</span>
+    <div class="helm-banner-wrap">
+      <img src="/helm/helm-banner-dark.png" alt="Helm" class="helm-banner" />
+    </div>
     <p class="lead">AI agent orchestration for backend development.</p>
     <div class="install-wrap">
       <InstallBlock
@@ -38,7 +40,7 @@ import InstallBlock from '../../components/InstallBlock.astro';
       <div class="helm-terminal-body">
         <div class="ht-line" data-delay="0"><span class="ht-prompt">$</span> <span class="ht-cmd">helm status</span></div>
         <div class="ht-line ht-blank" data-delay="600"></div>
-        <div class="ht-line" data-delay="800">  <span class="ht-heading">Helm v0.1</span></div>
+        <div class="ht-line" data-delay="800">  <span class="ht-heading">Helm v0.2</span></div>
         <div class="ht-line ht-blank" data-delay="1000"></div>
         <div class="ht-line" data-delay="1100">  <span class="ht-label">Project:</span>  <span class="ht-value">my-api</span></div>
         <div class="ht-line" data-delay="1200">  <span class="ht-label">Type:</span>     <span class="ht-value">brownfield</span></div>
@@ -193,12 +195,15 @@ import InstallBlock from '../../components/InstallBlock.astro';
     color: var(--color-text-muted);
   }
 
-  .hero h1 {
-    font-size: var(--text-display);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-top: var(--space-lg);
+  .helm-banner-wrap {
+    margin-top: var(--space-md);
+    display: flex;
+    justify-content: center;
+  }
+
+  .helm-banner {
+    height: 100px;
+    width: auto;
   }
 
   .lead {

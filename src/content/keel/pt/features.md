@@ -8,54 +8,37 @@ description: Visão completa das funcionalidades de gerenciamento Docker do Keel
 
 Uma visão completa de tudo que o Keel pode fazer.
 
-## Dashboard ao Vivo
+## Dashboard
 
-Visualização em grid em tempo real de todos os containers com polling de status. Agrupe serviços por categoria. Inicie, pare, reinicie e atualize containers sem sair do browser.
+Visualização em grid ao vivo de todos os containers com polling de status em tempo real. Agrupe serviços por categoria. Inicie, pare, reinicie e atualize containers diretamente pela UI.
 
-## Streaming de Logs SSE
+## Logs
 
-Stream de logs via `docker logs` ou arquivos host-path, mesmo quando o container está crashado ou parado. Múltiplas fontes de log por serviço com navegação por abas.
+Streaming baseado em SSE via `docker logs` ou arquivos de container. Suporta **logs host-path** -- leia arquivos de log diretamente do filesystem do host mesmo quando o container está crashado ou parado.
 
-## Terminal no Browser
+## Terminal
 
-PTY interativo completo via WebSocket. Interface multi-abas com uma aba Local fixa mais uma aba por sessão `docker exec`. Alterne com Ctrl+`.
+Terminal interativo completo no browser via WebSocket + PTY. Ctrl+\` para alternar. Suporte multi-abas -- uma aba **Local** fixa está sempre disponível, e cada conexão `docker exec` abre em sua própria aba. Clique em **CONNECT** em qualquer container em execução para abrir uma sessão shell.
 
-## Métricas em Tempo Real
+## Métricas
 
-CPU, memória, disco, load average, uptime e stats Docker por container incluindo rede e block I/O. Tudo exibido no dashboard com auto-refresh.
-
-## Targets Remotos via SSH
-
-Gerencie hosts Docker locais e remotos pela mesma interface. Mude de target com um único comando. Túnel SSH aberto automaticamente com reconexão e backoff exponencial.
-
-## Modo Dev + Hot Reload
-
-Monte código-fonte local em um container com Dockerfile customizado e faça stream da saída direto no terminal. Ctrl+C para parar e restaurar o container original.
-
-## Seeders
-
-Execute scripts de seed de dados dentro dos containers: migrações de banco, fixture data, configs iniciais. Execute via CLI ou dashboard.
+CPU, memória, disco, load average, uptime e stats Docker por container em tempo real (CPU%, RAM, network I/O, block I/O).
 
 ## Editor de Config
 
-Editor JSON inline para cada serviço. Edite e salve diretamente pelo dashboard. As alterações são escritas atomicamente com backup automático da versão anterior.
+Editor JSON inline para cada serviço. Edite, salve, e a config é escrita atomicamente com backup.
+
+## URL do Dashboard
+
+Serviços podem definir uma `dashboard_url` na sua config JSON. Quando definida, um botão **ABRIR** aparece tanto no card de overview quanto na página de detalhes, linkando para a UI web do serviço (ex: RedisInsight, DBGate, pgAdmin).
+
+```json
+{
+  "name": "redisinsight",
+  "dashboard_url": "http://localhost:5540"
+}
+```
 
 ## Health Checks
 
-Monitoramento de saúde HTTP ou por comando com intervalo, retries e período de start configuráveis. Status visível nos cards do dashboard.
-
-## URLs do Dashboard
-
-Vincule serviços às suas UIs web. Quando configurado, um botão ABRIR aparece no card de overview e na página de detalhes.
-
-## Suporte GHCR
-
-Auto-login no GitHub Container Registry com credenciais armazenadas. Baixe imagens privadas do ghcr.io sem docker login manual.
-
-## Criação de Serviço
-
-Crie novos serviços diretamente pela UI do dashboard. Preencha os campos e o Keel gera o arquivo de config JSON.
-
-## Auto-Update
-
-Atualize o binário pela página de Configurações do dashboard ou via `keel update` no CLI.
+Health checks HTTP ou por comando com intervalo, retries e período de start configuráveis.

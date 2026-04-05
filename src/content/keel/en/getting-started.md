@@ -6,25 +6,21 @@ description: Install Keel and start managing Docker containers in seconds.
 
 # Getting Started
 
-Keel is a self-hosted Docker dashboard. It's a single Go binary (~10MB) with zero external dependencies that gives you full control over local and remote Docker environments.
+**Keel** (the keel of a ship -- the hidden structure that keeps everything aligned) is a self-hosted web dashboard for managing Docker environments -- local or remote via SSH -- from a single Go binary (~10MB, no external dependencies).
+
+## Prerequisites
+
+- **Docker** -- local install or remote host with Docker via SSH
+- **SSH key pair** -- required for remote targets
+- **sudo** -- only for `keel hosts setup` (modifies `/etc/hosts`)
 
 ## Install
-
-Run the install script to download the binary and set up the data directory:
 
 ```bash
 curl -fsSL https://getkaze.dev/keel/install.sh | sudo bash
 ```
 
-This installs the binary to `~/.local/bin/keel` and creates the data directory:
-
-| Platform | Binary | Data Directory |
-|----------|--------|----------------|
-| Linux (with sudo) | ~/.local/bin/keel | /var/lib/keel |
-| Linux (without sudo) | ~/.local/bin/keel | ~/.keel |
-| macOS | ~/.local/bin/keel | ~/.keel |
-
-> If `~/.local/bin` is not in your PATH, the installer will show you how to add it.
+This installs the binary to `~/.local/bin/keel` and creates the data directory at `/var/lib/keel`. The binary is owned by your user, enabling self-update from the dashboard without sudo. The installer automatically adds `~/.local/bin` to your PATH (supports zsh, bash, and fish).
 
 ## Start
 
@@ -49,10 +45,15 @@ Open `http://localhost:60000` and you have a full dashboard with live status, lo
 - **Config Editor**: edit service JSON configs inline from the dashboard
 - **Health Checks**: HTTP or command-based monitoring with configurable intervals
 
-## Directory structure
+## Data directory
+
+| Platform | Default Path | Override |
+|----------|-------------|----------|
+| Linux | `/var/lib/keel/` | `KEEL_DIR` or `-keel-dir` |
+| macOS | `~/.keel/` | `KEEL_DIR` or `-keel-dir` |
 
 ```
-/var/lib/keel/
+/var/lib/keel/      # Linux (or ~/.keel/ on macOS)
   data/
     config.json           # global config (network, subnet)
     targets.json          # Docker targets (local + SSH)
@@ -63,7 +64,7 @@ Open `http://localhost:60000` and you have a full dashboard with live status, lo
       mysql-init.json
     config/
       traefik/
-        dynamic.yml       # Traefik routing rules
+        dynamic.yml       # Traefik routing rules (used by "keel hosts")
   state/
     target                # active target name
     ghcr-user             # GHCR credentials (chmod 600)

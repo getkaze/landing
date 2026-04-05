@@ -8,6 +8,36 @@ description: How Helm manages state across conversations.
 
 Helm persists all state so that work survives across Claude Code sessions. You can stop at any point, close the editor, and resume later without losing progress. Sessions include automatic backups with checkpoint rotation (max 5).
 
+## How it works
+
+1. `helm init` creates `.helm/session.yaml` and `helm.yaml`
+2. Agents run inside Claude Code via `/helm` and update session state
+3. `helm save` checkpoints state for safe session handoff
+4. `helm resume` shows where to pick up in a new Claude Code session
+
+## File Structure
+
+```
+.helm/                    # Runtime state (gitignored)
+  session.yaml            # Current session state
+  session.yaml.backup     # Auto-backup before every write
+  handoffs/               # Agent-to-agent handoff documents
+  artifacts/              # Per-agent output (reports, specs)
+  checkpoints/            # Session snapshots (max 5, FIFO rotation)
+
+helm.yaml                 # Project config (committed)
+references/               # Quality checklists (security, testing, performance, launch)
+```
+
+## Checkpoints
+
+`helm save` validates session integrity before checkpointing:
+- Checks required fields in session.yaml
+- Verifies handoff files exist for completed agents
+- Verifies artifact directories exist for completed agents
+- Rotates old checkpoints (keeps last 5)
+- Auto-backs up session.yaml before writing
+
 ## Session state
 
 Session state lives in `.helm/session.yaml`:

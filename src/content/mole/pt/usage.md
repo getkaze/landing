@@ -20,7 +20,10 @@ Comente em qualquer PR para acionar o Mole:
 |---------|-----------|
 | `/mole review` | Review padrao (Claude Sonnet) |
 | `/mole deep-review` | Deep review com diagramas (Claude Opus) |
+| `/mole dig` | Review contextual -- clona o repo, explora codebase com Sonnet, revisa com Opus |
 | `/mole ignore` | Ignorar todos os reviews futuros deste PR |
+
+PRs tambem sao revisados automaticamente quando abertos.
 
 ## Comandos CLI
 
@@ -36,13 +39,19 @@ mole health
 
 # Escanear repo e gerar arquivos de contexto .mole/
 mole init /path/to/repo
+mole init /path/to/repo --language pt-BR
 
 # Revisar PR pelo CLI
 mole review owner/repo#123
 mole review owner/repo#123 --deep
+mole review owner/repo#123 --dig       # clone + explore + review
 mole review owner/repo#123 --install-id 12345
 
-# Sincronizar reacoes, recalcular scores, atualizar metricas
+# Revisar a partir de fixtures locais (sem necessidade de GitHub App)
+mole review --local ./testdata/fixtures/01-auth-tokens/
+mole review --local ./testdata/fixtures/05-cache-layer/ --deep
+
+# Sincronizar reacoes, recalcular scores e atualizar metricas
 mole sync
 
 # Gerenciar roles do dashboard
@@ -79,11 +88,7 @@ Todo issue encontrado pelo Mole e classificado em uma de 6 categorias:
 
 ## Sync de reacoes
 
-Desenvolvedores podem reagir aos comentarios inline de review no GitHub:
-- 👍 Confirmar o issue
-- 👎 Marcar como falso positivo
-
-Forcar sync imediato:
+Desenvolvedores podem reagir aos comentarios inline do Mole com :+1: (confirmar issue) ou :-1: (falso positivo). Mole sincroniza reacoes automaticamente a cada hora, mas voce pode forcar um sync imediato:
 
 ```bash
 mole sync
@@ -91,6 +96,6 @@ mole sync
 
 Este comando:
 1. Consulta o GitHub por reacoes em comentarios de review recentes
-2. Marca issues como confirmados ou falso_positivo
+2. Marca issues como `confirmed` ou `false_positive` baseado nas reacoes
 3. Recalcula scores dos PRs excluindo falsos positivos
-4. Atualiza metricas de desenvolvedores e modulos
+4. Atualiza metricas de desenvolvedores e modulos (falsos positivos nao sao mais contados)

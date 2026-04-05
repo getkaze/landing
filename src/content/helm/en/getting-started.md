@@ -6,22 +6,40 @@ description: Install Helm and start orchestrating your backend projects.
 
 # Getting Started
 
-Helm is an AI agent orchestrator for backend development. It guides your project through a structured pipeline, from discovery to deployment, using specialized agents with quality gates at every stage.
+**Helm** (the helm of a ship -- the wheel that steers direction) is a CLI tool that manages the lifecycle of AI agent pipeline sessions. It provides visibility into pipeline progress, session continuity across Claude Code conversations, and state checkpointing.
 
 ## What is Helm?
 
-Helm is a state manager, not an executor. Agent logic lives in markdown definitions and runs inside Claude Code. The CLI manages session state, displays progress, and bridges the gap between conversations.
+Helm is a **state manager, not an executor**. Agent logic lives in markdown definitions and runs inside Claude Code. The CLI manages session state, displays progress, and bridges the gap between conversations.
 
-- **12 agents** across 5 pipeline phases
-- **10 governance rules** enforcing quality, boundaries, and traceability
-- **Quality gates** at 95% threshold before build and deploy
-- **Session continuity** that lets you stop, resume, and checkpoint at any point
+```bash
+helm init
+helm status
+helm resume
+helm save
+```
 
 ## Install
 
 ```bash
 curl -fsSL https://getkaze.dev/helm/install.sh | bash
 ```
+
+This installs the latest release to `~/.local/bin/helm`. To update later, run `helm update`.
+
+### From source
+
+```bash
+git clone https://github.com/getkaze/helm.git
+cd helm
+make build
+```
+
+Binary is output to `bin/helm`. Add it to your PATH or run directly.
+
+### Within Claude Code
+
+Use the `/helm` slash command to activate the orchestrator. The CLI complements Claude Code -- use it standalone to check status and checkpoint state.
 
 ## Initialize a project
 
@@ -44,13 +62,13 @@ Helm detects whether your project is greenfield (new) or brownfield (existing) a
 ### Greenfield flow
 
 ```
-Scout → Research → Planning → Architect → Roadmap → Breakdown → Review → Build → Verify → Ship
+scout → research → planning → architect → roadmap → breakdown → review → build → verify → ship
 ```
 
 ### Brownfield flow
 
 ```
-Survey → Research → Planning → Architect → Roadmap → Breakdown → Review → Build → Verify → Ship
+survey → research → planning → architect → roadmap → breakdown → review → build → verify → ship
 ```
 
 ## What you get

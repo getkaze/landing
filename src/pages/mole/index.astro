@@ -14,10 +14,9 @@ import InstallBlock from '../../components/InstallBlock.astro';
   <!-- HERO -->
   <section class="hero">
     <span class="eyebrow">v0.1 · alpha · MIT</span>
-    <h1 class="mole-title">
-      <img src="/mole/mole-favicon.png" alt="Mole" width="56" height="56" class="mole-icon" />
-      Mole
-    </h1>
+    <div class="mole-banner-wrap">
+      <img src="/mole/mole-logo.png" alt="Mole" class="mole-banner" />
+    </div>
     <p class="lead">Digs deep into code, elevates those who write it.</p>
     <div class="install-wrap">
       <InstallBlock
@@ -144,20 +143,15 @@ import InstallBlock from '../../components/InstallBlock.astro';
     color: var(--color-text-muted);
   }
 
-  .mole-title {
-    font-size: var(--text-display);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-top: var(--space-lg);
+  .mole-banner-wrap {
+    margin-top: var(--space-md);
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 12px;
   }
 
-  .mole-icon {
-    border-radius: 8px;
+  .mole-banner {
+    height: 200px;
+    width: auto;
   }
 
   .lead {

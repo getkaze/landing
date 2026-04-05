@@ -6,21 +6,21 @@ description: Referencia completa para configuracao YAML do Mole.
 
 # Referencia de Config
 
-A configuracao do Mole vive em `mole.yaml`. Todos os campos podem ser sobrescritos com variaveis de ambiente prefixadas com `MOLE_` (ex: `MOLE_GITHUB_APP_ID`, `MOLE_LLM_API_KEY`, `MOLE_MYSQL_HOST`).
+A configuracao do Mole vive em `mole.yaml`. Todos os campos podem ser sobrescritos com variaveis de ambiente prefixadas com `MOLE_`.
 
 ## Exemplo completo
 
 ```yaml
 github:
-  app_id: 12345
-  private_key_path: /etc/mole/app.pem
-  webhook_secret: "secret"
+  app_id: 12345                          # ID do GitHub App
+  private_key_path: /etc/mole/app.pem    # Caminho para a chave privada
+  webhook_secret: "secret"               # Webhook secret
 
 llm:
-  api_key: "sk-ant-..."
-  review_model: "claude-sonnet-4-6"
-  deep_review_model: "claude-opus-4-6"
-  # Pricing por 1M tokens [input, output] - para o dashboard de Custos
+  api_key: "sk-ant-..."                  # API key da Anthropic
+  review_model: "claude-sonnet-4-6"      # Modelo para review padrao
+  deep_review_model: "claude-opus-4-6"   # Modelo para deep review
+  # Pricing por 1M tokens [input, output] -- para o dashboard de Custos
   # Usa pricing publicado da Anthropic se omitido
   pricing:
     claude-sonnet-4-6: [3.00, 15.00]
@@ -39,17 +39,27 @@ valkey:
 
 server:
   port: 8080
+  environment: production            # development | production
 
 worker:
   count: 3
 
 log:
-  level: info
+  level: info                            # debug | info | warn | error
 
 # Defaults no nivel do servidor (sobrescriveis por repo via .mole/config.yaml)
 defaults:
-  language: en
-  personality: mole
+  language: en                           # en, pt-BR
+  personality: mole                      # mole, formal, minimal
+
+# Exploracao de codebase (opcional -- requer git no host)
+# Habilita o comando /mole dig para reviews contextuais
+repos:
+  base_path: "/var/lib/mole/repos"   # Onde clonar repos (vazio = desabilitado)
+
+exploration:
+  max_turns: 25                       # Max turnos de tool-use do Sonnet
+  model: "claude-sonnet-4-6"           # Modelo de exploracao
 
 # Dashboard (opcional)
 dashboard:
@@ -57,7 +67,7 @@ dashboard:
   github_client_secret: ""
   session_secret: ""
   base_url: "http://localhost:8080"
-  allowed_org: ""
+  allowed_org: ""                        # Restringir a membros da org (vazio = permitir todos)
 ```
 
 ## GitHub
@@ -99,6 +109,7 @@ dashboard:
 | Campo | Tipo | Padrao | Descricao |
 |-------|------|--------|-----------|
 | server.port | number | 8080 | Porta HTTP |
+| server.environment | string | production | Ambiente (development, production) |
 
 ## Worker
 
@@ -119,6 +130,19 @@ dashboard:
 | defaults.language | string | en | Idioma do review (en, pt-BR) |
 | defaults.personality | string | mole | Modo de personalidade (mole, formal, minimal) |
 
+## Repos
+
+| Campo | Tipo | Padrao | Descricao |
+|-------|------|--------|-----------|
+| repos.base_path | string | (vazio) | Onde clonar repos para /mole dig (vazio = desabilitado) |
+
+## Exploration
+
+| Campo | Tipo | Padrao | Descricao |
+|-------|------|--------|-----------|
+| exploration.max_turns | number | 25 | Max turnos de tool-use do Sonnet para exploracao de codebase |
+| exploration.model | string | claude-sonnet-4-6 | Modelo usado para exploracao de codebase |
+
 ## Dashboard
 
 Dashboard opcional com HTMX para rastreamento de crescimento de desenvolvedores. Requer um GitHub OAuth App (criado em github.com/settings/developers) com callback URL `http://seu-servidor/auth/callback`.
@@ -137,8 +161,41 @@ Dashboard opcional com HTMX para rastreamento de crescimento de desenvolvedores.
 |------|----------------|-----------------|-------------------|---------|--------|
 | Dev | Sim | Sim (anonimo) | Nao | Sim | Nao |
 | Tech Lead | Sim | Sim | Sim (opt-in) | Sim | Nao |
-| Architect | Sim | Sim | Sim (opt-in) | Sim | Nao |
 | Manager | Nao | Sim | Nao | Sim | Nao |
 | Admin | Sim | Sim | Sim | Sim | Sim |
 
 Manager ve menos que Tech Lead por design -- esta ferramenta e para crescimento, nao avaliacao de RH.
+
+## Variaveis de ambiente
+
+Todo campo pode ser sobrescrito com variaveis de ambiente usando o prefixo `MOLE_`:
+
+| Variavel | Campo de config |
+|----------|----------------|
+| `MOLE_GITHUB_APP_ID` | `github.app_id` |
+| `MOLE_GITHUB_PRIVATE_KEY_PATH` | `github.private_key_path` |
+| `MOLE_GITHUB_WEBHOOK_SECRET` | `github.webhook_secret` |
+| `MOLE_LLM_API_KEY` | `llm.api_key` |
+| `MOLE_LLM_REVIEW_MODEL` | `llm.review_model` |
+| `MOLE_LLM_DEEP_REVIEW_MODEL` | `llm.deep_review_model` |
+| `MOLE_MYSQL_HOST` | `mysql.host` |
+| `MOLE_MYSQL_PORT` | `mysql.port` |
+| `MOLE_MYSQL_DATABASE` | `mysql.database` |
+| `MOLE_MYSQL_USER` | `mysql.user` |
+| `MOLE_MYSQL_PASSWORD` | `mysql.password` |
+| `MOLE_VALKEY_HOST` | `valkey.host` |
+| `MOLE_VALKEY_PORT` | `valkey.port` |
+| `MOLE_SERVER_PORT` | `server.port` |
+| `MOLE_SERVER_ENVIRONMENT` | `server.environment` |
+| `MOLE_WORKER_COUNT` | `worker.count` |
+| `MOLE_LOG_LEVEL` | `log.level` |
+| `MOLE_REPOS_BASE_PATH` | `repos.base_path` |
+| `MOLE_EXPLORATION_MAX_TURNS` | `exploration.max_turns` |
+| `MOLE_EXPLORATION_MODEL` | `exploration.model` |
+| `MOLE_DASHBOARD_GITHUB_CLIENT_ID` | `dashboard.github_client_id` |
+| `MOLE_DASHBOARD_GITHUB_CLIENT_SECRET` | `dashboard.github_client_secret` |
+| `MOLE_DASHBOARD_SESSION_SECRET` | `dashboard.session_secret` |
+| `MOLE_DASHBOARD_BASE_URL` | `dashboard.base_url` |
+| `MOLE_DASHBOARD_ALLOWED_ORG` | `dashboard.allowed_org` |
+| `MOLE_DEFAULTS_LANGUAGE` | `defaults.language` |
+| `MOLE_DEFAULTS_PERSONALITY` | `defaults.personality` |

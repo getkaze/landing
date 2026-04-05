@@ -11,7 +11,7 @@ export interface Product {
 export const keel: Product = {
   name: 'Keel',
   tagline: 'Self-hosted Docker dashboard. One binary, zero dependencies.',
-  version: 'v0.4',
+  version: 'v0.6',
   href: '/keel',
   github: 'https://github.com/getkaze/keel',
   docsHref: '/keel/docs/en',
@@ -21,7 +21,7 @@ export const keel: Product = {
 export const helm: Product = {
   name: 'Helm',
   tagline: 'AI agent orchestration for backend development.',
-  version: 'v0.1',
+  version: 'v0.2',
   href: '/helm',
   github: 'https://github.com/getkaze/helm',
   docsHref: '/helm/docs/en',
